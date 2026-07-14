@@ -73,6 +73,7 @@ class LoadedRun:
     frames: list[FrameRecord]
     hitches: list[HitchRecord]
     optional_fields: frozenset[str]
+    attribution_version: int = 1
 
 
 class RunLoadError(ValueError):
@@ -220,6 +221,16 @@ def _optional_int(row: dict[str, Any], key: str) -> int | None:
     return int(row[key])
 
 
+def _detect_attribution_version(frame_rows: list[dict[str, Any]]) -> int:
+    for row in frame_rows:
+        if row.get("cpu_framework_pre_tick_ms") is not None or row.get("cpu_render_submit_ms") is not None:
+            return 4
+    for row in frame_rows:
+        if row.get("cpu_balance_delta_ms") is not None or row.get("cpu_input_ms") is not None:
+            return 3
+    return 1
+
+
 def resolve_run_paths(
     run_dir: Path | None = None,
     *,
@@ -280,6 +291,9 @@ def load_run(
         _require_schema_version(row, "hitches.jsonl")
 
     base_dir = run_dir.resolve() if run_dir is not None else paths["manifest"].parent
+    attribution_version = int(manifest_data.get("attribution_version", 0))
+    if attribution_version == 0:
+        attribution_version = _detect_attribution_version(frame_rows)
     return LoadedRun(
         run_dir=base_dir,
         manifest=manifest_data,
@@ -287,4 +301,5 @@ def load_run(
         frames=frames,
         hitches=hitches,
         optional_fields=frozenset(optional_fields),
+        attribution_version=attribution_version,
     )

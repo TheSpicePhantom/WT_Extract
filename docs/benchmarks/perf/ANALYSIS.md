@@ -45,6 +45,14 @@ Alle Dateien müssen `schema_version: 1` tragen. Inkompatible Versionen werden a
 - `fps_killers.json` — M25a: maschinenlesbare Attribution (`attribution_version: 2`)
 - `fps_killers_ab.json` — optional via `tools/compare_fps_killers.py`
 
+## M25c — CPU-Bilanz & Burst-Attribution
+
+- Analyse-Name **`canonical_tick_ms`** = JSONL-Feld **`frame_ms`**.
+- **`cpu_full_frame_ms`** = gesamter App-Frame (`begin_full_frame` … `end_full_frame`).
+- Burst-Tabellen führen **beide** Zeitdomänen nebeneinander.
+- `cpu_balance_delta_ms` ist **signiert**; Gates nutzen `abs(delta)` P95 ≤ 0.05 ms.
+- `cpu_scenario_ms` ist nur Tick-Breakdown, **nicht** zur Bilanz-Summe addieren.
+
 ## M25a — dominant_phase & Quantile
 
 ### Share-Buckets (Basis: `cpu_full_frame_ms`)

@@ -419,6 +419,10 @@ class ChunkStreamer:
         coordinator = pool.coordinator
         lru = self._ensure_main_field_cache()
 
+        poll_before = step_metrics.apply_pool_poll_ms if step_metrics is not None else 0.0
+        apply_before = step_metrics.apply_pool_apply_ms if step_metrics is not None else 0.0
+        t_route = time.perf_counter() if step_metrics is not None else None
+
         if step_metrics is not None:
             t_poll = time.perf_counter()
         for terrain in pool.poll_terrain_ready():
@@ -499,6 +503,14 @@ class ChunkStreamer:
                 lru.discard(deco.build_key)
             if step_metrics is not None:
                 t_poll = time.perf_counter()
+
+        if step_metrics is not None and t_route is not None:
+            route_total = (time.perf_counter() - t_route) * 1000.0
+            poll_delta = step_metrics.apply_pool_poll_ms - poll_before
+            apply_delta = step_metrics.apply_pool_apply_ms - apply_before
+            step_metrics.apply_pool_route_scan_ms += max(
+                0.0, route_total - poll_delta - apply_delta
+            )
 
         return loaded, budget
 
@@ -633,6 +645,8 @@ class ChunkStreamer:
         step_metrics: StreamStepMetrics | None,
     ) -> tuple[int, int]:
         loaded = 0
+        if type(pool) is ChunkGenPool:
+            pool.reset_collect_stats()
         retention_frozen = frozenset(pool_retention)
         retention_changed = retention_frozen != self._last_pool_retention
         if retention_changed:
@@ -696,6 +710,12 @@ class ChunkStreamer:
             )
             loaded += m24b_loaded2
             self._record_pool_in_flight_peak(pool, step_metrics)
+
+        if step_metrics is not None and type(pool) is ChunkGenPool:
+            ready_t, ready_d, futures_done = pool.snapshot_ready_counts()
+            step_metrics.pool_ready_terrain_count = ready_t
+            step_metrics.pool_ready_deco_count = ready_d
+            step_metrics.pool_futures_done_count = futures_done
 
         return loaded, budget
 
@@ -879,6 +899,14 @@ class ChunkStreamer:
         prefetch = set(sets.prefetch)
         pool_retention = keep | prefetch
 
+        if step_metrics is not None:
+            step_metrics.stream_wanted_count = len(wanted)
+            step_metrics.stream_prefetch_count = len(prefetch)
+            if view is not None:
+                epsilon = self.config.pool_idle_move_epsilon_px
+                if math.hypot(view.move_dx, view.move_dy) >= epsilon:
+                    step_metrics.focus_moved = 1
+
         budget = self.config.max_applies_per_frame
         unlimited = budget == 0
         sync_budget = self.config.max_sync_applies_per_frame
@@ -895,9 +923,13 @@ class ChunkStreamer:
             t_apply = time.perf_counter()
 
         revived = 0
+        if step_metrics is not None:
+            t_revive = time.perf_counter()
         for coord in sorted(wanted & self.pending_unload.pending_coords()):
             if self._revive_pending(world, coord):
                 revived += 1
+        if step_metrics is not None:
+            step_metrics.apply_revive_ms += (time.perf_counter() - t_revive) * 1000.0
 
         if pool is not None:
             if step_metrics is not None:
@@ -905,6 +937,7 @@ class ChunkStreamer:
 
             if isinstance(pool, ChunkGenPool):
                 idle_skip = False
+                idle_refresh = False
                 if self.config.pool_idle_skip_enabled:
                     eligible = self._pool_idle_skip_eligible(pool, wanted, view, world)
                     if eligible:
@@ -913,6 +946,7 @@ class ChunkStreamer:
                             idle_skip = True
                         else:
                             self._pool_idle_frames_since_full_tick = 0
+                            idle_refresh = True
                     else:
                         self._pool_idle_frames_since_full_tick = 0
 
@@ -930,6 +964,8 @@ class ChunkStreamer:
                     if step_metrics is not None:
                         step_metrics.apply_pool_idle_skip = 1
                 else:
+                    if step_metrics is not None and idle_refresh:
+                        step_metrics.apply_pool_idle_refresh = 1
                     m24b_loaded, budget = self._process_m24b_pool(
                         pool,
                         world,

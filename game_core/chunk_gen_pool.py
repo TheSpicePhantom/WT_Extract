@@ -46,6 +46,7 @@ class ChunkGenPool:
         self._deco_submitted_at: dict[BuildKey, float] = {}
         self._running_terrain = 0
         self._running_deco = 0
+        self._collect_done_count = 0
 
     @classmethod
     def from_active_config(cls) -> ChunkGenPool | None:
@@ -90,6 +91,13 @@ class ChunkGenPool:
         self._deco_submitted_at.clear()
         self._running_terrain = 0
         self._running_deco = 0
+        self._collect_done_count = 0
+
+    def reset_collect_stats(self) -> None:
+        self._collect_done_count = 0
+
+    def snapshot_ready_counts(self) -> tuple[int, int, int]:
+        return len(self._terrain_ready), len(self._deco_ready), self._collect_done_count
 
     def bump_epoch(self) -> None:
         self._clear_all_jobs()
@@ -353,6 +361,7 @@ class ChunkGenPool:
                 self._running_terrain = max(0, self._running_terrain - 1)
             self._terrain_states[key] = _JobState.READY
             self._terrain_ready[key] = result
+            self._collect_done_count += 1
 
     def _collect_deco_futures(self) -> None:
         if not self._deco_futures:
@@ -373,6 +382,7 @@ class ChunkGenPool:
                 self._running_deco = max(0, self._running_deco - 1)
             self._deco_states[key] = _JobState.READY
             self._deco_ready[key] = result
+            self._collect_done_count += 1
 
     def _collect_pipeline_futures(self) -> None:
         if not self._pipeline_futures:
@@ -402,6 +412,7 @@ class ChunkGenPool:
             self._deco_states[key] = _JobState.READY
             self._terrain_ready[key] = terrain_result
             self._deco_ready[key] = deco_result
+            self._collect_done_count += 1
 
     def _should_collect_futures(self) -> bool:
         return bool(

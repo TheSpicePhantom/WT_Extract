@@ -147,7 +147,7 @@ def test_payload_includes_scenario_context() -> None:
     payload = fps_killers_payload(frames, manifest=manifest)
     assert payload["scenario_id"] == "steady"
     assert payload["run_id"] == "test_run"
-    assert payload["attribution_version"] == 2
+    assert payload["attribution_version"] == 4
     assert payload["quantiles"]["p95"]["dominant_phase"] == "stream_pool"
     assert payload["decision"]["decision"] == "cpu_dominant"
 

@@ -1,0 +1,499 @@
+{
+  "manifest": {
+    "config_fingerprint": {
+      "profiling": "-4852663220488299992",
+      "streaming": "-4951301452672681343",
+      "visibility_lod": "8463443940065160197",
+      "world_gen": "-6473764025469487825"
+    },
+    "extract_enabled": true,
+    "git_commit": "unknown",
+    "recorded_at": "2026-07-13T19:47:02.505611+00:00",
+    "recorded_frames": 300,
+    "run_id": "20260713T194702Z_render_only_unknown",
+    "run_mode": "cli",
+    "scenario_id": "render_only",
+    "schema_version": 1,
+    "warmup_frames": 60
+  },
+  "summary": {
+    "chunk_count_mean": 0.0,
+    "frame_ms_max": 0.03809999907389283,
+    "frame_ms_mean": 0.018168333166007262,
+    "frame_ms_p95": 0.024400000256719068,
+    "hitch_count": 0,
+    "hitch_frame_count": 0,
+    "hitch_load_count": 0,
+    "hitch_stream_count": 0,
+    "hitch_unload_count": 0,
+    "max_loaded_per_frame": 0,
+    "max_unloaded_per_frame": 0,
+    "recorded_frames": 300,
+    "run_id": "20260713T194702Z_render_only_unknown",
+    "run_mode": "cli",
+    "scenario_id": "render_only",
+    "schema_version": 1,
+    "stream_ms_max": 0.0,
+    "stream_ms_mean": 0.0,
+    "stream_ms_p95": 0.0,
+    "stream_unload_ms_max": 0.0,
+    "stream_unload_ms_p95": 0.0
+  },
+  "optional_fields": [
+    "cpu_full_frame_ms",
+    "cpu_unattributed_ms",
+    "deco_extract_ms",
+    "pending_unload_count",
+    "stream_unload_drained",
+    "stream_unload_marked",
+    "tile_extract_ms"
+  ],
+  "summary_checks": [
+    {
+      "field": "frame_ms_mean",
+      "summary_value": 0.018168333166007262,
+      "recomputed_value": 0.018168333166007262,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "frame_ms_p95",
+      "summary_value": 0.024400000256719068,
+      "recomputed_value": 0.024400000256719068,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "frame_ms_max",
+      "summary_value": 0.03809999907389283,
+      "recomputed_value": 0.03809999907389283,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_ms_mean",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_ms_p95",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_ms_max",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_unload_ms_p95",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_unload_ms_max",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "chunk_count_mean",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "recorded_frames",
+      "summary_value": 300.0,
+      "recomputed_value": 300.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_count",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_frame_count",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_stream_count",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_load_count",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_unload_count",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "max_loaded_per_frame",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "max_unloaded_per_frame",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    }
+  ],
+  "tag_counts": {
+    "frame_slow": 0,
+    "stream_slow": 0,
+    "load_burst": 0,
+    "unload_burst": 0,
+    "unload_backlog": 0
+  },
+  "problem_ranking": [
+    {
+      "rank": 1,
+      "category": "steady_load",
+      "title": "Dauerlast durch extract_ms",
+      "rationale": "Mittlerer Anteil 81.4% an frame_ms über den gesamten Run.",
+      "confidence": "mittel"
+    },
+    {
+      "rank": 2,
+      "category": "relieved",
+      "title": "Unload derzeit unauffällig",
+      "rationale": "Niedrige stream_unload_ms-Mittel und Maxima; kein dominanter Unload-Engpass.",
+      "confidence": "hoch"
+    }
+  ],
+  "run_insights": [
+    "Durchschnittlicher Anteil an frame_ms: Stream 0.0%, Apply 0.0%, Unload 0.0%, Extract 81.4%.",
+    "Unload ist im Run durchgehend unauffällig (niedrige Mittel- und Max-Werte).",
+    "Extract-Anteil in langsamen Frames (P95+/Hitch): 80.9%."
+  ],
+  "budget_insights": [
+    "stream_loaded am Apply-Cap (4): 0/300 Frames (0.0%).",
+    "stream_unloaded am Unload-Cap (2): 0/300 Frames (0.0%).",
+    "pending_unload_count max=0, >= Schwellwert 32: 0/300 Frames.",
+    "P95+-Frames: pending_unload_count-Mittel 0.0 vs. Run-Mittel 0.0."
+  ],
+  "open_questions": [],
+  "m23b_dod_passed": true,
+  "m23b_unacceptable_count": 0,
+  "distributions": [
+    {
+      "name": "frame_ms",
+      "mean": 0.018168333166007262,
+      "p50": 0.019899998733308166,
+      "p95": 0.024400000256719068,
+      "max": 0.03809999907389283,
+      "present": true
+    },
+    {
+      "name": "stream_ms",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "stream_apply_ms",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "stream_unload_ms",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "stream_loaded",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "stream_unloaded",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "chunk_count",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "zoom",
+      "mean": 0.35,
+      "p50": 0.35,
+      "p95": 0.35,
+      "max": 0.35,
+      "present": true
+    },
+    {
+      "name": "deco_extract_ms",
+      "mean": 0.006925999841769226,
+      "p50": 0.007700000423938036,
+      "p95": 0.009399998816661537,
+      "max": 0.012900000001536682,
+      "present": true
+    },
+    {
+      "name": "tile_extract_ms",
+      "mean": 0.007858333422821792,
+      "p50": 0.008700000762473792,
+      "p95": 0.010700001439545304,
+      "max": 0.024100001610349864,
+      "present": true
+    },
+    {
+      "name": "extract_ms",
+      "mean": 0.014784333264591018,
+      "p50": 0.01630000042496249,
+      "p95": 0.020099996618228033,
+      "max": 0.03340000330354087,
+      "present": true
+    },
+    {
+      "name": "pending_unload_count",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "cpu_full_frame_ms",
+      "mean": 0.022809333337742526,
+      "p50": 0.02479999966453761,
+      "p95": 0.030400002287933603,
+      "max": 0.0470000013592653,
+      "present": true
+    },
+    {
+      "name": "render_cpu_ms",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": false
+    },
+    {
+      "name": "present_wait_cpu_ms",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": false
+    },
+    {
+      "name": "cpu_unattributed_ms",
+      "mean": 0.004641000171735262,
+      "p50": 0.004600002284860238,
+      "p95": 0.006700003723381087,
+      "max": 0.027400001272326335,
+      "present": true
+    }
+  ],
+  "correlations": [
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_ms",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_apply_ms",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_unload_ms",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_loaded",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_unloaded",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "chunk_count",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "zoom",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "pending_unload_count",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "deco_extract_ms",
+      "coefficient": 0.9431697381808004,
+      "strength": "stark",
+      "interpretation": "Pearson r=0.943 (stark) — nur Indiz, keine Kausalität.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "tile_extract_ms",
+      "coefficient": 0.9455815887071853,
+      "strength": "stark",
+      "interpretation": "Pearson r=0.946 (stark) — nur Indiz, keine Kausalität.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "extract_ms",
+      "coefficient": 0.983118496884185,
+      "strength": "stark",
+      "interpretation": "Pearson r=0.983 (stark) — nur Indiz, keine Kausalität.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "stream_ms",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "extract_ms",
+      "coefficient": 0.9442561598670708,
+      "strength": "stark",
+      "interpretation": "Pearson r=0.944 (stark) zwischen cpu_full_frame_ms und extract_ms.",
+      "sample_size": 300
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "render_cpu_ms",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 0
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "present_wait_cpu_ms",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 0
+    }
+  ],
+  "hitches": [],
+  "caps": {
+    "max_applies_per_frame": 4,
+    "max_unloads_per_frame": 2,
+    "hitch_loaded_count": 4,
+    "hitch_unloaded_count": 4,
+    "hitch_pending_unload_count": 32
+  },
+  "cpu_balance": {
+    "phases": {
+      "canonical_tick_ms": {
+        "mean": 0.018168333166007262,
+        "p95": 0.024400000256719068,
+        "p99": 0.02640000093379058,
+        "max": 0.03809999907389283
+      },
+      "cpu_residual_ms": {
+        "mean": 0.004641000171735262,
+        "p95": 0.006700003723381087,
+        "p99": 0.008700004400452599,
+        "max": 0.027400001272326335
+      }
+    },
+    "attribution_version": 3,
+    "cpu_full_frame_ms": {
+      "mean": 0.022809333337742526,
+      "p95": 0.030400002287933603,
+      "p99": 0.039699996705166996,
+      "max": 0.0470000013592653
+    },
+    "cpu_residual_ms": {
+      "mean": 0.004641000171735262,
+      "p95": 0.006700003723381087,
+      "p99": 0.008700004400452599,
+      "max": 0.027400001272326335
+    },
+    "residual_share_p95": 0.22039484273461582
+  }
+}

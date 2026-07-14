@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
-  "attribution_version": 2,
+  "attribution_version": 4,
+  "attribution_incompatible": true,
   "has_full_frame": true,
   "decision": {
     "decision": "cpu_dominant",
@@ -18,7 +19,23 @@
       "extract_deco": 0.1755859721320162,
       "render_cpu": 0.0,
       "present_wait": 0.0,
-      "gpu": 0.0
+      "gpu": 0.0,
+      "cpu_input": 0.0,
+      "cpu_app_ui": 0.0,
+      "canonical_tick": 0.0,
+      "cpu_sim": 0.0,
+      "cpu_camera": 0.0,
+      "cpu_extract_render": 0.0,
+      "cpu_tile_render": 0.0,
+      "cpu_render_prep": 0.0,
+      "cpu_framework": 0.0,
+      "cpu_residual": 0.0,
+      "cpu_framework_pre_tick": 0.0,
+      "cpu_framework_post_tick": 0.0,
+      "cpu_render_submit": 0.0,
+      "cpu_present_cpu": 0.0,
+      "cpu_framework_post_present": 0.0,
+      "cpu_measurement_residual": 0.0
     },
     "gpu_dominant": false
   },

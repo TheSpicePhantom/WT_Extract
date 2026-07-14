@@ -1,0 +1,1794 @@
+{
+  "manifest": {
+    "attribution_version": 4,
+    "config_fingerprint": {
+      "profiling": "-117422704200611592",
+      "streaming": "2804618425307970701",
+      "visibility_lod": "-9180978099767775273",
+      "world_gen": "-2529664552746078696"
+    },
+    "deco_extract_enabled": true,
+    "detailed_cpu_attribution": true,
+    "extract_enabled": true,
+    "git_commit": "a9aaa9e",
+    "recorded_at": "2026-07-14T10:10:20.084339+00:00",
+    "recorded_frames": 321,
+    "run_id": "20260714T101007Z_demo_a9aaa9e",
+    "run_mode": "demo",
+    "scenario_id": "demo",
+    "schema_version": 1,
+    "stream_enabled": true,
+    "tile_extract_enabled": true,
+    "warmup_frames": 60
+  },
+  "summary": {
+    "chunk_count_mean": 17.42056074766355,
+    "frame_ms_max": 45.84209999848099,
+    "frame_ms_mean": 10.3676305296295,
+    "frame_ms_p95": 15.348299999459414,
+    "hitch_count": 30,
+    "hitch_frame_count": 14,
+    "hitch_load_count": 1,
+    "hitch_stream_count": 28,
+    "hitch_unload_count": 0,
+    "max_loaded_per_frame": 4,
+    "max_unloaded_per_frame": 0,
+    "recorded_frames": 321,
+    "run_id": "20260714T101007Z_demo_a9aaa9e",
+    "run_mode": "demo",
+    "scenario_id": "demo",
+    "schema_version": 1,
+    "stream_ms_max": 39.48750000017753,
+    "stream_ms_mean": 5.527054828628954,
+    "stream_ms_p95": 9.8496000009618,
+    "stream_unload_ms_max": 0.006099999154685065,
+    "stream_unload_ms_p95": 0.004899999112240039
+  },
+  "optional_fields": [
+    "apply_collision_ms",
+    "apply_delta_ms",
+    "apply_override_ms",
+    "apply_pool_ms",
+    "apply_sync_generate_ms",
+    "apply_worker_ms",
+    "cpu_full_frame_ms",
+    "cpu_unattributed_ms",
+    "deco_extract_ms",
+    "pending_unload_count",
+    "present_wait_cpu_ms",
+    "render_cpu_ms",
+    "stream_unload_drained",
+    "stream_unload_marked",
+    "tile_extract_ms"
+  ],
+  "summary_checks": [
+    {
+      "field": "frame_ms_mean",
+      "summary_value": 10.3676305296295,
+      "recomputed_value": 10.3676305296295,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "frame_ms_p95",
+      "summary_value": 15.348299999459414,
+      "recomputed_value": 15.348299999459414,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "frame_ms_max",
+      "summary_value": 45.84209999848099,
+      "recomputed_value": 45.84209999848099,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_ms_mean",
+      "summary_value": 5.527054828628954,
+      "recomputed_value": 5.527054828628954,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_ms_p95",
+      "summary_value": 9.8496000009618,
+      "recomputed_value": 9.8496000009618,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_ms_max",
+      "summary_value": 39.48750000017753,
+      "recomputed_value": 39.48750000017753,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_unload_ms_p95",
+      "summary_value": 0.004899999112240039,
+      "recomputed_value": 0.004899999112240039,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "stream_unload_ms_max",
+      "summary_value": 0.006099999154685065,
+      "recomputed_value": 0.006099999154685065,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "chunk_count_mean",
+      "summary_value": 17.42056074766355,
+      "recomputed_value": 17.42056074766355,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "recorded_frames",
+      "summary_value": 321.0,
+      "recomputed_value": 321.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_count",
+      "summary_value": 30.0,
+      "recomputed_value": 30.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_frame_count",
+      "summary_value": 14.0,
+      "recomputed_value": 14.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_stream_count",
+      "summary_value": 28.0,
+      "recomputed_value": 28.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_load_count",
+      "summary_value": 1.0,
+      "recomputed_value": 1.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "hitch_unload_count",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "max_loaded_per_frame",
+      "summary_value": 4.0,
+      "recomputed_value": 4.0,
+      "delta": 0.0,
+      "ok": true
+    },
+    {
+      "field": "max_unloaded_per_frame",
+      "summary_value": 0.0,
+      "recomputed_value": 0.0,
+      "delta": 0.0,
+      "ok": true
+    }
+  ],
+  "tag_counts": {
+    "frame_slow": 14,
+    "stream_slow": 28,
+    "load_burst": 1,
+    "unload_burst": 0,
+    "unload_backlog": 0
+  },
+  "problem_ranking": [
+    {
+      "rank": 1,
+      "category": "dominant_bottleneck",
+      "title": "Hitch-Ursache: Nicht eindeutig",
+      "rationale": "In 24/30 Hitch-Events als Hauptursache klassifiziert; regelbasiert aus Anteilen an frame_ms abgeleitet.",
+      "confidence": "hoch"
+    },
+    {
+      "rank": 2,
+      "category": "steady_load",
+      "title": "Dauerlast durch stream_ms",
+      "rationale": "Mittlerer Anteil 53.3% an frame_ms über den gesamten Run.",
+      "confidence": "mittel"
+    },
+    {
+      "rank": 3,
+      "category": "secondary_cost",
+      "title": "Zweitrangiger Kostentreiber: extract_ms",
+      "rationale": "Mittlerer Anteil 46.5% an frame_ms.",
+      "confidence": "mittel"
+    },
+    {
+      "rank": 4,
+      "category": "rare_outlier",
+      "title": "Seltene Frame-Ausreißer",
+      "rationale": "frame_ms_max (45.84) deutlich über P95 (15.35) — einzelne Spitzen, nicht Dauerlast.",
+      "confidence": "hoch"
+    },
+    {
+      "rank": 5,
+      "category": "relieved",
+      "title": "Unload derzeit unauffällig",
+      "rationale": "Niedrige stream_unload_ms-Mittel und Maxima; kein dominanter Unload-Engpass.",
+      "confidence": "hoch"
+    }
+  ],
+  "run_insights": [
+    "Hitch-Hauptursachen: unclear (Nicht eindeutig) in 24/30 Fällen.",
+    "Durchschnittlicher Anteil an frame_ms: Stream 53.3%, Apply 5.4%, Unload 0.0%, Extract 46.5%.",
+    "Unload ist im Run durchgehend unauffällig (niedrige Mittel- und Max-Werte).",
+    "Extract-Anteil in langsamen Frames (P95+/Hitch): 35.7%.",
+    "Häufigstes Hitch-Muster: periodic_cluster (20×)."
+  ],
+  "budget_insights": [
+    "stream_loaded am Apply-Cap (4): 1/321 Frames (0.3%).",
+    "stream_unloaded am Unload-Cap (2): 0/321 Frames (0.0%).",
+    "Hitchs mit stream_loaded am Cap: 1/30 (3.3%).",
+    "Hitchs mit stream_unloaded am Cap: 0/30 (0.0%).",
+    "pending_unload_count max=0, >= Schwellwert 32: 0/321 Frames.",
+    "P95+-Frames: pending_unload_count-Mittel 0.0 vs. Run-Mittel 0.0."
+  ],
+  "open_questions": [
+    "24 Hitch(s) mit unklarer Ursache — manuelle Frame-Inspektion empfohlen."
+  ],
+  "m23b_dod_passed": true,
+  "m23b_unacceptable_count": 0,
+  "distributions": [
+    {
+      "name": "frame_ms",
+      "mean": 10.3676305296295,
+      "p50": 9.447700000237091,
+      "p95": 15.348299999459414,
+      "max": 45.84209999848099,
+      "present": true
+    },
+    {
+      "name": "stream_ms",
+      "mean": 5.527054828628954,
+      "p50": 4.838700000618701,
+      "p95": 9.8496000009618,
+      "max": 39.48750000017753,
+      "present": true
+    },
+    {
+      "name": "stream_apply_ms",
+      "mean": 0.5606869158738585,
+      "p50": 0.024900000425986946,
+      "p95": 4.7260999999707565,
+      "max": 34.882800000559655,
+      "present": true
+    },
+    {
+      "name": "stream_unload_ms",
+      "mean": 0.004289719616400217,
+      "p50": 0.004200001058052294,
+      "p95": 0.004899999112240039,
+      "max": 0.006099999154685065,
+      "present": true
+    },
+    {
+      "name": "stream_loaded",
+      "mean": 0.04984423676012461,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 4.0,
+      "present": true
+    },
+    {
+      "name": "stream_unloaded",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "chunk_count",
+      "mean": 17.42056074766355,
+      "p50": 16.0,
+      "p95": 24.0,
+      "max": 24.0,
+      "present": true
+    },
+    {
+      "name": "zoom",
+      "mean": 0.31306816366745,
+      "p50": 0.35,
+      "p95": 0.35,
+      "max": 0.35,
+      "present": true
+    },
+    {
+      "name": "deco_extract_ms",
+      "mean": 4.7125828660849765,
+      "p50": 4.196300000330666,
+      "p95": 6.582599999092054,
+      "max": 15.100200000233599,
+      "present": true
+    },
+    {
+      "name": "tile_extract_ms",
+      "mean": 0.11049127725156632,
+      "p50": 0.09869999848888256,
+      "p95": 0.14899999951012433,
+      "max": 0.5811999999423278,
+      "present": true
+    },
+    {
+      "name": "extract_ms",
+      "mean": 4.823074143336543,
+      "p50": 4.298800000469782,
+      "p95": 6.720199999108445,
+      "max": 15.243199999531498,
+      "present": true
+    },
+    {
+      "name": "pending_unload_count",
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "present": true
+    },
+    {
+      "name": "cpu_full_frame_ms",
+      "mean": 30.28286604359404,
+      "p50": 23.523300000306335,
+      "p95": 54.22250000083295,
+      "max": 81.3099000006332,
+      "present": true
+    },
+    {
+      "name": "render_cpu_ms",
+      "mean": 0.3110411214160155,
+      "p50": 0.2910999992309371,
+      "p95": 0.4369999987829942,
+      "max": 0.7747000017843675,
+      "present": true
+    },
+    {
+      "name": "present_wait_cpu_ms",
+      "mean": 0.0952663551707755,
+      "p50": 0.09020000106829684,
+      "p95": 0.12199999946460593,
+      "max": 0.23710000095888972,
+      "present": true
+    },
+    {
+      "name": "cpu_unattributed_ms",
+      "mean": 0.12520280367179087,
+      "p50": 0.10759999713627622,
+      "p95": 0.1954000017576618,
+      "max": 0.3677000004245201,
+      "present": true
+    }
+  ],
+  "correlations": [
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_ms",
+      "coefficient": 0.9086191185490973,
+      "strength": "stark",
+      "interpretation": "Hitch-Frames: stream_ms-Mittel 11.308 vs. übrige 4.931 (Faktor 2.29). Pearson r=0.909 (stark).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_apply_ms",
+      "coefficient": 0.8727873683775962,
+      "strength": "stark",
+      "interpretation": "Hitch-Frames: stream_apply_ms-Mittel 5.741 vs. übrige 0.027 (Faktor 215.66). Pearson r=0.873 (stark).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_unload_ms",
+      "coefficient": 0.2828249872566439,
+      "strength": "schwach",
+      "interpretation": "Hitch-Frames: stream_unload_ms-Mittel 0.004 vs. übrige 0.004 (Faktor 1.03). Pearson r=0.283 (schwach).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_loaded",
+      "coefficient": 0.30990927807971463,
+      "strength": "schwach",
+      "interpretation": "Hitch-Frames: stream_loaded-Mittel 0.533 vs. übrige 0.000 (Faktor inf). Pearson r=0.310 (schwach).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "stream_unloaded",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "chunk_count",
+      "coefficient": 0.2717353058944344,
+      "strength": "schwach",
+      "interpretation": "Hitch-Frames: chunk_count-Mittel 17.600 vs. übrige 17.402 (Faktor 1.01). Pearson r=0.272 (schwach).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "zoom",
+      "coefficient": -0.4661445725433895,
+      "strength": "moderat",
+      "interpretation": "Hitch-Frames: zoom-Mittel 0.244 vs. übrige 0.320 (Faktor 0.76). Pearson r=-0.466 (moderat).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "pending_unload_count",
+      "coefficient": null,
+      "strength": "unbekannt",
+      "interpretation": "Zu wenige Datenpunkte für eine belastbare Korrelation.",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "deco_extract_ms",
+      "coefficient": 0.48743392252655204,
+      "strength": "moderat",
+      "interpretation": "Hitch-Frames: deco_extract_ms-Mittel 5.334 vs. übrige 4.648 (Faktor 1.15). Pearson r=0.487 (moderat).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "tile_extract_ms",
+      "coefficient": 0.7266831763032675,
+      "strength": "stark",
+      "interpretation": "Hitch-Frames: tile_extract_ms-Mittel 0.141 vs. übrige 0.107 (Faktor 1.32). Pearson r=0.727 (stark).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "frame_ms",
+      "metric_y": "extract_ms",
+      "coefficient": 0.5036813187358786,
+      "strength": "moderat",
+      "interpretation": "Hitch-Frames: extract_ms-Mittel 5.475 vs. übrige 4.756 (Faktor 1.15). Pearson r=0.504 (moderat).",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "stream_ms",
+      "coefficient": 0.4675245716021237,
+      "strength": "moderat",
+      "interpretation": "Pearson r=0.468 (moderat) zwischen cpu_full_frame_ms und stream_ms.",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "extract_ms",
+      "coefficient": 0.6240505533370047,
+      "strength": "moderat",
+      "interpretation": "Pearson r=0.624 (moderat) zwischen cpu_full_frame_ms und extract_ms.",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "render_cpu_ms",
+      "coefficient": 0.17916545278063273,
+      "strength": "vernachlässigbar",
+      "interpretation": "Pearson r=0.179 (vernachlässigbar) zwischen cpu_full_frame_ms und render_cpu_ms.",
+      "sample_size": 321
+    },
+    {
+      "metric_x": "cpu_full_frame_ms",
+      "metric_y": "present_wait_cpu_ms",
+      "coefficient": 0.2502690269313969,
+      "strength": "schwach",
+      "interpretation": "Pearson r=0.250 (schwach) zwischen cpu_full_frame_ms und present_wait_cpu_ms.",
+      "sample_size": 321
+    }
+  ],
+  "hitches": [
+    {
+      "frame_index": 29,
+      "frame_ms": 12.811900000087917,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 32.9% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 60,
+      "frame_ms": 13.07489999999234,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 32.8% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 91,
+      "frame_ms": 16.94139999926847,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.4% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "steady_cost",
+        "label": "Konstanter Kostentreiber",
+        "reasons": [
+          "Hoher Stream-Anteil ohne klaren Einzelspike."
+        ]
+      }
+    },
+    {
+      "frame_index": 111,
+      "frame_ms": 16.25659999990603,
+      "tags": [
+        "frame_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 0.1% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms"
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "3 Hitches in einem 20-Frame-Fenster (Spanne 31)."
+        ]
+      }
+    },
+    {
+      "frame_index": 122,
+      "frame_ms": 14.79760000074748,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 31.3% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 153,
+      "frame_ms": 13.522700000976329,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.2% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 184,
+      "frame_ms": 13.217100000474602,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.7% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 215,
+      "frame_ms": 13.48390000021027,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.7% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 246,
+      "frame_ms": 13.076100000034785,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.1% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "19 Hitches in einem 20-Frame-Fenster (Spanne 20)."
+        ]
+      }
+    },
+    {
+      "frame_index": 249,
+      "frame_ms": 45.84209999848099,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "apply_dominant",
+        "label": "Load-/Apply-dominant",
+        "reasons": [
+          "Load-/Apply-dominant: 76.1% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "burst_with_tail",
+        "label": "Burst mit Nachlauf",
+        "reasons": [
+          "Hitch frame_ms (45.84) deutlich über Nachbar-Mittel (12.85).",
+          "Weitere Hitches in ±3 Frames: [246, 250, 251, 252]."
+        ]
+      }
+    },
+    {
+      "frame_index": 250,
+      "frame_ms": 14.563299999281298,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 32.5% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 251,
+      "frame_ms": 17.16880000094534,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "stream_total_dominant",
+        "label": "Stream gesamt dominant",
+        "reasons": [
+          "Load-/Apply-dominant: 27.3% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 252,
+      "frame_ms": 14.707700000144541,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 32.9% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 253,
+      "frame_ms": 14.739800000825198,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.2% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 254,
+      "frame_ms": 14.539399999193847,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 34.0% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 255,
+      "frame_ms": 17.032699999617762,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 30.8% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 256,
+      "frame_ms": 13.792300000204705,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.5% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 257,
+      "frame_ms": 13.574099999459577,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 34.1% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 258,
+      "frame_ms": 20.913399999699323,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "stream_total_dominant",
+        "label": "Stream gesamt dominant",
+        "reasons": [
+          "Load-/Apply-dominant: 25.0% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 259,
+      "frame_ms": 19.85199999944598,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "stream_total_dominant",
+        "label": "Stream gesamt dominant",
+        "reasons": [
+          "Load-/Apply-dominant: 28.0% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 260,
+      "frame_ms": 16.688600000634324,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "stream_total_dominant",
+        "label": "Stream gesamt dominant",
+        "reasons": [
+          "Load-/Apply-dominant: 29.9% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 261,
+      "frame_ms": 14.920600000550621,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 34.1% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 262,
+      "frame_ms": 15.348299999459414,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.4% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 263,
+      "frame_ms": 18.504800000300747,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 43.4% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 264,
+      "frame_ms": 16.61179999973683,
+      "tags": [
+        "frame_slow",
+        "stream_slow",
+        "load_burst"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 39.6% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag load_burst unterstützt Apply-Dominanz.",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 265,
+      "frame_ms": 18.076700000165147,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 33.7% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 266,
+      "frame_ms": 17.274199999519624,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 31.9% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "20 Hitches in einem 20-Frame-Fenster (Spanne 21)."
+        ]
+      }
+    },
+    {
+      "frame_index": 267,
+      "frame_ms": 17.12299999962852,
+      "tags": [
+        "frame_slow",
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 32.5% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "periodic_cluster",
+        "label": "Wiederkehrendes Cluster",
+        "reasons": [
+          "19 Hitches in einem 20-Frame-Fenster (Spanne 18)."
+        ]
+      }
+    },
+    {
+      "frame_index": 298,
+      "frame_ms": 15.066800000568037,
+      "tags": [
+        "stream_slow"
+      ],
+      "cause": {
+        "cause_id": "stream_total_dominant",
+        "label": "Stream gesamt dominant",
+        "reasons": [
+          "Load-/Apply-dominant: 28.7% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms",
+          "Tag stream_slow — Stream-Anteil erhöht."
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    },
+    {
+      "frame_index": 309,
+      "frame_ms": 20.528000000922475,
+      "tags": [
+        "frame_slow"
+      ],
+      "cause": {
+        "cause_id": "unclear",
+        "label": "Nicht eindeutig",
+        "reasons": [
+          "Load-/Apply-dominant: 0.1% von frame_ms",
+          "Unload-dominant: 0.0% von frame_ms",
+          "Extract-dominant: 0.0% von frame_ms"
+        ]
+      },
+      "context_pattern": {
+        "pattern_id": "unknown",
+        "label": "Unklares Muster",
+        "reasons": [
+          "Kein eindeutiges Burst-, Backlog- oder Spike-Muster erkennbar."
+        ]
+      }
+    }
+  ],
+  "caps": {
+    "max_applies_per_frame": 4,
+    "max_unloads_per_frame": 2,
+    "hitch_loaded_count": 4,
+    "hitch_unloaded_count": 4,
+    "hitch_pending_unload_count": 32
+  },
+  "stream_pool_breakdown": {
+    "apply_pool_ms": {
+      "mean": 0.5503984422456402,
+      "p95": 4.702100000940845
+    },
+    "apply_pool_poll_ms": {
+      "mean": 0.11107912771839894,
+      "p95": 0.0
+    },
+    "apply_pool_submit_ms": {
+      "mean": 0.07896978193151473,
+      "p95": 0.011400001312722452
+    },
+    "apply_pool_apply_ms": {
+      "mean": 0.012503426793425611,
+      "p95": 0.0
+    },
+    "apply_pool_suppress_ms": {
+      "mean": 0.014172274142618341,
+      "p95": 0.1472000003559515
+    },
+    "apply_pool_discard_ms": {
+      "mean": 1.2461063408545245e-05,
+      "p95": 0.0
+    },
+    "apply_pool_route_passes": {
+      "mean": 0.09034267912772585,
+      "p95": 1.0
+    },
+    "apply_pool_in_flight_peak": {
+      "mean": 0.37383177570093457,
+      "p95": 2.0
+    },
+    "apply_pool_idle_skip": {
+      "mean": 0.9127725856697819,
+      "p95": 1.0
+    },
+    "apply_pool_to_stream_apply_ratio": {
+      "mean": 0.6823591192718962,
+      "p95": 0.9959084918209477
+    },
+    "apply_pool_idle_skip_rate": 0.9127725856697819
+  },
+  "cpu_balance": {
+    "phases": {
+      "cpu_input_ms": {
+        "mean": 0.15296947048712092,
+        "p95": 0.47559999984514434,
+        "p99": 0.6931000007170951,
+        "max": 2.5788000002648914
+      },
+      "cpu_framework_pre_tick_ms": {
+        "mean": 0.017563862975378885,
+        "p95": 0.026699999580159783,
+        "p99": 0.048800000513438135,
+        "max": 0.14089999967836775
+      },
+      "canonical_tick_ms": {
+        "mean": 10.3676305296295,
+        "p95": 15.348299999459414,
+        "p99": 19.85199999944598,
+        "max": 45.84209999848099
+      },
+      "cpu_framework_post_tick_ms": {
+        "mean": 4.979052647968983,
+        "p95": 6.989199999225093,
+        "p99": 12.793799998689792,
+        "max": 22.013900001184084
+      },
+      "cpu_render_submit_ms": {
+        "mean": 14.545180373690494,
+        "p95": 33.39040000173554,
+        "p99": 39.07509999953618,
+        "max": 52.78829999951995
+      },
+      "cpu_present_cpu_ms": {
+        "mean": 0.0952663551707755,
+        "p95": 0.12199999946460593,
+        "p99": 0.1740000006975606,
+        "max": 0.23710000095888972
+      },
+      "cpu_measurement_residual_ms": {
+        "mean": 0.12520280367179087,
+        "p95": 0.1954000017576618,
+        "p99": 0.2826000054483302,
+        "max": 0.3677000004245201
+      }
+    },
+    "attribution_version": 4,
+    "cpu_full_frame_ms": {
+      "mean": 30.28286604359404,
+      "p95": 54.22250000083295,
+      "p99": 67.26410000010219,
+      "max": 81.3099000006332
+    },
+    "cpu_measurement_residual_ms": {
+      "mean": 0.12520280367179087,
+      "p95": 0.1954000017576618,
+      "p99": 0.2826000054483302,
+      "max": 0.3677000004245201
+    },
+    "residual_share_p95": 0.0036036700955260296,
+    "cpu_balance_delta_ms": {
+      "mean": 0.12520280367179087,
+      "p95": 0.1954000017576618,
+      "p99": 0.2826000054483302,
+      "max": 0.3677000004245201
+    }
+  },
+  "stream_burst_frames": [
+    {
+      "frame_index": 249,
+      "canonical_tick_ms": 45.84209999848099,
+      "cpu_full_frame_ms": 70.82309999896097,
+      "stream_apply_ms": 34.882800000559655,
+      "apply_pool_ms": 34.86309999971127,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_route_multi",
+      "apply_sets_ms": 0.036100000215810724,
+      "apply_revive_ms": 0.0017000002117129043,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 25.04419999968377,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20559999938996043,
+      "apply_pool_discard_ms": 0.0040000013541430235,
+      "apply_pool_other_ms": 9.609299999283394,
+      "apply_non_pool_ms": 0.0197000008483883,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 263,
+      "canonical_tick_ms": 18.504800000300747,
+      "cpu_full_frame_ms": 55.4829000011523,
+      "stream_apply_ms": 8.031800000026124,
+      "apply_pool_ms": 8.014900000489433,
+      "stream_loaded": 2,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.03470000046945643,
+      "apply_revive_ms": 0.0018999999156221747,
+      "apply_pool_poll_ms": 6.894100000863546,
+      "apply_pool_submit_ms": 0.012000000424450263,
+      "apply_pool_apply_ms": 0.7602000005135778,
+      "apply_pool_suppress_ms": 0.2336999987164745,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.11489999997138511,
+      "apply_non_pool_ms": 0.016899999536690302,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 264,
+      "canonical_tick_ms": 16.61179999973683,
+      "cpu_full_frame_ms": 55.269400001634494,
+      "stream_apply_ms": 6.570199999259785,
+      "apply_pool_ms": 6.554699999469449,
+      "stream_loaded": 4,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.033799999073380604,
+      "apply_revive_ms": 0.0018999999156221747,
+      "apply_pool_poll_ms": 5.296699999234988,
+      "apply_pool_submit_ms": 0.011600001016631722,
+      "apply_pool_apply_ms": 0.8705000000190921,
+      "apply_pool_suppress_ms": 0.1680999994277954,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.2077999997709412,
+      "apply_non_pool_ms": 0.015499999790336005,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 265,
+      "canonical_tick_ms": 18.076700000165147,
+      "cpu_full_frame_ms": 57.17209999966144,
+      "stream_apply_ms": 6.09470000017609,
+      "apply_pool_ms": 6.081100000301376,
+      "stream_loaded": 2,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.03499999911582563,
+      "apply_revive_ms": 0.0017000002117129043,
+      "apply_pool_poll_ms": 5.25279999965278,
+      "apply_pool_submit_ms": 0.011400001312722452,
+      "apply_pool_apply_ms": 0.5130000008648494,
+      "apply_pool_suppress_ms": 0.1472000003559515,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.15669999811507296,
+      "apply_non_pool_ms": 0.01359999987471383,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 91,
+      "canonical_tick_ms": 16.94139999926847,
+      "cpu_full_frame_ms": 30.461500000456,
+      "stream_apply_ms": 5.65190000088478,
+      "apply_pool_ms": 5.639200000587152,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 1,
+      "burst_cause_id": "pool_idle_refresh",
+      "apply_sets_ms": 0.03079999987676274,
+      "apply_revive_ms": 0.007200000254670158,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.008099999831756577,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.07499999992433004,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 5.556100000831066,
+      "apply_non_pool_ms": 0.012700000297627412,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 259,
+      "canonical_tick_ms": 19.85199999944598,
+      "cpu_full_frame_ms": 58.6234999991575,
+      "stream_apply_ms": 5.568299999140436,
+      "apply_pool_ms": 5.542200000490993,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.051799999710056,
+      "apply_revive_ms": 0.002800001311697997,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.014100000043981709,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.3238000008423114,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 5.2042999996047,
+      "apply_non_pool_ms": 0.02609999864944257,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 267,
+      "canonical_tick_ms": 17.12299999962852,
+      "cpu_full_frame_ms": 56.696699999520206,
+      "stream_apply_ms": 5.566800000451622,
+      "apply_pool_ms": 5.557799999223789,
+      "stream_loaded": 2,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.036499999623629265,
+      "apply_revive_ms": 0.0017999991541728377,
+      "apply_pool_poll_ms": 4.800400000021909,
+      "apply_pool_submit_ms": 0.00960000033956021,
+      "apply_pool_apply_ms": 0.5025999998906627,
+      "apply_pool_suppress_ms": 0.11719999929482583,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.12799999967683107,
+      "apply_non_pool_ms": 0.0090000012278324,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 266,
+      "canonical_tick_ms": 17.274199999519624,
+      "cpu_full_frame_ms": 57.1457999994891,
+      "stream_apply_ms": 5.506499999683001,
+      "apply_pool_ms": 5.49460000002,
+      "stream_loaded": 2,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.03680000008898787,
+      "apply_revive_ms": 0.0020000006770715117,
+      "apply_pool_poll_ms": 4.698400000052061,
+      "apply_pool_submit_ms": 0.010300000212737359,
+      "apply_pool_apply_ms": 0.5376999997679377,
+      "apply_pool_suppress_ms": 0.14170000031299423,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.10649999967426993,
+      "apply_non_pool_ms": 0.011899999663000926,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 255,
+      "canonical_tick_ms": 17.032699999617762,
+      "cpu_full_frame_ms": 64.04359999942244,
+      "stream_apply_ms": 5.2496000007522525,
+      "apply_pool_ms": 5.22610000007262,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.05330000021785963,
+      "apply_revive_ms": 0.0018999999156221747,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.013899998521083035,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.21360000027925707,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.99860000127228,
+      "apply_non_pool_ms": 0.02350000067963265,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 258,
+      "canonical_tick_ms": 20.913399999699323,
+      "cpu_full_frame_ms": 81.3099000006332,
+      "stream_apply_ms": 5.234799999016104,
+      "apply_pool_ms": 5.210300001635915,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.05849999979545828,
+      "apply_revive_ms": 0.0017999991541728377,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.013799999578623101,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20490000133577269,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.991600000721519,
+      "apply_non_pool_ms": 0.024499997380189598,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 262,
+      "canonical_tick_ms": 15.348299999459414,
+      "cpu_full_frame_ms": 52.84849999952712,
+      "stream_apply_ms": 5.131500000061351,
+      "apply_pool_ms": 5.111799999212963,
+      "stream_loaded": 2,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.05140000030223746,
+      "apply_revive_ms": 0.0018999999156221747,
+      "apply_pool_poll_ms": 4.391899998154258,
+      "apply_pool_submit_ms": 0.012900000001536682,
+      "apply_pool_apply_ms": 0.4076999994140351,
+      "apply_pool_suppress_ms": 0.20039999981236178,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.09890000183077063,
+      "apply_non_pool_ms": 0.0197000008483883,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 261,
+      "canonical_tick_ms": 14.920600000550621,
+      "cpu_full_frame_ms": 59.66359999911219,
+      "stream_apply_ms": 5.0836999998864485,
+      "apply_pool_ms": 5.0628999997570645,
+      "stream_loaded": 2,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "pool_poll_collect",
+      "apply_sets_ms": 0.047900000936351717,
+      "apply_revive_ms": 0.0015000005078036338,
+      "apply_pool_poll_ms": 4.322099999626516,
+      "apply_pool_submit_ms": 0.01340000017080456,
+      "apply_pool_apply_ms": 0.42190000021946616,
+      "apply_pool_suppress_ms": 0.20900000163237564,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 0.09649999810790177,
+      "apply_non_pool_ms": 0.02080000012938399,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 260,
+      "canonical_tick_ms": 16.688600000634324,
+      "cpu_full_frame_ms": 61.13950000144541,
+      "stream_apply_ms": 4.995100000087405,
+      "apply_pool_ms": 4.970100000718958,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.03400000059627928,
+      "apply_revive_ms": 0.0017000002117129043,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.014199998986441642,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.21399999968707561,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.7419000020454405,
+      "apply_non_pool_ms": 0.02499999936844688,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 254,
+      "canonical_tick_ms": 14.539399999193847,
+      "cpu_full_frame_ms": 51.58769999979995,
+      "stream_apply_ms": 4.943400001138798,
+      "apply_pool_ms": 4.919900000459165,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.03420000030018855,
+      "apply_revive_ms": 0.0015000005078036338,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.01359999987471383,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20630000108212698,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.6999999995023245,
+      "apply_non_pool_ms": 0.02350000067963265,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 253,
+      "canonical_tick_ms": 14.739800000825198,
+      "cpu_full_frame_ms": 67.26410000010219,
+      "stream_apply_ms": 4.8944999998639105,
+      "apply_pool_ms": 4.87040000007255,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.0380000001314329,
+      "apply_revive_ms": 0.0017000002117129043,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.01469999915570952,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20870000116701704,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.6469999997498235,
+      "apply_non_pool_ms": 0.02409999979136046,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 252,
+      "canonical_tick_ms": 14.707700000144541,
+      "cpu_full_frame_ms": 77.26800000091316,
+      "stream_apply_ms": 4.835300000195275,
+      "apply_pool_ms": 4.810399999769288,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.03279999873484485,
+      "apply_revive_ms": 0.0017000002117129043,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.01449999945180025,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.210000000151922,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.585900000165566,
+      "apply_non_pool_ms": 0.024900000425986946,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 250,
+      "canonical_tick_ms": 14.563299999281298,
+      "cpu_full_frame_ms": 50.38240000067162,
+      "stream_apply_ms": 4.7260999999707565,
+      "apply_pool_ms": 4.702100000940845,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.05109999983687885,
+      "apply_revive_ms": 0.0018999999156221747,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.01320000046689529,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20760000006703194,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.481300000406918,
+      "apply_non_pool_ms": 0.023999999029911123,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 251,
+      "canonical_tick_ms": 17.16880000094534,
+      "cpu_full_frame_ms": 49.19990000053076,
+      "stream_apply_ms": 4.679000001488021,
+      "apply_pool_ms": 4.654399999708403,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.05390000114857685,
+      "apply_revive_ms": 0.0019000017346115783,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.013500000932253897,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20500000027823262,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.435899998497916,
+      "apply_non_pool_ms": 0.02460000177961774,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 122,
+      "canonical_tick_ms": 14.79760000074748,
+      "cpu_full_frame_ms": 28.581799999301438,
+      "stream_apply_ms": 4.6343000012711855,
+      "apply_pool_ms": 4.627099999197526,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 1,
+      "burst_cause_id": "pool_idle_refresh",
+      "apply_sets_ms": 0.03409999953873921,
+      "apply_revive_ms": 0.0017999991541728377,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.008200000593205914,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.0870000003487803,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.53189999825554,
+      "apply_non_pool_ms": 0.007200002073659562,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    },
+    {
+      "frame_index": 257,
+      "canonical_tick_ms": 13.574099999459577,
+      "cpu_full_frame_ms": 49.971000000368804,
+      "stream_apply_ms": 4.632799998944392,
+      "apply_pool_ms": 4.609399999026209,
+      "stream_loaded": 0,
+      "apply_pool_idle_skip": 0,
+      "apply_pool_idle_refresh": 0,
+      "burst_cause_id": "subphase_apply_pool_other_ms",
+      "apply_sets_ms": 0.03499999911582563,
+      "apply_revive_ms": 0.0016000012692529708,
+      "apply_pool_poll_ms": 0.0,
+      "apply_pool_submit_ms": 0.013999999282532372,
+      "apply_pool_apply_ms": 0.0,
+      "apply_pool_suppress_ms": 0.20569999833242036,
+      "apply_pool_discard_ms": 0.0,
+      "apply_pool_other_ms": 4.389700001411256,
+      "apply_non_pool_ms": 0.023399999918183312,
+      "apply_sync_generate_ms": 0.0,
+      "apply_collision_ms": 0.0
+    }
+  ]
+}

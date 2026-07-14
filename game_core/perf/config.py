@@ -25,6 +25,7 @@ class ProfilingConfig:
     hitch: HitchThresholds
     scenarios: dict[str, ScenarioParams]
     ring_buffer_frames: int
+    detailed_cpu_attribution: bool = True
 
 
 @dataclass(frozen=True, slots=True)
@@ -71,6 +72,7 @@ def load_profiling_config(path: Path | None = None) -> ProfilingConfig:
         ),
         scenarios=scenarios,
         ring_buffer_frames=int(export.get("ring_buffer_frames", 120)),
+        detailed_cpu_attribution=bool(data.get("detailed_cpu_attribution", True)),
     )
 
 

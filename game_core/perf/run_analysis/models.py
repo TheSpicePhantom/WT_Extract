@@ -38,6 +38,11 @@ class FrameRecord:
     extra: dict[str, Any] = field(default_factory=dict)
 
     @property
+    def canonical_tick_ms(self) -> float:
+        """M25c-Anzeigename für JSONL ``frame_ms``."""
+        return self.frame_ms
+
+    @property
     def extract_ms(self) -> float:
         deco = self.deco_extract_ms or 0.0
         tile = self.tile_extract_ms or 0.0
@@ -172,3 +177,5 @@ class RunDiagnosis:
     m23b_dod_passed: bool
     m23b_unacceptable_count: int
     stream_pool_breakdown: dict[str, Any] | None = None
+    cpu_balance: dict[str, Any] | None = None
+    stream_burst_frames: list[dict[str, Any]] | None = None

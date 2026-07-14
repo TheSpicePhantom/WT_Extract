@@ -152,6 +152,10 @@ def _paint_mode_label(paint_mode: str, content: ContentRegistry, decoration_inde
     return paint_mode
 
 
+def _elapsed_ms(t0: float) -> float:
+    return (time.perf_counter() - t0) * 1000.0
+
+
 def main() -> int:
     assert_gpu_only("chunk_world_demo")
 
@@ -200,6 +204,7 @@ def main() -> int:
             extract_enabled=True,
         )
         perf_session.full_frame_enabled = True
+        perf_session.detailed_cpu_attribution = perf_config.detailed_cpu_attribution
         perf_session._warmup_frames = warmup
         perf_runtime = ScenarioRuntime(
             world=world,
@@ -246,24 +251,42 @@ def main() -> int:
 
     try:
         while not window.should_close:
+            if perf_session is not None:
+                perf_session.begin_full_frame()
+
+            t_input = time.perf_counter() if perf_session is not None else None
             frame = input_state.poll()
+            if perf_session is not None and t_input is not None:
+                perf_session.record_full_frame_phase("cpu_input_ms", _elapsed_ms(t_input))
 
             if frame.should_close:
                 break
 
-            if perf_session is not None:
-                perf_session.begin_full_frame()
-
+            t_pre_tick = time.perf_counter() if perf_session is not None else None
             now = time.monotonic()
             dt = min(now - last_time, 0.05)
             last_time = now
 
             width, height = window.framebuffer_size
             if width < 1 or height < 1:
+                if perf_session is not None and t_pre_tick is not None:
+                    perf_session.record_full_frame_phase(
+                        "cpu_framework_pre_tick_ms", _elapsed_ms(t_pre_tick)
+                    )
+                    perf_session.end_full_frame()
                 continue
+
+            t_ui = time.perf_counter() if perf_session is not None else None
 
             if frame.escape:
                 window.request_close()
+                if perf_session is not None and t_ui is not None:
+                    perf_session.record_app_phase("cpu_app_ui_ms", _elapsed_ms(t_ui))
+                if perf_session is not None and t_pre_tick is not None:
+                    perf_session.record_full_frame_phase(
+                        "cpu_framework_pre_tick_ms", _elapsed_ms(t_pre_tick)
+                    )
+                    perf_session.end_full_frame()
                 continue
 
             if ctrl_combo_pressed(frame, "S"):
@@ -378,6 +401,13 @@ def main() -> int:
                 )
                 world.rebuild_all_solid(content, collision)
 
+            if perf_session is not None and t_ui is not None:
+                perf_session.record_app_phase("cpu_app_ui_ms", _elapsed_ms(t_ui))
+            if perf_session is not None and t_pre_tick is not None:
+                perf_session.record_full_frame_phase(
+                    "cpu_framework_pre_tick_ms", _elapsed_ms(t_pre_tick)
+                )
+
             t_stream = time.perf_counter()
             step_metrics = None
             if perf_session is not None and perf_runtime is not None:
@@ -428,6 +458,8 @@ def main() -> int:
                     )
             loaded_chunks = world.chunk_count
 
+            t_post_tick = time.perf_counter() if perf_session is not None else None
+            t_sim = time.perf_counter() if perf_session is not None else None
             if free_camera:
                 move = CAM_MOVE_SPEED * dt / max(zoom, 0.1)
                 cam_x += move_x * move
@@ -438,7 +470,11 @@ def main() -> int:
                     player, world, content, collision, dt, move_x, move_y, force_run=force_run
                 )
                 cam_x, cam_y = player.camera_focus_x, player.camera_focus_y
+            if perf_session is not None and t_sim is not None:
+                perf_session.record_app_phase("cpu_sim_ms", _elapsed_ms(t_sim))
 
+            zoom_before = zoom
+            t_camera = time.perf_counter() if perf_session is not None else None
             if key_held(frame, "E"):
                 zoom *= ZOOM_SPEED ** dt
             if key_held(frame, "Q"):
@@ -465,24 +501,46 @@ def main() -> int:
                         _apply_decoration_brush(world, camera, frame, decoration_id)
                     if frame.mouse_right or key_held(frame, "X"):
                         _remove_decoration_brush(world, camera, frame)
+            if perf_session is not None and t_camera is not None:
+                perf_session.record_app_phase("cpu_camera_ms", _elapsed_ms(t_camera))
+                if abs(zoom - zoom_before) > 1e-6:
+                    perf_session.set_app_flag("zoom_changed", 1)
 
+            t_deco = time.perf_counter() if perf_session is not None else None
             deco_sprites = decorations_to_sprites(
                 content, renderer.sprite_catalog, world, camera=camera
             )
+            if perf_session is not None and t_deco is not None:
+                perf_session.record_app_phase("cpu_extract_render_ms", _elapsed_ms(t_deco))
+
+            t_prep = time.perf_counter() if perf_session is not None else None
             player_sprite = character_to_sprite(renderer.sprite_catalog, player)
             sprites: tuple[SpriteInstanceData, ...] = deco_sprites + (player_sprite,)
+
+            t_tile = time.perf_counter() if perf_session is not None else None
             render_frame = extractor.extract(camera, sprites=sprites)
+            tile_ms = _elapsed_ms(t_tile) if t_tile is not None else 0.0
+            if perf_session is not None and t_tile is not None:
+                perf_session.record_app_phase("cpu_tile_render_ms", tile_ms)
+
             if show_chunk_bounds:
                 overlay = build_overlay_vertices(
                     [loaded_chunks_layer(world.chunks.keys())],
                     zoom=zoom,
                 )
                 render_frame = replace(render_frame, debug_overlay_vertices=overlay or None)
+            if perf_session is not None and t_prep is not None:
+                prep_ms = max(0.0, _elapsed_ms(t_prep) - tile_ms)
+                perf_session.record_app_phase("cpu_render_prep_ms", prep_ms)
             last_visible_chunks = len(render_frame.tile_chunks)
             last_visible_tiles = sum(
                 sum(len(layer.tile_ids) for layer in chunk.layers)
                 for chunk in render_frame.tile_chunks
             )
+            if perf_session is not None and t_post_tick is not None:
+                perf_session.record_full_frame_phase(
+                    "cpu_framework_post_tick_ms", _elapsed_ms(t_post_tick)
+                )
             if perf_session is not None:
                 timings: dict[str, float] = {}
                 renderer.draw(

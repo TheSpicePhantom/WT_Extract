@@ -7,6 +7,11 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from game_core.perf.run_analysis.burst_classify import (
+    classify_stream_burst,
+    is_burst_frame,
+    _pool_subphases,
+)
 from game_core.perf.run_analysis.hitch import CAUSE_LABELS, analyze_hitches
 from game_core.perf.run_analysis.load import LoadedRun
 from game_core.perf.run_analysis.models import BudgetCaps, ProblemRank, RunDiagnosis
@@ -387,6 +392,171 @@ def build_stream_pool_breakdown(frames) -> dict[str, Any]:
     return breakdown
 
 
+_CPU_BALANCE_FIELDS_V4: tuple[tuple[str, str], ...] = (
+    ("cpu_input_ms", "cpu_input_ms"),
+    ("cpu_framework_pre_tick_ms", "cpu_framework_pre_tick_ms"),
+    ("canonical_tick_ms", "frame_ms"),
+    ("cpu_framework_post_tick_ms", "cpu_framework_post_tick_ms"),
+    ("cpu_render_submit_ms", "cpu_render_submit_ms"),
+    ("cpu_present_cpu_ms", "cpu_present_cpu_ms"),
+    ("cpu_framework_post_present_ms", "cpu_framework_post_present_ms"),
+    ("cpu_measurement_residual_ms", "cpu_measurement_residual_ms"),
+)
+
+_CPU_BALANCE_FIELDS: tuple[tuple[str, str], ...] = (
+    ("canonical_tick_ms", "frame_ms"),
+    ("cpu_input_ms", "cpu_input_ms"),
+    ("cpu_app_ui_ms", "cpu_app_ui_ms"),
+    ("cpu_sim_ms", "cpu_sim_ms"),
+    ("cpu_camera_ms", "cpu_camera_ms"),
+    ("cpu_extract_render_ms", "cpu_extract_render_ms"),
+    ("cpu_tile_render_ms", "cpu_tile_render_ms"),
+    ("cpu_render_prep_ms", "cpu_render_prep_ms"),
+    ("cpu_framework_ms", "cpu_framework_ms"),
+    ("render_cpu_ms", "render_cpu_ms"),
+    ("present_wait_cpu_ms", "present_wait_cpu_ms"),
+    ("cpu_residual_ms", "cpu_residual_ms"),
+)
+
+
+def _frame_balance_metric(frame, field: str) -> float | None:
+    if field == "frame_ms":
+        return float(frame.frame_ms)
+    direct = getattr(frame, field, None)
+    if direct is not None:
+        return float(direct)
+    value = frame.extra.get(field)
+    if value is None and field == "cpu_residual_ms":
+        value = frame.cpu_unattributed_ms
+    if value is None and field == "cpu_measurement_residual_ms":
+        value = frame.extra.get("cpu_balance_delta_ms")
+    if value is None:
+        return None
+    return float(value)
+
+
+def _frame_has_v4_attribution(frame) -> bool:
+    for _, field in _CPU_BALANCE_FIELDS_V4:
+        if field == "frame_ms":
+            continue
+        if _frame_balance_metric(frame, field) is not None:
+            return True
+    return False
+
+
+def build_cpu_balance(frames) -> dict[str, Any]:
+    """M25d: mean/p95/p99/max pro CPU-Phase + residual_share (v4 oder v3-Fallback)."""
+    if not frames:
+        return {}
+
+    use_v4 = _frame_has_v4_attribution(frames[0])
+    balance_fields = _CPU_BALANCE_FIELDS_V4 if use_v4 else _CPU_BALANCE_FIELDS
+
+    phases: dict[str, Any] = {}
+    for phase_name, field in balance_fields:
+        values = [
+            float(v)
+            for frame in frames
+            if (v := _frame_balance_metric(frame, field)) is not None
+        ]
+        if values and field != "cpu_measurement_residual_ms":
+            values = [max(v, 0.0) for v in values]
+        if values:
+            phases[phase_name] = {
+                "mean": mean(values),
+                "p95": percentile(values, 0.95),
+                "p99": percentile(values, 0.99),
+                "max": max(values),
+            }
+
+    full_values = [
+        float(f.cpu_full_frame_ms)
+        for f in frames
+        if f.cpu_full_frame_ms is not None and f.cpu_full_frame_ms > 0.0
+    ]
+    delta_values = [
+        float(v)
+        for f in frames
+        if (v := _frame_balance_metric(f, "cpu_balance_delta_ms")) is not None
+    ]
+    residual_values = [
+        float(v)
+        for f in frames
+        if (v := _frame_balance_metric(f, "cpu_measurement_residual_ms")) is not None
+    ]
+    if not residual_values:
+        residual_values = [
+            float(v)
+            for f in frames
+            if (v := _frame_balance_metric(f, "cpu_residual_ms")) is not None and float(v) >= 0.0
+        ]
+
+    result: dict[str, Any] = {"phases": phases, "attribution_version": 4 if use_v4 else 3}
+    if full_values:
+        full_p95 = percentile(full_values, 0.95)
+        result["cpu_full_frame_ms"] = {
+            "mean": mean(full_values),
+            "p95": full_p95,
+            "p99": percentile(full_values, 0.99),
+            "max": max(full_values),
+        }
+        if residual_values:
+            residual_p95 = percentile([max(v, 0.0) for v in residual_values], 0.95)
+            residual_key = "cpu_measurement_residual_ms" if use_v4 else "cpu_residual_ms"
+            result[residual_key] = phases.get(residual_key, phases.get("cpu_residual_ms", {}))
+            result["residual_share_p95"] = (
+                residual_p95 / full_p95 if full_p95 > 0.0 else 0.0
+            )
+        negative_count = sum(1 for v in delta_values if v < -0.001)
+        if negative_count:
+            result["negative_cpu_balance_delta_count"] = negative_count
+    if delta_values:
+        result["cpu_balance_delta_ms"] = {
+            "mean": mean(delta_values),
+            "p95": percentile([abs(v) for v in delta_values], 0.95),
+            "p99": percentile([abs(v) for v in delta_values], 0.99),
+            "max": max(abs(v) for v in delta_values),
+        }
+        if mean(delta_values) < -0.02:
+            result["balance_overlap_suspected"] = True
+    return result
+
+
+def build_stream_burst_table(
+    frames,
+    *,
+    threshold_ms: float = 4.0,
+    top_n: int = 20,
+) -> list[dict[str, Any]]:
+    """M25c: Top Burst-Frames mit canonical_tick_ms + cpu_full_frame_ms."""
+    burst = [f for f in frames if is_burst_frame(f, threshold_ms=threshold_ms)]
+    burst.sort(
+        key=lambda f: (
+            -f.stream_apply_ms,
+            -(f.cpu_full_frame_ms or 0.0),
+            f.frame_index,
+        )
+    )
+    rows: list[dict[str, Any]] = []
+    for frame in burst[:top_n]:
+        subs = _pool_subphases(frame)
+        rows.append(
+            {
+                "frame_index": frame.frame_index,
+                "canonical_tick_ms": frame.canonical_tick_ms,
+                "cpu_full_frame_ms": frame.cpu_full_frame_ms,
+                "stream_apply_ms": frame.stream_apply_ms,
+                "apply_pool_ms": frame.apply_pool_ms,
+                "stream_loaded": frame.stream_loaded,
+                "apply_pool_idle_skip": frame.extra.get("apply_pool_idle_skip"),
+                "apply_pool_idle_refresh": frame.extra.get("apply_pool_idle_refresh"),
+                "burst_cause_id": classify_stream_burst(frame),
+                **subs,
+            }
+        )
+    return rows
+
+
 def analyze_run(
     loaded: LoadedRun,
     *,
@@ -492,6 +662,12 @@ def analyze_run(
     if "apply_pool_ms" in loaded.optional_fields:
         stream_pool_breakdown = build_stream_pool_breakdown(loaded.frames)
 
+    cpu_balance: dict[str, Any] | None = None
+    stream_burst_frames: list[dict[str, Any]] | None = None
+    if "cpu_full_frame_ms" in loaded.optional_fields:
+        cpu_balance = build_cpu_balance(loaded.frames)
+        stream_burst_frames = build_stream_burst_table(loaded.frames)
+
     return RunDiagnosis(
         manifest=loaded.manifest,
         summary=loaded.summary,
@@ -511,4 +687,6 @@ def analyze_run(
         m23b_dod_passed=m23b_dod.passed,
         m23b_unacceptable_count=len(m23b_dod.unacceptable_hitches),
         stream_pool_breakdown=stream_pool_breakdown,
+        cpu_balance=cpu_balance,
+        stream_burst_frames=stream_burst_frames,
     )

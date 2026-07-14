@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "attribution_version": 4,
+  "attribution_incompatible": false,
+  "has_full_frame": true,
+  "decision": {
+    "decision": "cpu_dominant",
+    "reason_cpu_vs_present": "present_wait_mean_share=0.0% < 35%; cpu_render_submit_mean=44.5%",
+    "cpu_full_frame_ms_mean": 30.28286604359404,
+    "present_wait_cpu_ms_mean": 0.0952663551707755,
+    "render_cpu_ms_mean": 0.3110411214160155,
+    "present_wait_share_mean": 0.0,
+    "max_cpu_phase": "cpu_render_submit",
+    "max_cpu_phase_share_mean": 0.4450303998115335,
+    "mean_phase_shares": {
+      "stream_apply": 0.0,
+      "stream_pool": 0.0,
+      "extract_tiles": 0.0,
+      "extract_deco": 0.0,
+      "render_cpu": 0.0,
+      "present_wait": 0.0,
+      "gpu": 0.0,
+      "cpu_input": 0.005090669027450635,
+      "cpu_app_ui": 0.0,
+      "canonical_tick": 0.36723009519415795,
+      "cpu_sim": 0.0,
+      "cpu_camera": 0.0,
+      "cpu_extract_render": 0.0,
+      "cpu_tile_render": 0.0,
+      "cpu_render_prep": 0.0,
+      "cpu_framework": 0.0,
+      "cpu_residual": 0.0,
+      "cpu_framework_pre_tick": 0.0006493240375990329,
+      "cpu_framework_post_tick": 0.17415186567433344,
+      "cpu_render_submit": 0.4450303998115335,
+      "cpu_present_cpu": 0.00350857996862888,
+      "cpu_framework_post_present": 0.0,
+      "cpu_measurement_residual": 0.004339066286296628
+    },
+    "gpu_dominant": false
+  },
+  "quantiles": {
+    "p95": {
+      "quantile": "p95",
+      "frame_index": 307,
+      "cpu_full_frame_ms": 54.22250000083295,
+      "dominant_phase": "cpu_render_submit",
+      "dominant_share": 0.6158034026690509,
+      "shares": {
+        "cpu_input": 0.007983770580455173,
+        "cpu_framework_pre_tick": 0.0005348333389671153,
+        "canonical_tick": 0.23840103276498273,
+        "cpu_framework_post_tick": 0.13221448661203083,
+        "cpu_render_submit": 0.6158034026690509,
+        "cpu_present_cpu": 0.0017981465307562205,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.003264327503757113,
+        "gpu": 0.0
+      }
+    },
+    "p99": {
+      "quantile": "p99",
+      "frame_index": 253,
+      "cpu_full_frame_ms": 67.26410000010219,
+      "dominant_phase": "cpu_render_submit",
+      "dominant_share": 0.5809205802125772,
+      "shares": {
+        "cpu_input": 0.0043916442953966526,
+        "cpu_framework_pre_tick": 0.0002542218071685044,
+        "canonical_tick": 0.21913323750414865,
+        "cpu_framework_post_tick": 0.19020250027385122,
+        "cpu_render_submit": 0.5809205802125772,
+        "cpu_present_cpu": 0.0018077994335104768,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.0032900164733472995,
+        "gpu": 0.0
+      }
+    }
+  },
+  "dominance": [
+    {
+      "quantile": "p95",
+      "frame_index": 307,
+      "cpu_full_frame_ms": 54.22250000083295,
+      "dominant_phase": "cpu_render_submit",
+      "dominant_share": 0.6158034026690509,
+      "shares": {
+        "cpu_input": 0.007983770580455173,
+        "cpu_framework_pre_tick": 0.0005348333389671153,
+        "canonical_tick": 0.23840103276498273,
+        "cpu_framework_post_tick": 0.13221448661203083,
+        "cpu_render_submit": 0.6158034026690509,
+        "cpu_present_cpu": 0.0017981465307562205,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.003264327503757113,
+        "gpu": 0.0
+      }
+    },
+    {
+      "quantile": "p99",
+      "frame_index": 253,
+      "cpu_full_frame_ms": 67.26410000010219,
+      "dominant_phase": "cpu_render_submit",
+      "dominant_share": 0.5809205802125772,
+      "shares": {
+        "cpu_input": 0.0043916442953966526,
+        "cpu_framework_pre_tick": 0.0002542218071685044,
+        "canonical_tick": 0.21913323750414865,
+        "cpu_framework_post_tick": 0.19020250027385122,
+        "cpu_render_submit": 0.5809205802125772,
+        "cpu_present_cpu": 0.0018077994335104768,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.0032900164733472995,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "same_frame_for_both_quantiles": false,
+  "hitch_clusters": [
+    {
+      "cluster_id": "unclear",
+      "label": "Nicht eindeutig",
+      "hitch_count": 24,
+      "representative_frame_index": 252,
+      "cpu_full_frame_ms": 77.26800000091316,
+      "dominant_phase": "cpu_render_submit",
+      "dominant_share": 0.5178974478430513,
+      "shares": {
+        "cpu_input": 0.002563803886053612,
+        "cpu_framework_pre_tick": 0.00020448310109628677,
+        "canonical_tick": 0.1903465859084061,
+        "cpu_framework_post_tick": 0.2849031940897127,
+        "cpu_render_submit": 0.5178974478430513,
+        "cpu_present_cpu": 0.0014896205372720158,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.002594864634408055,
+        "gpu": 0.0
+      }
+    },
+    {
+      "cluster_id": "stream_total_dominant",
+      "label": "Stream gesamt dominant",
+      "hitch_count": 5,
+      "representative_frame_index": 258,
+      "cpu_full_frame_ms": 81.3099000006332,
+      "dominant_phase": "cpu_render_submit",
+      "dominant_share": 0.6492235262755072,
+      "shares": {
+        "cpu_input": 0.01142296325666872,
+        "cpu_framework_pre_tick": 0.0003406719220965691,
+        "canonical_tick": 0.257206072071623,
+        "cpu_framework_post_tick": 0.07590465615491936,
+        "cpu_render_submit": 0.6492235262755072,
+        "cpu_present_cpu": 0.001379905760802346,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.004522204558382886,
+        "gpu": 0.0
+      }
+    },
+    {
+      "cluster_id": "apply_dominant",
+      "label": "Load-/Apply-dominant",
+      "hitch_count": 1,
+      "representative_frame_index": 249,
+      "cpu_full_frame_ms": 70.82309999896097,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.6472761005823457,
+      "shares": {
+        "cpu_input": 0.0011860536934193136,
+        "cpu_framework_pre_tick": 0.00023297483630501672,
+        "canonical_tick": 0.6472761005823457,
+        "cpu_framework_post_tick": 0.11767629488021003,
+        "cpu_render_submit": 0.22983461608089928,
+        "cpu_present_cpu": 0.0017226017989384222,
+        "cpu_framework_post_present": 0.0,
+        "cpu_measurement_residual": 0.002071358127882211,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "ab_comparisons": [],
+  "scenario_id": "demo",
+  "run_id": "20260714T101007Z_demo_a9aaa9e",
+  "scenario_label": "demo",
+  "run_mode": "demo",
+  "toggles": {
+    "extract_enabled": true,
+    "stream_enabled": true,
+    "deco_extract_enabled": true,
+    "tile_extract_enabled": true
+  }
+}

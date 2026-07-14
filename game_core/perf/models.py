@@ -54,6 +54,17 @@ class StreamStepMetrics:
     apply_pool_route_passes: int = 0
     apply_pool_in_flight_peak: int = 0
     apply_pool_idle_skip: int = 0
+    apply_pool_route_scan_ms: float = 0.0
+    apply_pool_coord_bookkeeping_ms: float = 0.0
+    apply_pool_unattributed_ms: float = 0.0
+    apply_revive_ms: float = 0.0
+    apply_pool_idle_refresh: int = 0
+    stream_wanted_count: int = 0
+    stream_prefetch_count: int = 0
+    focus_moved: int = 0
+    pool_ready_terrain_count: int = 0
+    pool_ready_deco_count: int = 0
+    pool_futures_done_count: int = 0
 
     def reset(self) -> None:
         self.sets_ms = 0.0
@@ -100,6 +111,63 @@ class StreamStepMetrics:
         self.apply_pool_route_passes = 0
         self.apply_pool_in_flight_peak = 0
         self.apply_pool_idle_skip = 0
+        self.apply_pool_route_scan_ms = 0.0
+        self.apply_pool_coord_bookkeeping_ms = 0.0
+        self.apply_pool_unattributed_ms = 0.0
+        self.apply_revive_ms = 0.0
+        self.apply_pool_idle_refresh = 0
+        self.stream_wanted_count = 0
+        self.stream_prefetch_count = 0
+        self.focus_moved = 0
+        self.pool_ready_terrain_count = 0
+        self.pool_ready_deco_count = 0
+        self.pool_futures_done_count = 0
+
+
+@dataclass(slots=True)
+class AppFrameStepMetrics:
+    """M25c — Child-Breakdown außerhalb kanonischen Tick (Diagnose, nicht in v4-Bilanz)."""
+
+    cpu_input_ms: float = 0.0
+    cpu_app_ui_ms: float = 0.0
+    cpu_sim_ms: float = 0.0
+    cpu_camera_ms: float = 0.0
+    cpu_extract_render_ms: float = 0.0
+    cpu_tile_render_ms: float = 0.0
+    cpu_render_prep_ms: float = 0.0
+    cpu_framework_ms: float = 0.0
+    zoom_changed: int = 0
+
+    def reset(self) -> None:
+        self.cpu_input_ms = 0.0
+        self.cpu_app_ui_ms = 0.0
+        self.cpu_sim_ms = 0.0
+        self.cpu_camera_ms = 0.0
+        self.cpu_extract_render_ms = 0.0
+        self.cpu_tile_render_ms = 0.0
+        self.cpu_render_prep_ms = 0.0
+        self.cpu_framework_ms = 0.0
+        self.zoom_changed = 0
+
+
+@dataclass(slots=True)
+class FullFrameStepMetrics:
+    """M25d — exklusive Top-Level-Phasen für cpu_full_frame_ms-Bilanz."""
+
+    cpu_input_ms: float = 0.0
+    cpu_framework_pre_tick_ms: float = 0.0
+    cpu_framework_post_tick_ms: float = 0.0
+    cpu_render_submit_ms: float = 0.0
+    cpu_present_cpu_ms: float = 0.0
+    cpu_framework_post_present_ms: float = 0.0
+
+    def reset(self) -> None:
+        self.cpu_input_ms = 0.0
+        self.cpu_framework_pre_tick_ms = 0.0
+        self.cpu_framework_post_tick_ms = 0.0
+        self.cpu_render_submit_ms = 0.0
+        self.cpu_present_cpu_ms = 0.0
+        self.cpu_framework_post_present_ms = 0.0
 
 
 @dataclass(slots=True)
@@ -172,6 +240,44 @@ class FrameMetrics:
     render_cpu_ms: float | None = None
     present_wait_cpu_ms: float | None = None
     cpu_unattributed_ms: float | None = None
+    cpu_balance_delta_ms: float | None = None
+    cpu_residual_ms: float | None = None
+    cpu_input_ms: float | None = None
+    cpu_app_ui_ms: float | None = None
+    cpu_scenario_ms: float | None = None
+    cpu_sim_ms: float | None = None
+    cpu_camera_ms: float | None = None
+    cpu_extract_render_ms: float | None = None
+    cpu_tile_render_ms: float | None = None
+    cpu_render_prep_ms: float | None = None
+    cpu_framework_ms: float | None = None
+    cpu_framework_pre_tick_ms: float | None = None
+    cpu_framework_post_tick_ms: float | None = None
+    cpu_render_submit_ms: float | None = None
+    cpu_present_cpu_ms: float | None = None
+    cpu_framework_post_present_ms: float | None = None
+    cpu_measurement_residual_ms: float | None = None
+    render_pack_ms: float | None = None
+    render_prepare_ms: float | None = None
+    render_sync_pipeline_ms: float | None = None
+    apply_pool_route_scan_ms: float | None = None
+    apply_pool_coord_bookkeeping_ms: float | None = None
+    apply_pool_unattributed_ms: float | None = None
+    zoom_changed: int | None = None
+    apply_sets_ms: float | None = None
+    apply_non_pool_ms: float | None = None
+    apply_revive_ms: float | None = None
+    apply_pool_other_ms: float | None = None
+    apply_pool_idle_refresh: int | None = None
+    stream_wanted_count: int | None = None
+    stream_prefetch_count: int | None = None
+    focus_moved: int | None = None
+    pool_ready_terrain_count: int | None = None
+    pool_ready_deco_count: int | None = None
+    pool_futures_done_count: int | None = None
+    terrain_submit_accepted: int | None = None
+    terrain_applied: int | None = None
+    deco_applied: int | None = None
     # M25: Renderer-CPU Unterphasen (optional).
     render_wait_fence_ms: float | None = None
     render_acquire_ms: float | None = None

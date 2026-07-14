@@ -58597,10 +58597,10 @@
 
 ## Budget- und Cap-Verhalten
 
-Referenz-Caps: max_applies=2, max_unloads=2 (aus Projekt-config, Fingerprint-Abweichung beachten).
-- stream_loaded am Apply-Cap (2): 68/4981 Frames (1.4%).
+Referenz-Caps: max_applies=4, max_unloads=2 (aus Projekt-config, Fingerprint-Abweichung beachten).
+- stream_loaded am Apply-Cap (4): 0/4981 Frames (0.0%).
 - stream_unloaded am Unload-Cap (2): 28/4981 Frames (0.6%).
-- Hitchs mit stream_loaded am Cap: 66/3441 (1.9%).
+- Hitchs mit stream_loaded am Cap: 0/3441 (0.0%).
 - Hitchs mit stream_unloaded am Cap: 28/3441 (0.8%).
 - pending_unload_count max=15, >= Schwellwert 32: 0/4981 Frames.
 - P95+-Frames: pending_unload_count-Mittel 0.2 vs. Run-Mittel 0.0.

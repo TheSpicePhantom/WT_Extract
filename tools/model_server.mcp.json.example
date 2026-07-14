@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "lmstudio-review": {
+      "command": "python",
+      "args": [
+        "E:/Dokumente/Private Projekte/WT_Extract/tools/model_server.py"
+      ],
+      "env": {
+        "LMSTUDIO_BASE_URL": "http://localhost:1234",
+        "LMSTUDIO_REVIEW_MODEL": "mistralai/codestral-22b-v0.1",
+        "LMSTUDIO_CONFIRM_MODEL": "qwen/qwen3.5-9b",
+        "LMSTUDIO_TIMEOUT_S": "180"
+      }
+    }
+  }
+}

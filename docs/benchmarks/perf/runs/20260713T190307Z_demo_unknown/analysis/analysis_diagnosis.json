@@ -8460,5 +8460,15 @@
     "hitch_loaded_count": 4,
     "hitch_unloaded_count": 4,
     "hitch_pending_unload_count": 32
+  },
+  "stream_pool_breakdown": {
+    "apply_pool_ms": {
+      "mean": 13.03869158877874,
+      "p95": 14.26500000161468
+    },
+    "apply_pool_to_stream_apply_ratio": {
+      "mean": 0.9991595390543814,
+      "p95": 0.9993003928432285
+    }
   }
 }

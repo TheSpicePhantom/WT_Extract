@@ -21,6 +21,7 @@ wt-world-gen-debug = "apps.world_gen_debug_demo:main"
 [project.optional-dependencies]
 shaders = ["shaderc-rs-py>=0.2"]
 atlas = ["pillow>=10.0"]
+mcp = ["mcp>=1.27,<2"]
 
 [tool.setuptools.packages.find]
 where = ["."]

@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "attribution_version": 4,
+  "attribution_incompatible": true,
+  "has_full_frame": true,
+  "decision": {
+    "decision": "cpu_dominant",
+    "reason_cpu_vs_present": "present_wait_mean_share=0.3% < 35%; cpu_residual_mean=46.1%",
+    "cpu_full_frame_ms_mean": 32.97686400995689,
+    "present_wait_cpu_ms_mean": 0.08790136985594228,
+    "render_cpu_ms_mean": 0.2881714819323699,
+    "present_wait_share_mean": 0.003024571985005512,
+    "max_cpu_phase": "cpu_residual",
+    "max_cpu_phase_share_mean": 0.4614889607581735,
+    "mean_phase_shares": {
+      "stream_apply": 0.0,
+      "stream_pool": 0.0,
+      "extract_tiles": 0.0,
+      "extract_deco": 0.0,
+      "render_cpu": 0.009943622848545261,
+      "present_wait": 0.003024571985005512,
+      "gpu": 0.0,
+      "cpu_input": 0.0030632801863053256,
+      "cpu_app_ui": 0.0003771394228797558,
+      "canonical_tick": 0.34488406458887166,
+      "cpu_sim": 0.001582919913427429,
+      "cpu_camera": 0.0006895230119902566,
+      "cpu_extract_render": 0.16790177946475346,
+      "cpu_tile_render": 0.006701363901135243,
+      "cpu_render_prep": 0.00034277391891253286,
+      "cpu_framework": 0.0,
+      "cpu_residual": 0.4614889607581735,
+      "cpu_framework_pre_tick": 0.0,
+      "cpu_framework_post_tick": 0.0,
+      "cpu_render_submit": 0.0,
+      "cpu_present_cpu": 0.0,
+      "cpu_framework_post_present": 0.0,
+      "cpu_measurement_residual": 0.0
+    },
+    "gpu_dominant": false
+  },
+  "quantiles": {
+    "p95": {
+      "quantile": "p95",
+      "frame_index": 565,
+      "cpu_full_frame_ms": 52.029700000275625,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.23666674993465261,
+      "shares": {
+        "cpu_input": 0.0011704853166561737,
+        "cpu_app_ui": 0.00023255946828150263,
+        "canonical_tick": 0.23666674993465261,
+        "cpu_sim": 0.0008379829392752316,
+        "cpu_camera": 0.0003863178195549919,
+        "cpu_extract_render": 0.12665650580482424,
+        "cpu_tile_render": 0.0041111134744863526,
+        "cpu_render_prep": 0.00021718362266597444,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.6225944028229421,
+        "render_cpu": 0.005471874710201774,
+        "present_wait": 0.0016548240864590372,
+        "gpu": 0.0
+      }
+    },
+    "p99": {
+      "quantile": "p99",
+      "frame_index": 764,
+      "cpu_full_frame_ms": 57.5237000011839,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.20132397602484936,
+      "shares": {
+        "cpu_input": 0.0033116784734556763,
+        "cpu_app_ui": 0.00019991760361287093,
+        "canonical_tick": 0.20132397602484936,
+        "cpu_sim": 0.0008431307451899191,
+        "cpu_camera": 0.0003459443768722806,
+        "cpu_extract_render": 0.23707619638664762,
+        "cpu_tile_render": 0.003953153219511263,
+        "cpu_render_prep": 0.00019817917646984504,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.5459871322824492,
+        "render_cpu": 0.005260440501895411,
+        "present_wait": 0.0015002512090464802,
+        "gpu": 0.0
+      }
+    }
+  },
+  "dominance": [
+    {
+      "quantile": "p95",
+      "frame_index": 565,
+      "cpu_full_frame_ms": 52.029700000275625,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.23666674993465261,
+      "shares": {
+        "cpu_input": 0.0011704853166561737,
+        "cpu_app_ui": 0.00023255946828150263,
+        "canonical_tick": 0.23666674993465261,
+        "cpu_sim": 0.0008379829392752316,
+        "cpu_camera": 0.0003863178195549919,
+        "cpu_extract_render": 0.12665650580482424,
+        "cpu_tile_render": 0.0041111134744863526,
+        "cpu_render_prep": 0.00021718362266597444,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.6225944028229421,
+        "render_cpu": 0.005471874710201774,
+        "present_wait": 0.0016548240864590372,
+        "gpu": 0.0
+      }
+    },
+    {
+      "quantile": "p99",
+      "frame_index": 764,
+      "cpu_full_frame_ms": 57.5237000011839,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.20132397602484936,
+      "shares": {
+        "cpu_input": 0.0033116784734556763,
+        "cpu_app_ui": 0.00019991760361287093,
+        "canonical_tick": 0.20132397602484936,
+        "cpu_sim": 0.0008431307451899191,
+        "cpu_camera": 0.0003459443768722806,
+        "cpu_extract_render": 0.23707619638664762,
+        "cpu_tile_render": 0.003953153219511263,
+        "cpu_render_prep": 0.00019817917646984504,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.5459871322824492,
+        "render_cpu": 0.005260440501895411,
+        "present_wait": 0.0015002512090464802,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "same_frame_for_both_quantiles": false,
+  "hitch_clusters": [
+    {
+      "cluster_id": "unclear",
+      "label": "Nicht eindeutig",
+      "hitch_count": 29,
+      "representative_frame_index": 527,
+      "cpu_full_frame_ms": 72.38060000054247,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.33315142454166846,
+      "shares": {
+        "cpu_input": 0.0026678419440262233,
+        "cpu_app_ui": 0.00014921125801560493,
+        "canonical_tick": 0.33315142454166846,
+        "cpu_sim": 0.0011978347773128697,
+        "cpu_camera": 0.0003495411730990883,
+        "cpu_extract_render": 0.07271838034350955,
+        "cpu_tile_render": 0.0025048148245984687,
+        "cpu_render_prep": 0.00014092173111595615,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.5813878304518841,
+        "render_cpu": 0.0040093616197113,
+        "present_wait": 0.0017228373350582891,
+        "gpu": 0.0
+      }
+    },
+    {
+      "cluster_id": "stream_total_dominant",
+      "label": "Stream gesamt dominant",
+      "hitch_count": 13,
+      "representative_frame_index": 524,
+      "cpu_full_frame_ms": 69.59400000050664,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.2546656321007132,
+      "shares": {
+        "cpu_input": 0.0021611058578954096,
+        "cpu_app_ui": 0.00014943818395423433,
+        "canonical_tick": 0.2546656321007132,
+        "cpu_sim": 0.0013406328279116709,
+        "cpu_camera": 0.0004483145257255446,
+        "cpu_extract_render": 0.08829065722855911,
+        "cpu_tile_render": 0.11247090266201364,
+        "cpu_render_prep": 0.00018105008385904456,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.5316349110068146,
+        "render_cpu": 0.006838233159296046,
+        "present_wait": 0.0018191223632575298,
+        "gpu": 0.0
+      }
+    },
+    {
+      "cluster_id": "apply_dominant",
+      "label": "Load-/Apply-dominant",
+      "hitch_count": 1,
+      "representative_frame_index": 523,
+      "cpu_full_frame_ms": 58.36290000115696,
+      "dominant_phase": "canonical_tick",
+      "dominant_share": 0.6818355496475506,
+      "shares": {
+        "cpu_input": 0.0010246234984755348,
+        "cpu_app_ui": 0.00017990881050185104,
+        "canonical_tick": 0.6818355496475506,
+        "cpu_sim": 0.0007761780056793783,
+        "cpu_camera": 0.0003563907915640186,
+        "cpu_extract_render": 0.08182424107611608,
+        "cpu_tile_render": 0.006248832724242339,
+        "cpu_render_prep": 0.000164488062439836,
+        "cpu_framework": 0.0,
+        "cpu_residual": 0.21605506244117315,
+        "render_cpu": 0.009620837879591464,
+        "present_wait": 0.0019138870626657395,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "ab_comparisons": [],
+  "scenario_id": "demo",
+  "run_id": "20260714T090831Z_demo_a9aaa9e",
+  "scenario_label": "demo",
+  "run_mode": "demo",
+  "toggles": {
+    "extract_enabled": true,
+    "stream_enabled": true,
+    "deco_extract_enabled": true,
+    "tile_extract_enabled": true
+  }
+}

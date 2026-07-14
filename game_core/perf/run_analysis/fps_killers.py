@@ -11,11 +11,13 @@ from game_core.perf.run_analysis.phase_enum import (
     ATTRIBUTION_VERSION,
     CPU_DOMINANT_THRESHOLD,
     DOMINANT_PHASES,
+    DOMINANT_PHASES_V4,
     DOMINANT_THRESHOLD,
     MIXED_MAX_GAP,
     MIXED_MIN_SHARE,
     PRESENT_WAIT_DOMINANT_THRESHOLD,
     UNCLEAR_MAX_TOP,
+    V4_REQUIRED_FRAME_FIELDS,
 )
 from game_core.perf.run_analysis.stats import mean, percentile
 
@@ -37,8 +39,60 @@ def _gpu_frame_ms(frame: FrameRecord) -> float:
     return max(float(value), 0.0)
 
 
-def phase_ms_buckets(frame: FrameRecord) -> dict[str, float]:
-    """Disjunkte ms-Buckets für Plan-Phasen."""
+def _extra_ms(frame: FrameRecord, key: str) -> float:
+    value = frame.extra.get(key)
+    if value is None:
+        direct = getattr(frame, key, None)
+        if direct is not None:
+            value = direct
+    if value is None:
+        return 0.0
+    return max(float(value), 0.0)
+
+
+def _has_m25c_attribution(frame: FrameRecord) -> bool:
+    return (
+        frame.extra.get("cpu_input_ms") is not None
+        or frame.extra.get("cpu_balance_delta_ms") is not None
+        or frame.extra.get("cpu_residual_ms") is not None
+    )
+
+
+def _has_v4_attribution(frame: FrameRecord) -> bool:
+    for field in V4_REQUIRED_FRAME_FIELDS:
+        if frame.extra.get(field) is not None:
+            return True
+        if getattr(frame, field, None) is not None:
+            return True
+    if frame.extra.get("cpu_framework_pre_tick_ms") is not None:
+        return True
+    if frame.extra.get("cpu_render_submit_ms") is not None:
+        return True
+    return False
+
+
+def _phase_ms_buckets_m25d(frame: FrameRecord) -> dict[str, float]:
+    residual = _extra_ms(frame, "cpu_measurement_residual_ms")
+    if residual == 0.0:
+        delta = frame.extra.get("cpu_balance_delta_ms")
+        if delta is not None:
+            residual = float(delta)
+    if residual <= 0.0:
+        residual = _extra_ms(frame, "cpu_residual_ms")
+    return {
+        "cpu_input": _extra_ms(frame, "cpu_input_ms"),
+        "cpu_framework_pre_tick": _extra_ms(frame, "cpu_framework_pre_tick_ms"),
+        "canonical_tick": max(frame.frame_ms, 0.0),
+        "cpu_framework_post_tick": _extra_ms(frame, "cpu_framework_post_tick_ms"),
+        "cpu_render_submit": _extra_ms(frame, "cpu_render_submit_ms"),
+        "cpu_present_cpu": _extra_ms(frame, "cpu_present_cpu_ms"),
+        "cpu_framework_post_present": _extra_ms(frame, "cpu_framework_post_present_ms"),
+        "cpu_measurement_residual": residual,
+        "gpu": _gpu_frame_ms(frame),
+    }
+
+
+def _phase_ms_buckets_m25a(frame: FrameRecord) -> dict[str, float]:
     pool_ms = max(frame.apply_pool_ms or 0.0, 0.0)
     apply_net = max(0.0, frame.stream_apply_ms - pool_ms)
     return {
@@ -50,6 +104,43 @@ def phase_ms_buckets(frame: FrameRecord) -> dict[str, float]:
         "present_wait": max(frame.present_wait_cpu_ms or 0.0, 0.0),
         "gpu": _gpu_frame_ms(frame),
     }
+
+
+def _phase_ms_buckets_m25c(frame: FrameRecord) -> dict[str, float]:
+    residual = _extra_ms(frame, "cpu_residual_ms")
+    if residual <= 0.0:
+        residual = max(frame.cpu_unattributed_ms or 0.0, 0.0)
+    return {
+        "cpu_input": _extra_ms(frame, "cpu_input_ms"),
+        "cpu_app_ui": _extra_ms(frame, "cpu_app_ui_ms"),
+        "canonical_tick": max(frame.frame_ms, 0.0),
+        "cpu_sim": _extra_ms(frame, "cpu_sim_ms"),
+        "cpu_camera": _extra_ms(frame, "cpu_camera_ms"),
+        "cpu_extract_render": _extra_ms(frame, "cpu_extract_render_ms"),
+        "cpu_tile_render": _extra_ms(frame, "cpu_tile_render_ms"),
+        "cpu_render_prep": _extra_ms(frame, "cpu_render_prep_ms"),
+        "cpu_framework": _extra_ms(frame, "cpu_framework_ms"),
+        "cpu_residual": residual,
+        "render_cpu": max(frame.render_cpu_ms or 0.0, 0.0),
+        "present_wait": max(frame.present_wait_cpu_ms or 0.0, 0.0),
+        "gpu": _gpu_frame_ms(frame),
+    }
+
+
+def phase_ms_buckets(frame: FrameRecord) -> dict[str, float]:
+    """Disjunkte ms-Buckets für Plan-Phasen."""
+    if _has_v4_attribution(frame):
+        return _phase_ms_buckets_m25d(frame)
+    if _has_m25c_attribution(frame):
+        return _phase_ms_buckets_m25c(frame)
+    return _phase_ms_buckets_m25a(frame)
+
+
+def attribution_incompatible_v4(frames: list[FrameRecord]) -> bool:
+    """True wenn Run keine v4-Top-Level-Felder hat."""
+    if not frames:
+        return True
+    return not any(_has_v4_attribution(frame) for frame in frames)
 
 
 def phase_shares(frame: FrameRecord) -> dict[str, float] | None:
@@ -65,8 +156,9 @@ def classify_dominant_phase(shares: dict[str, float]) -> tuple[str, float]:
     if not shares:
         return "unclear", 0.0
 
+    phase_set = DOMINANT_PHASES_V4 if any(k in shares for k in DOMINANT_PHASES_V4) else DOMINANT_PHASES
     ranked = sorted(
-        ((phase, share) for phase, share in shares.items() if phase in DOMINANT_PHASES),
+        ((phase, share) for phase, share in shares.items() if phase in phase_set),
         key=lambda item: (-item[1], item[0]),
     )
     if not ranked:
@@ -215,8 +307,23 @@ def decision_cpu_vs_present_vs_gpu(frames: list[FrameRecord]) -> dict[str, Any]:
             f"{max_cpu_phase}={max_cpu_share * 100:.1f}%"
         )
     else:
-        decision = "unclear"
-        reason = "keine Phase erreicht MIXED_MIN_SHARE"
+        ranked_cpu = sorted(
+            ((phase, share) for phase, share in mean_shares.items() if phase in DOMINANT_PHASES),
+            key=lambda item: (-item[1], item[0]),
+        )
+        if len(ranked_cpu) >= 3 and all(
+            share >= MIXED_MIN_SHARE for _, share in ranked_cpu[:3]
+        ):
+            decision = "mixed_cpu_workload"
+            reason = (
+                f"Top-3 CPU-Subphasen >= {MIXED_MIN_SHARE * 100:.0f}%: "
+                f"{ranked_cpu[0][0]}={ranked_cpu[0][1] * 100:.1f}%, "
+                f"{ranked_cpu[1][0]}={ranked_cpu[1][1] * 100:.1f}%, "
+                f"{ranked_cpu[2][0]}={ranked_cpu[2][1] * 100:.1f}%"
+            )
+        else:
+            decision = "unclear"
+            reason = "keine Phase erreicht MIXED_MIN_SHARE"
 
     return {
         "decision": decision,
@@ -288,6 +395,7 @@ def fps_killers_payload(
     payload: dict[str, Any] = {
         "schema_version": 1,
         "attribution_version": ATTRIBUTION_VERSION,
+        "attribution_incompatible": attribution_incompatible_v4(frames),
         "has_full_frame": has_full_frame,
         "decision": decision,
         "quantiles": quantiles,

@@ -45,7 +45,23 @@ Unbekannte Versionen müssen in Compare-Tools zu einem harten Fehler führen.
 | `cpu_full_frame_ms` | float | optional | M25: vollständiger App-Frame (CPU) |
 | `render_cpu_ms` | float | optional | M25: Renderer-CPU (Record/Submit) |
 | `present_wait_cpu_ms` | float | optional | M25: CPU-Waits (Fence/Acquire/Present) |
-| `cpu_unattributed_ms` | float | optional | M25: Restbudget (Guardrail) |
+| `cpu_unattributed_ms` | float | optional | M25: Restbudget (deprecated alias von `cpu_residual_ms`) |
+| `cpu_balance_delta_ms` | float | optional | M25c: signiertes Bilanz-Delta (`cpu_full_frame_ms − attributed`) |
+| `cpu_residual_ms` | float | optional | M25c: `max(0, cpu_balance_delta_ms)` für Rest-Gates |
+| `cpu_input_ms` | float | optional | M25c: Input-Pump |
+| `cpu_app_ui_ms` | float | optional | M25c: UI/Tooling vor Tick |
+| `cpu_scenario_ms` | float | optional | M25c: Tick-Breakdown (Teil von `frame_ms`, nicht zur Bilanz addieren) |
+| `cpu_sim_ms` | float | optional | M25c: Simulation |
+| `cpu_camera_ms` | float | optional | M25c: Camera/Viewport |
+| `cpu_extract_render_ms` | float | optional | M25c: Deko-Extract außerhalb Tick (Demo-Duplikat) |
+| `cpu_tile_render_ms` | float | optional | M25c: Tile-Extract außerhalb Tick |
+| `cpu_render_prep_ms` | float | optional | M25c: Draw-Vorbereitung |
+| `cpu_framework_ms` | float | optional | M25c: Framework/dt/Titel |
+| `apply_sets_ms` | float | optional | M25c: Stream-Set-Auflösung |
+| `apply_revive_ms` | float | optional | M25c: Pending-Unload-Revive |
+| `apply_non_pool_ms` | float | optional | M25c: Apply außerhalb Pool-Block |
+| `apply_pool_other_ms` | float | optional | M25c: Pool-Block-Rest |
+| `apply_pool_idle_refresh` | int | optional | M25c: Voller Pool-Tick wegen Refresh |
 
 ## hitches.jsonl
 

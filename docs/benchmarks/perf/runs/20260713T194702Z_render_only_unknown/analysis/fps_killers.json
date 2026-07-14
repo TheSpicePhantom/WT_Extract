@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "attribution_version": 4,
+  "attribution_incompatible": true,
+  "has_full_frame": true,
+  "decision": {
+    "decision": "mixed",
+    "reason_cpu_vs_present": "kein eindeutiger Sieger: present_wait=0.0%, extract_tiles=34.4%",
+    "cpu_full_frame_ms_mean": 0.022809333337742526,
+    "present_wait_cpu_ms_mean": 0.0,
+    "render_cpu_ms_mean": 0.0,
+    "present_wait_share_mean": 0.0,
+    "max_cpu_phase": "extract_tiles",
+    "max_cpu_phase_share_mean": 0.3437055378585919,
+    "mean_phase_shares": {
+      "stream_apply": 0.0,
+      "stream_pool": 0.0,
+      "extract_tiles": 0.3437055378585919,
+      "extract_deco": 0.3038542373145725,
+      "render_cpu": 0.0,
+      "present_wait": 0.0,
+      "gpu": 0.0,
+      "cpu_input": 0.0,
+      "cpu_app_ui": 0.0,
+      "canonical_tick": 0.0,
+      "cpu_sim": 0.0,
+      "cpu_camera": 0.0,
+      "cpu_extract_render": 0.0,
+      "cpu_tile_render": 0.0,
+      "cpu_render_prep": 0.0,
+      "cpu_framework": 0.0,
+      "cpu_residual": 0.0,
+      "cpu_framework_pre_tick": 0.0,
+      "cpu_framework_post_tick": 0.0,
+      "cpu_render_submit": 0.0,
+      "cpu_present_cpu": 0.0,
+      "cpu_framework_post_present": 0.0,
+      "cpu_measurement_residual": 0.0
+    },
+    "gpu_dominant": false
+  },
+  "quantiles": {
+    "p95": {
+      "quantile": "p95",
+      "frame_index": 166,
+      "cpu_full_frame_ms": 0.030400002287933603,
+      "dominant_phase": "extract_tiles",
+      "dominant_share": 0.3585527020427369,
+      "shares": {
+        "stream_pool": 0.0,
+        "stream_apply": 0.0,
+        "extract_tiles": 0.3585527020427369,
+        "extract_deco": 0.3092104641187015,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    },
+    "p99": {
+      "quantile": "p99",
+      "frame_index": 251,
+      "cpu_full_frame_ms": 0.039699996705166996,
+      "dominant_phase": "extract_tiles",
+      "dominant_share": 0.23425698904354322,
+      "shares": {
+        "stream_pool": 0.0,
+        "stream_apply": 0.0,
+        "extract_tiles": 0.23425698904354322,
+        "extract_deco": 0.2115868809891491,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    }
+  },
+  "dominance": [
+    {
+      "quantile": "p95",
+      "frame_index": 166,
+      "cpu_full_frame_ms": 0.030400002287933603,
+      "dominant_phase": "extract_tiles",
+      "dominant_share": 0.3585527020427369,
+      "shares": {
+        "stream_pool": 0.0,
+        "stream_apply": 0.0,
+        "extract_tiles": 0.3585527020427369,
+        "extract_deco": 0.3092104641187015,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    },
+    {
+      "quantile": "p99",
+      "frame_index": 251,
+      "cpu_full_frame_ms": 0.039699996705166996,
+      "dominant_phase": "extract_tiles",
+      "dominant_share": 0.23425698904354322,
+      "shares": {
+        "stream_pool": 0.0,
+        "stream_apply": 0.0,
+        "extract_tiles": 0.23425698904354322,
+        "extract_deco": 0.2115868809891491,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "same_frame_for_both_quantiles": false,
+  "hitch_clusters": [],
+  "ab_comparisons": [],
+  "scenario_id": "render_only",
+  "run_id": "20260713T194702Z_render_only_unknown",
+  "scenario_label": "render_only",
+  "run_mode": "cli",
+  "toggles": {
+    "extract_enabled": true,
+    "stream_enabled": true,
+    "deco_extract_enabled": true,
+    "tile_extract_enabled": true
+  }
+}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -98,16 +99,24 @@ class OrthoFrameRenderer:
 
     def draw(self, frame: RenderFrame, *, timing_fn=None) -> None:
         assert_gpu_only("OrthoFrameRenderer.draw")
+        t_sync = time.perf_counter()
         self._sync_pipeline_for_swapchain()
+        if timing_fn is not None:
+            sync_ms = (time.perf_counter() - t_sync) * 1000.0
+            if sync_ms > 0.0:
+                timing_fn("render_sync_pipeline_ms", sync_ms)
 
         camera = self._normalize_camera(frame.camera)
+        t_pack = time.perf_counter()
         self._camera_ubo = pack_camera_ubo(build_view_projection(camera))
-
         instance_bytes = pack_textured_tiles_and_sprites(frame.tile_chunks, frame.sprites)
+        if timing_fn is not None:
+            timing_fn("render_pack_ms", (time.perf_counter() - t_pack) * 1000.0)
         overlay_bytes = frame.debug_overlay_vertices or b""
         draw_frame_index = [-1]
 
         def prepare(frame_index: int) -> None:
+            t_prepare = time.perf_counter()
             draw_frame_index[0] = frame_index
             assert self.gpu.staging is not None
             prepare_textured_instances(
@@ -124,6 +133,8 @@ class OrthoFrameRenderer:
                 overlay_bytes,
                 frame_index,
             )
+            if timing_fn is not None:
+                timing_fn("render_prepare_ms", (time.perf_counter() - t_prepare) * 1000.0)
 
         def pre_render(frame_index: int, command_buffer: VkCommandBuffer) -> None:
             assert self.gpu.staging is not None

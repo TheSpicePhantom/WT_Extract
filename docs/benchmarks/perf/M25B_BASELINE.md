@@ -43,4 +43,5 @@ python tools/gate_perf_run.py docs/benchmarks/perf/runs/<m25b_candidate> \
 ## Verwandte Dokumente
 
 - [M25A_BASELINE.md](M25A_BASELINE.md) — FPS-Killer-Attribution v2
+- [M25C_BASELINE.md](M25C_BASELINE.md) — CPU Full-Frame Attribution (M25c)
 - [docs/milestones/m25b_stream_pool_fps.plan.md](../../milestones/m25b_stream_pool_fps.plan.md)

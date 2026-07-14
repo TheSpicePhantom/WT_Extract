@@ -218,9 +218,9 @@
     "Häufigstes Hitch-Muster: periodic_cluster (3438×)."
   ],
   "budget_insights": [
-    "stream_loaded am Apply-Cap (2): 68/4981 Frames (1.4%).",
+    "stream_loaded am Apply-Cap (4): 0/4981 Frames (0.0%).",
     "stream_unloaded am Unload-Cap (2): 28/4981 Frames (0.6%).",
-    "Hitchs mit stream_loaded am Cap: 66/3441 (1.9%).",
+    "Hitchs mit stream_loaded am Cap: 0/3441 (0.0%).",
     "Hitchs mit stream_unloaded am Cap: 28/3441 (0.8%).",
     "pending_unload_count max=15, >= Schwellwert 32: 0/4981 Frames.",
     "P95+-Frames: pending_unload_count-Mittel 0.2 vs. Run-Mittel 0.0."
@@ -85992,10 +85992,20 @@
     }
   ],
   "caps": {
-    "max_applies_per_frame": 2,
+    "max_applies_per_frame": 4,
     "max_unloads_per_frame": 2,
     "hitch_loaded_count": 4,
     "hitch_unloaded_count": 4,
     "hitch_pending_unload_count": 32
+  },
+  "stream_pool_breakdown": {
+    "apply_pool_ms": {
+      "mean": 4.580786890182256,
+      "p95": 8.0761999997776
+    },
+    "apply_pool_to_stream_apply_ratio": {
+      "mean": 0.3494041388949089,
+      "p95": 0.49727597110183325
+    }
   }
 }

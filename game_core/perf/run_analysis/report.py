@@ -346,6 +346,10 @@ def diagnosis_to_json(diagnosis: RunDiagnosis) -> dict[str, Any]:
     }
     if diagnosis.stream_pool_breakdown:
         payload["stream_pool_breakdown"] = diagnosis.stream_pool_breakdown
+    if diagnosis.cpu_balance:
+        payload["cpu_balance"] = diagnosis.cpu_balance
+    if diagnosis.stream_burst_frames:
+        payload["stream_burst_frames"] = diagnosis.stream_burst_frames
     return payload
 
 

@@ -1,0 +1,32 @@
+frame_index,frame_ms,stream_ms,stream_apply_ms,stream_unload_ms,stream_loaded,stream_unloaded,chunk_count,zoom,pending_unload_count,deco_extract_ms,tile_extract_ms,tags,cause_id,cause_label,pattern_id,pattern_label
+0,15.27070000065578,9.864599999673374,4.986699999790289,0.004099999387108255,4,0,16,0.35,,,,stream_slow|load_burst,unclear,Nicht eindeutig,unknown,Unklares Muster
+31,15.338999999585212,9.724500000629632,4.522199999883014,0.004300000000512227,0,0,16,0.35,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster
+62,15.651599999728205,9.639099999731116,4.562099999930069,0.004499999704421498,0,0,16,0.35,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster
+93,14.510500000142201,8.676600000399048,4.170199999862234,0.004100000296602957,0,0,16,0.35,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster
+124,14.439700000366429,8.916200000385288,4.380800000035379,0.004699999408330768,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+155,14.253600000301958,8.7149999999383,4.102699999748438,0.004400000761961564,0,0,16,0.35,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+173,43.3469999998124,37.14049999962299,31.92399999988993,0.005099999725644011,0,0,16,0.30216900747965764,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,burst_with_tail,Burst mit Nachlauf
+174,15.208499999971536,9.223799999745097,4.5667999993384,0.004499999704421498,0,0,16,0.2608745973749754,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+175,15.201600000182225,9.199400000397873,4.593200000272191,0.004200000148557592,0,0,16,0.22522348047271895,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+176,15.7666999994035,9.627700000237382,4.504700000325101,0.004200000148557592,0,0,16,0.18,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+177,16.372400000363996,10.27920000069571,4.6056000001044595,0.0038000007407390513,0,0,16,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+178,14.74080000025424,9.142800000518037,4.524799999671814,0.004100000296602957,0,0,16,0.18,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+179,15.050599999995029,9.237900000698573,4.576999999699183,0.004499999704421498,0,0,16,0.18,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+180,14.794100000472099,9.118099999795959,4.535899999609683,0.0039000005926936865,0,0,16,0.18,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+181,15.050300000439165,9.274299999560753,4.611800000020594,0.00399999953515362,0,0,16,0.18,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+182,14.992700000220793,9.248000000297907,4.586600000038743,0.00399999953515362,0,0,16,0.18,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+183,25.761900000361493,13.685099999747763,8.177900000191585,0.005599999894911889,0,0,16,0.18,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+184,14.964700000746234,9.202800000821298,4.487000000153785,0.004099999387108255,0,0,16,0.18,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+185,19.531199999619275,12.829899999815098,5.029699999795412,0.004099999387108255,2,0,17,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+186,23.08149999953457,16.781600000285835,11.5445000001273,0.004499999704421498,4,0,20,0.18,,,,frame_slow|stream_slow|load_burst,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+187,17.444699999941804,10.736399999586865,5.457100000057835,0.004399999852466863,4,0,21,0.18,,,,frame_slow|stream_slow|load_burst,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+188,15.045299999655981,8.648099999845726,4.216899999846646,0.004400000761961564,0,0,21,0.18,,,,stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+189,19.508000000314496,11.574999999538704,5.852299999787647,0.004599999556376133,4,0,23,0.18,,,,frame_slow|stream_slow|load_burst,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+190,18.696600000112085,10.444900000038615,5.202700000154437,0.004900000021734741,2,0,24,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,periodic_cluster,Wiederkehrendes Cluster
+211,20.24970000002213,4.444199999852572,0.02429999949526973,0.004200000148557592,0,0,24,0.18,,,,frame_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+221,17.70849999957136,9.798699999919336,4.520499999671301,0.004999999873689376,0,0,24,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster
+252,16.357399999833433,8.902800000214484,4.42399999974441,0.005100000635138713,0,0,24,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster
+264,18.91760000034992,4.536999999800173,0.02390000008745119,0.004300000000512227,0,0,24,0.18,,,,frame_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+283,17.43869999972958,9.314199999607808,4.239500000039698,0.004900000021734741,0,0,24,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster
+314,17.367400000694033,8.680199999616889,4.259000000274682,0.004499999704421498,0,0,24,0.18,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+345,16.325399999914225,8.684399999765446,4.061800000272342,0.004399999852466863,0,0,24,0.18,,,,frame_slow|stream_slow,stream_total_dominant,Stream gesamt dominant,unknown,Unklares Muster

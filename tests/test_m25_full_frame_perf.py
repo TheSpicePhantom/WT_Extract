@@ -64,5 +64,8 @@ def test_full_frame_fields_present_when_enabled() -> None:
     assert finalized.render_acquire_ms == 2.0
     assert finalized.render_pre_render_ms == 3.0
     assert finalized.render_record_ms is not None
+    assert finalized.cpu_balance_delta_ms is not None
+    assert finalized.cpu_residual_ms is not None
+    assert finalized.cpu_scenario_ms is not None
 
 
