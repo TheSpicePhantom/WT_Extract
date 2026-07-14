@@ -9,6 +9,7 @@ Design:
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 from vulkan import *  # noqa: F403
 from vulkan import ffi
 
@@ -97,20 +98,22 @@ class GpuFrameTimer:
             return None, None
 
         base = self._base(frame_index)
-        # 64-bit timestamps (cffi buffer for PyVulkan wrapper)
-        results = ffi.new(f"uint64_t[{QUERY_COUNT}]")
-        stride = 8
-        flags = VK_QUERY_RESULT_64_BIT | VK_QUERY_RESULT_WAIT_BIT
+        # cffi-Array + void*-Cast — PyVulkan akzeptiert kein ctypes/rohes cffi-Array als pData.
+        results = ffi.new("uint64_t[]", QUERY_COUNT)
+        stride = ffi.sizeof("uint64_t")
+        flags = VK_QUERY_RESULT_64_BIT
         res = vkGetQueryPoolResults(
             self.device,
             self.query_pool,
             base,
             QUERY_COUNT,
-            QUERY_COUNT * 8,
-            results,
+            QUERY_COUNT * stride,
+            ffi.cast("void*", results),
             stride,
             flags,
         )
+        if res == VK_NOT_READY:
+            return None, None
         if res != VK_SUCCESS:
             return None, None
 

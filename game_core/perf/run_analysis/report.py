@@ -11,7 +11,6 @@ from typing import Any
 from game_core.perf.run_analysis.models import RunDiagnosis
 from game_core.perf.run_analysis.fps_killers import fps_killers_payload
 
-
 def _fmt_ms(value: float) -> str:
     return f"{value:.2f} ms"
 
@@ -354,6 +353,72 @@ def write_json_report(diagnosis: RunDiagnosis, path: Path) -> None:
     )
 
 
+def format_fps_killers_md(payload: dict[str, Any]) -> str:
+    """M25a: Markdown-Report für fps_killers.json v2."""
+    lines = [
+        "# FPS Killer Report (M25a)",
+        "",
+        "## Szenario",
+        "",
+        f"| Feld | Wert |",
+        f"| --- | --- |",
+        f"| scenario_id | `{payload.get('scenario_id', 'n/a')}` |",
+        f"| run_id | `{payload.get('run_id', 'n/a')}` |",
+        f"| run_mode | `{payload.get('run_mode', 'n/a')}` |",
+        "",
+        "## Entscheidung (CPU vs Present)",
+        "",
+        f"- **decision:** `{payload.get('decision', {}).get('decision')}`",
+        f"- **reason:** {payload.get('decision', {}).get('reason_cpu_vs_present', 'n/a')}",
+        f"- cpu_full_frame_ms_mean: {payload.get('decision', {}).get('cpu_full_frame_ms_mean', 0):.2f}",
+        f"- present_wait_cpu_ms_mean: {payload.get('decision', {}).get('present_wait_cpu_ms_mean', 0):.2f}",
+        f"- render_cpu_ms_mean: {payload.get('decision', {}).get('render_cpu_ms_mean', 0):.2f}",
+        "",
+        "## Dominanz (P95 / P99)",
+        "",
+        "| Quantil | frame | cpu_full_frame_ms | dominant_phase | share |",
+        "| --- | ---: | ---: | --- | ---: |",
+    ]
+    for label in ("p95", "p99"):
+        item = payload.get("quantiles", {}).get(label, {})
+        if not item:
+            continue
+        lines.append(
+            f"| {label} | {item.get('frame_index')} | "
+            f"{item.get('cpu_full_frame_ms', 0):.2f} | "
+            f"`{item.get('dominant_phase')}` | "
+            f"{item.get('dominant_share', 0) * 100:.1f}% |"
+        )
+    if payload.get("same_frame_for_both_quantiles"):
+        lines.extend(["", "*Hinweis: p95 und p99 referenzieren denselben Frame.*", ""])
+
+    clusters = payload.get("hitch_clusters", [])
+    if clusters:
+        lines.extend(["", "## Hitch-Cluster (Top)", ""])
+        for cluster in clusters[:5]:
+            lines.append(
+                f"- **{cluster.get('cluster_id')}** ({cluster.get('hitch_count')} Hitches): "
+                f"`{cluster.get('dominant_phase')}` "
+                f"({cluster.get('dominant_share', 0) * 100:.1f}%) "
+                f"frame={cluster.get('representative_frame_index')}"
+            )
+
+    ab_list = payload.get("ab_comparisons", [])
+    if ab_list:
+        lines.extend(["", "## A/B-Vergleiche", ""])
+        for ab in ab_list:
+            delta = ab.get("delta", {})
+            lines.append(
+                f"- **{ab.get('causal_feature')}**: "
+                f"Δcpu_full_frame_ms_p95={delta.get('cpu_full_frame_ms_p95')} "
+                f"decision_changed={delta.get('decision_changed')}"
+            )
+    elif payload.get("ab_comparisons_note"):
+        lines.extend(["", f"*A/B: {payload['ab_comparisons_note']}*", ""])
+
+    return "\n".join(lines) + "\n"
+
+
 def write_all_reports(diagnosis: RunDiagnosis, output_dir: Path) -> dict[str, Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     paths = {
@@ -369,28 +434,18 @@ def write_all_reports(diagnosis: RunDiagnosis, output_dir: Path) -> dict[str, Pa
     write_hitch_csv(diagnosis, paths["hitches_csv"])
     write_notable_frames_csv(diagnosis, paths["notable_frames_csv"])
 
-    # M25: optionaler FPS-Killer Report (nur wenn Full-Frame-Felder vorhanden).
-    payload = fps_killers_payload(diagnosis.frames)
+    # M25/M25a: FPS-Killer Report (nur wenn Full-Frame-Felder vorhanden).
+    payload = fps_killers_payload(
+        diagnosis.frames,
+        manifest=diagnosis.manifest,
+        hitch_analyses=diagnosis.hitch_analyses,
+    )
     if payload.get("has_full_frame"):
         paths["fps_killers_json"].write_text(
             json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
-        lines = [
-            "# FPS Killer Report (M25)",
-            "",
-            f"- decision: `{payload['decision'].get('decision')}`",
-            "",
-            "## Dominanz (P95/P99)",
-            "",
-        ]
-        for item in payload.get("dominance", []):
-            lines.append(
-                f"- **{item['quantile']}** frame={item['frame_index']} "
-                f"cpu_full_frame_ms={item['cpu_full_frame_ms']:.2f} "
-                f"dominant={item['dominant_phase']} ({item['dominant_share']*100:.1f}%)"
-            )
-        paths["fps_killers_md"].write_text("\n".join(lines) + "\n", encoding="utf-8")
+        paths["fps_killers_md"].write_text(format_fps_killers_md(payload), encoding="utf-8")
     else:
         # Nicht schreiben, um alte Runs nicht zu verwirren.
         paths.pop("fps_killers_md")

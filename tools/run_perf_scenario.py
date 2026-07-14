@@ -204,6 +204,9 @@ def run_perf_scenario(
         run_mode=run_mode,
         extract_enabled=extract,
     )
+    session.stream_enabled = descriptor.stream_enabled
+    session.deco_extract_enabled = descriptor.deco_extract_enabled and extract
+    session.tile_extract_enabled = descriptor.tile_extract_enabled and extract
     # M25: auch CLI-Runs sollen Full-Frame-Felder liefern (ohne Renderer entspricht das dem CPU-Tick).
     session.full_frame_enabled = True
     session._warmup_frames = descriptor.warmup_frames

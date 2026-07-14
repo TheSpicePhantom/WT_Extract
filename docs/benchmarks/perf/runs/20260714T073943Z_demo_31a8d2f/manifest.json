@@ -1,0 +1,20 @@
+{
+  "config_fingerprint": {
+    "profiling": "7736186744267695084",
+    "streaming": "-3812481342282706032",
+    "visibility_lod": "9167578406108031767",
+    "world_gen": "5645910170583930555"
+  },
+  "deco_extract_enabled": true,
+  "extract_enabled": true,
+  "git_commit": "31a8d2f",
+  "recorded_at": "2026-07-14T07:39:50.342336+00:00",
+  "recorded_frames": 94,
+  "run_id": "20260714T073943Z_demo_31a8d2f",
+  "run_mode": "demo",
+  "scenario_id": "demo",
+  "schema_version": 1,
+  "stream_enabled": true,
+  "tile_extract_enabled": true,
+  "warmup_frames": 60
+}

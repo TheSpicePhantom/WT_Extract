@@ -77,6 +77,10 @@ class GpuRenderer:
     staging: FrameStagingUploader | None = None
     gpu_timer: GpuFrameTimer | None = None
     current_frame: int = 0
+    _gpu_timing_ready: list[bool] = field(
+        default_factory=lambda: [False] * MAX_FRAMES_IN_FLIGHT,
+        repr=False,
+    )
     _last_framebuffer_size: tuple[int, int] = field(default=(-1, -1), repr=False)
 
     @classmethod
@@ -151,7 +155,11 @@ class GpuRenderer:
         vkWaitForFences(self.device.logical, 1, [frame.in_flight_fence], VK_TRUE, UINT64_MAX)
         if timing_fn is not None:
             timing_fn("wait_fence_ms", (time.perf_counter() - t0) * 1000.0)
-        if self.gpu_timer is not None and timing_fn is not None:
+        if (
+            self.gpu_timer is not None
+            and timing_fn is not None
+            and self._gpu_timing_ready[frame_index]
+        ):
             gpu_frame_ms, gpu_render_ms = self.gpu_timer.try_read_ms(frame_index)
             if gpu_frame_ms is not None:
                 timing_fn("gpu_frame_ms", gpu_frame_ms)
@@ -209,6 +217,8 @@ class GpuRenderer:
         )
         t_submit = time.perf_counter()
         vkQueueSubmit(self.device.graphics_queue, 1, [submit_info], frame.in_flight_fence)
+        if self.gpu_timer is not None:
+            self._gpu_timing_ready[frame_index] = True
         if timing_fn is not None:
             timing_fn("submit_ms", (time.perf_counter() - t_submit) * 1000.0)
 
@@ -287,6 +297,7 @@ class GpuRenderer:
             return
 
         self._wait_until_frames_complete()
+        self._gpu_timing_ready = [False] * MAX_FRAMES_IN_FLIGHT
 
         old_swapchain = self.swapchain
         destroy_swapchain_framebuffers(self.device.logical, self.framebuffers)

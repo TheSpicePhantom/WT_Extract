@@ -125,8 +125,9 @@ Enthält ab M23c zusätzlich `tile_extract_ms_*`, `extract_ms_*`, `deco_extract_
 
 Unter `<run_id>/analysis/`:
 
-- `fps_killers.md` — P95/P99 Dominanz + CPU-vs-Present-Wait Entscheidung
-- `fps_killers.json` — maschinenlesbar (gleicher Inhalt)
+- `fps_killers.md` — M25a: P95/P99 Dominanz, Plan-Enum `dominant_phase`, CPU-vs-Present
+- `fps_killers.json` — maschinenlesbar (`attribution_version: 2`)
+- `fps_killers_ab.json` — optional via `tools/compare_fps_killers.py`
 
 Schema-Details: [`SCHEMA.md`](SCHEMA.md)
 

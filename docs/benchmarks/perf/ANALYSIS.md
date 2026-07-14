@@ -6,7 +6,10 @@ Das Tool `tools/analyze_perf_run.py` wertet exportierte Profiling-Runs (M23/M23a
 
 ```bash
 python tools/analyze_perf_run.py docs/benchmarks/perf/runs/<run_id>
+python tools/analyze_perf_run.py
 ```
+
+Ohne Argument werden **alle** Run-Ordner unter `docs/benchmarks/perf/runs/` mit `manifest.json` analysiert.
 
 Optional:
 
@@ -38,8 +41,52 @@ Alle Dateien müssen `schema_version: 1` tragen. Inkompatible Versionen werden a
 - `analysis_diagnosis.json` — maschinenlesbare Diagnose
 - `hitches.csv` — Hitch-Tabelle mit Ursache und Muster
 - `notable_frames.csv` — P95+- und Hitch-Frames
-- `fps_killers.md` — M25: FPS-Killer/Attribution (nur wenn Full-Frame-Felder vorhanden)
-- `fps_killers.json` — M25: maschinenlesbare Attribution
+- `fps_killers.md` — M25a: FPS-Killer/Attribution (nur wenn Full-Frame-Felder vorhanden)
+- `fps_killers.json` — M25a: maschinenlesbare Attribution (`attribution_version: 2`)
+- `fps_killers_ab.json` — optional via `tools/compare_fps_killers.py`
+
+## M25a — dominant_phase & Quantile
+
+### Share-Buckets (Basis: `cpu_full_frame_ms`)
+
+| Phase | ms-Quelle |
+| --- | --- |
+| `stream_pool` | `apply_pool_ms` |
+| `stream_apply` | `max(0, stream_apply_ms - apply_pool_ms)` |
+| `extract_tiles` | `tile_extract_ms` |
+| `extract_deco` | `deco_extract_ms` |
+| `render_cpu` | `render_cpu_ms` |
+| `present_wait` | `present_wait_cpu_ms` |
+| `gpu` | `gpu_frame_ms` (optional, M25a nicht für Decision) |
+
+### Klassifikationsregeln
+
+- **Dominant:** höchster Share ≥ **35 %**
+- **mixed:** Top-2 ≥ **25 %**, Differenz ≤ **10 pp**
+- **unclear:** kein Bucket ≥ **20 %** oder fehlendes `cpu_full_frame_ms`
+
+### CPU-vs-Present (Run-Level)
+
+- `present_wait_dominant`: `present_wait_share_mean ≥ 35 %` und ≥ max CPU-Phase
+- `cpu_dominant`: max CPU-Phase ≥ **35 %** und present < **35 %**
+- sonst `mixed` / `unclear`
+
+Schwellen in `game_core/perf/run_analysis/phase_enum.py`.
+
+### Quantil-Frame-Auswahl
+
+1. Schwellwert: `percentile(cpu_full_frame_ms[], p)` mit Index `round((n-1)*p)` ([`stats.py`](../../game_core/perf/run_analysis/stats.py))
+2. Frame: minimaler Abstand `|cpu_full_frame_ms - threshold|`, Tie-Breaker: kleinerer `frame_index`
+3. p99: p95-`frame_index` ausgeschlossen, falls Alternative existiert
+4. Flag `same_frame_for_both_quantiles` wenn p95 == p99
+
+### A/B-Vergleich
+
+```bash
+python tools/compare_fps_killers.py <baseline_run> <variant_run>
+```
+
+Baseline-Vertrag: [`M25A_BASELINE.md`](M25A_BASELINE.md)
 
 ## Diagnosebegriffe
 
@@ -158,8 +205,10 @@ game_core/perf/run_analysis/
   hitch.py       — Ursachen + Kontextmuster
   stats.py       — Verteilungen, Korrelation
   diagnose.py    — Run-Diagnose, Ranking
+  fps_killers.py — M25a Attribution v2 (dominant_phase, quantiles, decision)
   report.py      — Terminal, Markdown, CSV, JSON
 tools/analyze_perf_run.py — CLI
+tools/compare_fps_killers.py — A/B fps_killers (M25a)
 ```
 
 ## Grenzen

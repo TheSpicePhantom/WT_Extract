@@ -1,0 +1,17 @@
+{
+  "config_fingerprint": {
+    "profiling": "4585397586796883016",
+    "streaming": "-4397460582150671796",
+    "visibility_lod": "2878262071301917164",
+    "world_gen": "-4142747853839146686"
+  },
+  "extract_enabled": true,
+  "git_commit": "31a8d2f",
+  "recorded_at": "2026-07-14T07:19:41.577332+00:00",
+  "recorded_frames": 0,
+  "run_id": "20260714T071940Z_demo_31a8d2f",
+  "run_mode": "demo",
+  "scenario_id": "demo",
+  "schema_version": 1,
+  "warmup_frames": 60
+}

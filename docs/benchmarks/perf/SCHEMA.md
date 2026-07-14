@@ -14,6 +14,9 @@ Unbekannte Versionen müssen in Compare-Tools zu einem harten Fehler führen.
 | `scenario_id` | string | ja | z. B. `steady`, `pan`, `demo` |
 | `run_mode` | string | ja | `cli` oder `demo` |
 | `extract_enabled` | bool | ja | Extract im kanonischen Tick |
+| `stream_enabled` | bool | optional (M25a) | Streaming im Szenario (Default: true) |
+| `deco_extract_enabled` | bool | optional (M25a) | Deko-Extract aktiv |
+| `tile_extract_enabled` | bool | optional (M25a) | Tile-Extract aktiv |
 | `warmup_frames` | int | ja | Ausgeschlossene Warmup-Ticks |
 | `recorded_frames` | int | ja | Anzahl exportierter Frames |
 | `git_commit` | string | ja | Kurzer Git-Hash |
@@ -90,3 +93,50 @@ Gleiche Pflichtfelder wie Frame plus:
 ```
 
 Keine hard-coded Schwellen im Code.
+
+## fps_killers.json (M25/M25a)
+
+Erzeugt von `tools/analyze_perf_run.py` → `analysis/fps_killers.json` (nur wenn `cpu_full_frame_ms` in Frames vorhanden).
+
+| Feld | Typ | Pflicht | Beschreibung |
+| --- | --- | --- | --- |
+| `schema_version` | int | ja | Immer `1` (Run-Schema) |
+| `attribution_version` | int | ja (M25a) | `2` für Plan-Enum |
+| `scenario_id` | string | ja (M25a) | Aus manifest |
+| `run_id` | string | ja (M25a) | Aus manifest |
+| `scenario_label` | string | optional | Anzeigename (= scenario_id) |
+| `run_mode` | string | optional | `cli` / `demo` |
+| `toggles` | object | optional | Snapshot der Feature-Toggles |
+| `has_full_frame` | bool | ja | Full-Frame-Daten vorhanden |
+| `decision` | object | ja | CPU-vs-Present Entscheidung |
+| `quantiles` | object | ja | `p95` / `p99` Dominanz |
+| `dominance` | array | ja | Legacy-Alias von quantiles (Liste) |
+| `same_frame_for_both_quantiles` | bool | optional | p95/p99 gleicher Frame |
+| `hitch_clusters` | array | optional | Dominanz pro Hitch-Ursache |
+| `ab_comparisons` | array | optional | A/B-Vergleiche (via compare_fps_killers) |
+
+### dominant_phase (Enum)
+
+`stream_apply`, `stream_pool`, `extract_tiles`, `extract_deco`, `render_cpu`, `present_wait`, `gpu`, `mixed`, `unclear`
+
+### decision (M25a)
+
+| Feld | Typ |
+| --- | --- |
+| `decision` | `cpu_dominant` \| `present_wait_dominant` \| `mixed` \| `unclear` |
+| `reason_cpu_vs_present` | string |
+| `cpu_full_frame_ms_mean` | float |
+| `present_wait_cpu_ms_mean` | float |
+| `render_cpu_ms_mean` | float |
+| `present_wait_share_mean` | float |
+| `gpu_dominant` | bool (M25a: immer false) |
+
+### ab_comparisons[] (M25a)
+
+| Feld | Typ |
+| --- | --- |
+| `scenario_id` | string |
+| `causal_feature` | string |
+| `baseline` | object (run_id, decision, dominant_phase, p95, p99, toggles) |
+| `variant` | object |
+| `delta` | object (cpu_full_frame_ms_p95, dominant_share_p95, decision_changed) |

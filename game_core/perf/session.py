@@ -50,6 +50,9 @@ class PerfSession:
     scenario_id: str
     run_mode: str
     extract_enabled: bool = True
+    stream_enabled: bool = True
+    deco_extract_enabled: bool = True
+    tile_extract_enabled: bool = True
     run_id: str = ""
     _aggregator: PerfAggregator = field(default_factory=PerfAggregator)
     _ring: deque[FrameMetrics] = field(default_factory=deque)
@@ -322,6 +325,9 @@ class PerfSession:
             "scenario_id": self.scenario_id,
             "run_mode": self.run_mode,
             "extract_enabled": self.extract_enabled,
+            "stream_enabled": self.stream_enabled,
+            "deco_extract_enabled": self.deco_extract_enabled,
+            "tile_extract_enabled": self.tile_extract_enabled,
             "warmup_frames": self._warmup_frames,
             "recorded_frames": summary.recorded_frames,
             "git_commit": _git_commit_short(),
