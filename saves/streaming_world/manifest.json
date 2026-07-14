@@ -1,0 +1,16 @@
+{
+  "version": 4,
+  "chunk_size_tiles": 64,
+  "world_seed": 42,
+  "world_gen_fingerprint": "8296dcc72ad9e52c3d86d7a2d1d0bd6e9a3b518a951fed5289d5c1767a310515",
+  "overlay_schema_version": 0,
+  "player": {
+    "world_x": 2016.0,
+    "world_y": 2016.0,
+    "direction": 3,
+    "clip": "idle",
+    "anim_time": 76.58847169997881
+  },
+  "decorations": [],
+  "chunk_coords": []
+}

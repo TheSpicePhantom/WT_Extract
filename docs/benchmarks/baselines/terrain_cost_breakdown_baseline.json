@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-07-13T14:51:22.755200+00:00",
+  "pipeline_version": "M24c",
+  "coord": [
+    1,
+    1
+  ],
+  "sections_ms": {
+    "coast_overlay": 167.881,
+    "field_cache_climate": 138.441,
+    "field_cache_region": 382.347,
+    "noise_fbm": 467.217,
+    "noise_simplex": 279.033,
+    "resolve_tiles": 181.701
+  },
+  "breakdown_pct": {
+    "coast_overlay": 10.38,
+    "field_cache_climate": 8.56,
+    "field_cache_region": 23.65,
+    "noise_fbm": 28.9,
+    "noise_simplex": 17.26,
+    "resolve_tiles": 11.24
+  },
+  "counters": {
+    "coast_overlay_calls": 3857,
+    "field_cache_build_calls": 1,
+    "simplex_samples": 280336
+  },
+  "field_cache_builds": 1,
+  "total_ms": 1616.62,
+  "hypotheses_pct": {
+    "H1_double_field_cache": 0.0,
+    "H2_perm_noise": 46.16,
+    "H3_biome_region_redundancy": 23.65,
+    "H4_spawn_score": 0.0,
+    "H5_coast_overlay": 10.38,
+    "H6_resolve_python_overhead": 11.24,
+    "H7_field_cache_structure": 32.21
+  }
+}

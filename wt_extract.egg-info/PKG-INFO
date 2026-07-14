@@ -1,0 +1,699 @@
+Metadata-Version: 2.4
+Name: wt-extract
+Version: 0.1.0
+Summary: Modulare Python + Vulkan Rendering Engine (Blueprint)
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: glfw
+Requires-Dist: vulkan
+Provides-Extra: shaders
+Requires-Dist: shaderc-rs-py>=0.2; extra == "shaders"
+Provides-Extra: atlas
+Requires-Dist: pillow>=10.0; extra == "atlas"
+
+# Projektbriefing: Python + Vulkan Rendering Engine als wiederverwendbarer Blueprint
+
+## Kontext
+
+Wir bauen zuerst **eine eigenständige Rendering Engine in Python + Vulkan** und **keine vollständige Game Engine**.  
+Das erste Testprojekt ist ein **top-down Spiel im Stil von Factorio**, aber dieses Spiel ist **nur ein Anwendungsfall**, nicht die Definition der Architektur.
+
+Die Rendering Engine soll so gebaut werden, dass sie später auch für andere Projekte wiederverwendet werden kann, z. B.:
+- top-down Aufbau-/Automationsspiele
+- Shooter oder Survival-Prototypen
+- Simulationen
+- andere tile-, chunk- oder spritebasierte Projekte
+
+## Primäres Ziel
+
+Das Ziel ist eine **leichte, performante, modulare und strikt getrennte Rendering Engine**, bei der Python die Steuerung übernimmt und Vulkan die GPU-nahe Arbeit erledigt.
+
+Die Engine soll:
+- möglichst viel Arbeit GPU-seitig vorbereiten oder ausführen
+- Python-Overhead im Frame-Loop klein halten
+- klar geschichtete Zuständigkeiten haben
+- später neue Features integrierbar machen, ohne die Basis zu zerbrechen
+- bewusst **renderer-first** gedacht sein, nicht gameplay-first
+
+## Entwicklungsreihenfolge
+
+Die Reihenfolge des Gesamtprojekts ist fest:
+
+1. Rendering Engine stabil aufbauen
+2. Welt- / Chunk-Generierung
+3. Charakter
+4. Decoration
+5. Prozedurales Terrain
+
+Wichtig:  
+Die Architektur der Rendering Engine darf **nicht** vom ersten Spielkontext abhängig gemacht werden.
+
+---
+
+# Source of Truth
+
+Diese Datei (`ruleset.md`) ist die **einzige verbindliche Source of Truth** für:
+- Architekturprinzipien und Verbote
+- Meilenstein-Roadmap (M1–M28+)
+- Abhängigkeitsregeln
+- Konventionen (Koordinaten, Layer, Naming)
+
+`docs/ARCHITECTURE.md` dokumentiert **Implementierungsdetails abgeschlossener Meilensteine** — konkrete Dateipfade, Fehlerbehebungen, Demohinweise, technische Entscheidungen die getroffen wurden.  
+Bei Widerspruch gilt `ruleset.md`.
+
+> Bei Änderungen an Architektur oder Roadmap: erst `ruleset.md` aktualisieren, dann ggf. `ARCHITECTURE.md` ergänzen.
+
+---
+
+# Architekturprinzipien
+
+## 1. Strikte Trennung: Render Engine != Game Engine
+
+Die Render Engine muss **vollständig von der Game Engine getrennt** sein.  
+Rendering darf den Spielzustand nicht verändern; es darf nur aus vorbereiteten Daten ein Bild erzeugen.
+
+### Das bedeutet konkret:
+- Die Game Engine erzeugt Bedeutung und Simulation.
+- Die Render Engine verarbeitet neutrale Renderdaten.
+- Die Verbindung erfolgt über eine klar definierte Übergabeschicht.
+- Die Render Engine kennt keine Spielregeln.
+- Die Game Engine kennt keine Vulkan-Details.
+
+### Erlaubtes Modell
+`game_core -> extractor/bridge -> render_scene -> render_core`
+
+### Nicht erlaubt
+`render_core -> game_core`
+
+---
+
+## 2. Layered Architecture
+
+Wir wollen bewusst eine **Layered Architecture** mit klaren Verantwortlichkeiten, weil sie für komplexe Engine-Systeme Modularität und Wartbarkeit verbessert.
+
+Jede Schicht hat eine klar definierte Rolle.  
+Abhängigkeiten laufen möglichst nur **in eine Richtung**.
+
+### Zielstruktur
+
+- `wt_platform/` (ehem. `platform/` — Name vermeidet Konflikt mit Python-Stdlib)
+  - Fenster
+  - Surface-Erstellung
+  - Input-Grundlagen
+  - keine Spielregeln
+
+- `render_core/`
+  - Vulkan Instance
+  - Physical/Logical Device
+  - Queues
+  - Swapchain
+  - Command Pools / Command Buffers
+  - Synchronisation
+  - Speicher / Ressourcen-Lifetime
+  - Low-Level GPU-Infrastruktur
+
+- `render_graphics/`
+  - Pipelines
+  - Shaderverwaltung
+  - Render Passes / Framegraph-Vorbereitung
+  - Kamera
+  - Materialsystem
+  - Instancing
+  - Sprite- / Tile-Rendering
+  - Render Submission
+
+- `render_scene/`
+  - neutrale Datentypen für Renderdaten
+  - z. B. `RenderFrame`, `CameraData`, `SpriteInstanceData`, `TileChunkRenderData`
+  - keine Vulkan-spezifische Geschäftslogik
+  - keine Gameplay-Semantik
+
+- `game_core/`
+  - Welt
+  - Chunklogik
+  - Generierung
+  - Charakter
+  - Interaktion
+  - Simulation
+  - spätere Gameplay-Systeme
+
+- `bridge/` oder `extractors/`
+  - übersetzt Game-Daten in neutrale Renderdaten
+  - einzige legitime Stelle, an der Spielwelt und Renderer-Input aufeinandertreffen
+
+---
+
+## 3. Renderdaten statt Game-Objekte
+
+Der Renderer darf **niemals direkt mit Game-Objekten arbeiten**.
+
+### Das heißt:
+Die Game Engine übergibt nicht:
+- `Player`
+- `OrePatch`
+- `TransportBelt`
+- `FactoryBuilding`
+- `EnemyUnit`
+
+Sondern nur neutrale, renderbare Daten wie:
+- Kamera
+- Layer
+- Positionen
+- Instanzdaten
+- Material- oder Texture-Handles
+- Sprite-/Tile-IDs
+- sichtbare Chunkdaten
+
+### Gewünschte Datentypen
+- `RenderFrame`
+- `CameraData`
+- `TileLayerBatch`
+- `TileChunkRenderData`
+- `SpriteInstanceData`
+- `MaterialHandle`
+- `TextureHandle`
+
+---
+
+## 4. Datenorientiertes Denken
+
+Die Renderdaten sollen möglichst **datenorientiert** strukturiert werden, nicht als tiefer OOP-Objektbaum.
+
+Bevorzugt:
+- kompakte Arrays
+- handles / ids
+- SoA oder klar strukturierte Buffers
+- wiederverwendbare GPU-Ressourcen
+- geringe per-frame Allokation
+- Caching statt Neubau
+
+Nicht bevorzugt:
+- tiefe Vererbung
+- tausende kleine Python-Objekte im Hot Path
+- Renderer pro Entity
+- zu viele dynamische Spezialklassen
+
+---
+
+# Technische Zielrichtung
+
+## Python + Vulkan
+
+Die Basis ist **Python + Vulkan**.
+
+### Rollenverteilung
+- Python:
+  - Engine-Steuerung
+  - Ressourcenverwaltung
+  - Szenen-/Frame-Aufbereitung
+  - Brückenlogik
+  - Tooling / Iteration
+
+- Vulkan:
+  - GPU-Ressourcen
+  - Command Recording
+  - Draws / Dispatches
+  - Synchronisation
+  - Speicher- und Pipelinekontrolle
+
+## Performance-Ziel
+
+Die Architektur soll so ausgelegt werden, dass:
+- CPU-seitige Draw-Submission effizient bleibt
+- Command Buffers nicht chaotisch erzeugt/zerstört werden
+- Pipeline-Wechsel minimiert werden
+- Queue Submissions bewusst gebündelt werden
+- Instancing früh sauber unterstützt wird
+- Chunk-Rendering ohne Architekturbruch nachgerüstet werden kann
+
+---
+
+# Erster konkreter Use Case
+
+## Spieltyp
+
+Erster Testfall:  
+ein **top-down Factorio-artiges Spiel**
+
+## Aber wichtig:
+Der Renderer wird **nicht** als „Factorio-Renderer" gebaut, sondern als generischer:
+- orthographischer 2D/2.5D Renderer
+- mit Tile-Layern
+- Sprite-/Atlas-Unterstützung
+- Instancing
+- chunkfreundlicher Datenstruktur
+
+## Frühe Kernfeatures des Renderers
+
+Der erste Renderer soll idealerweise vorbereiten oder unterstützen:
+- Orthographic Camera
+- Texture Atlas
+- Instanced Quads für Tiles und Sprites
+- Layer-basiertes Rendering
+- sichtbarkeitsfreundliche Chunkdaten
+- stabile RenderFrame-Einspeisung
+- sauber getrennte Low-Level / Mid-Level / Frame-Daten-Struktur
+
+---
+
+# Was auf gar keinen Fall passieren darf
+
+## Harte Verbote
+
+### 1. Keine Vermischung von Render- und Gameplay-Logik
+Nicht erlaubt:
+- Gameplay-Code im Renderer
+- Renderer-Code in Welt-/Entity-Klassen
+- Shader- oder Pipeline-Entscheidungen auf Basis direkter Spielregeln
+- Spielzustandsänderungen im Renderpfad
+
+### 2. Keine spielspezifische Semantik im Renderer
+Nicht erlaubt:
+- `PlayerRenderer`
+- `OreRenderer`
+- `FactoryChunkRenderer`
+- `EnemySpriteManager`
+
+Wenn spezielle Spielobjekte gerendert werden, müssen sie **vorher** in generische Renderdaten übersetzt werden.
+
+### 3. Kein monolithischer Engine-Klumpen
+Nicht erlaubt:
+- eine riesige `engine.py`
+- eine `Renderer`-Klasse, die Fenster, Welt, Kamera, Simulation und GPU gleichzeitig kennt
+- unklare Zuständigkeiten
+- globale, implizite Engine-Zustände
+
+### 4. Kein vorschneller Feature-Bloat
+
+Dieses Verbot gilt für **Phase 1** (Kern-Renderer, M1–M20).  
+In Phase 2 (World, M21–M23) und Phase 3 (Gameplay, M24–M28) werden diese Systeme gezielt eingeführt — jeweils mit eigenem Scope und bewusstem "Bewusst nicht in diesem Milestone".
+
+Vor dem stabilen Kernrenderer (Phase 1) **nicht** einbauen:
+- komplexe Partikelsysteme
+- generische Engine-Animations-Frameworks (Spritesheet-Sub-UV per Instanz wie in M11 ist kein Framework — das ist eine direkte GPU-Datenstruktur; gemeint sind abstrakte `Animator`-Klassen mit eigenem Lifecycle)
+- Editor
+- Audio (→ Phase 3, M28)
+- UI-Framework (→ Phase 3, M27)
+- Networking
+- komplexes Beleuchtungssystem
+- Gameplay-ECS mit vielen Spezialfällen
+
+### 5. Keine Architektur nur für dieses eine Spiel
+Nicht erlaubt:
+- Tile-/Chunk-Systeme so zu codieren, dass sie nur für Factorio-artige Weltlogik funktionieren
+- Renderer-APIs auf konkrete Spielobjekte zuzuschneiden
+- spätere Wiederverwendung unbrauchbar zu machen
+
+### 6. Kein verschwenderischer Vulkan-Umgang
+Nicht erlaubt:
+- wildes Erzeugen/Zerstören von Command Pools
+- chaotisches pro-frame Neuaufbauen aller Ressourcen
+- unnötig viele Queue Submits
+- unnötig viele Pipeline Binds
+- per-frame CPU-Müllproduktion im Hot Path
+
+---
+
+# Anforderungen an Cursor
+
+## Arbeitsweise
+
+Arbeite **architekturorientiert**, nicht demo-orientiert.  
+Wenn mehrere Lösungen möglich sind:
+- nenne die bevorzugte Lösung
+- begründe sie knapp
+- priorisiere Wiederverwendbarkeit, Trennung und Performance
+
+## Bitte nicht tun
+- Keine riesige Komplettlösung ohne Struktur
+- Keine voreilige Vollimplementierung aller Systeme
+- Kein „hier ist schon mal alles in einer Datei"
+- Keine Vermischung von endgültiger Architektur und schneller Wegwerf-Demo
+
+## Bitte stattdessen tun
+Arbeite in klaren Schritten:
+1. Architektur definieren
+2. Modulbaum definieren
+3. Kerninterfaces definieren
+4. Abhängigkeitsregeln definieren
+5. Minimalen Renderer planen
+6. Danach Erweiterungspfad für Chunk-Welt vorbereiten
+
+---
+
+# Meilensteinübersicht
+
+## Abgeschlossene Meilensteine (M1–M20)
+
+| # | Meilenstein | Module | Status |
+|---|-------------|--------|--------|
+| M1 | Projektstruktur + Interfaces | `render_scene`, `bridge`, `docs` | ✅ |
+| M2 | Fenster + Vulkan Instance/Device | `wt_platform`, `render_core` | ✅ |
+| M3 | Swapchain + erster Clear-Frame | `render_core` | ✅ |
+| M4 | Orthographische Kamera | `render_graphics` | ✅ |
+| M5 | Instanced Quads (einfarbig) | `render_graphics` | ✅ |
+| M6 | Texture Atlas + Material-Handles | `render_graphics`, `render_scene` | ✅ |
+| M7 | Erster Tile-Layer aus `TileLayerBatch` | `render_graphics` | ✅ |
+| M8 | Chunk-Daten via `TileChunkRenderData` | `render_graphics`, `bridge`, `game_core` | ✅ |
+| M9 | Frame-Staging-Upload (kein per-Frame Command Pool / WaitIdle) | `render_core`, `render_graphics` | ✅ |
+| M9b | Mehrere Tile-Layer pro Chunk — Draw-Reihenfolge nach `LayerId` | `render_graphics`, `bridge`, `game_core` | ✅ |
+| M10 | Mutable Welt — Tiles zur Laufzeit ändern, Dirty-Chunks | `game_core`, `bridge`, `apps` | ✅ |
+| M11 | Charakter + Spritesheet-Animation (Idle/Walk/Run, 8-Wege) | `game_core`, `bridge`, `render_graphics`, `apps` | ✅ |
+| M12 | Decoration-Sprites + Content-Registry (JSON) | `game_core`, `bridge`, `tools`, `apps` | ✅ |
+| M12b | Data-driven Tile-Pinsel (`tiles.json` Brushes) | `game_core`, `apps` | ✅ |
+| M13 | Y-Sort + Stamm/Krone-Split (Tiefen-Sortierung) | `render_graphics`, `bridge`, `game_core` | ✅ |
+| M14 | Kollision / Walkability (Tiles + Decorations) | `game_core`, `apps` | ✅ |
+| M15 | Pixel-Kollision (Masken + 8×8 Solid-Grid) | `game_core`, `tools`, `apps` | ✅ |
+| M16 | Welt-Persistenz (Save/Load JSON) | `game_core`, `apps` | ✅ |
+| M17 | Dirty-Chunk-Render-Cache | `bridge`, `game_core` | ✅ |
+| M18 | Chunk-Streaming (infinite prozedural) | `game_core`, `apps` | ✅ |
+| M19 | Fenster-Resize & Vollbild (Swapchain/Surface) | `wt_platform`, `render_core`, `render_graphics`, `apps` | ✅ |
+| M20 | Platform-Schale + Streaming-Persistenz | `wt_platform`, `game_core`, `apps` | ✅ |
+
+## Aktuelle und kommende Meilensteine (M21+)
+
+| # | Meilenstein | Module | Status |
+|---|-------------|--------|--------|
+| M21 | Hybrid World-Gen (Noise, Klima, Voronoi-Biome) | `game_core`, `apps` | ✅ |
+| M22 | Biome-System (Feinschliff / Erweiterungen) | `game_core`, `apps` | ⬜ |
+| M23 | Ore-Patches + Resource-Deposits (prozedural) | `game_core`, `apps` | ⬜ |
+| M24 | Mini-Map / Fog of War | `render_graphics`, `render_scene`, `bridge`, `game_core` | ⬜ |
+| M25 | Inventar & Item-System (Grundlagen) | `game_core`, `apps` | ⬜ |
+| M26 | Entity-System (NPCs / Feinde, Grundstruktur) | `game_core`, `bridge`, `apps` | ⬜ |
+| M27 | Einfaches UI-Framework (HUD, Labels) | `render_graphics`, `render_scene`, `apps` | ⬜ |
+| M28 | Audio-System (Grundlagen, SFX) | `wt_platform`, `apps` | ⬜ |
+
+> **Hinweis Modul-Spalte M21:** Bridge und Renderer benötigen keine Änderungen — `game_core` liefert nach M21 weiterhin denselben `TileLayerBatch`. Nur `game_core` und `apps` sind betroffen.
+
+---
+
+# Meilenstein-Details
+
+## M21 — Hybrid World-Gen (Noise, Klima, Voronoi-Biome)
+
+**Ziel:** Deterministische prozedurale Welt — Height/Wasser, Klima, unendliche Voronoi-Biomregionen (Warp, Blend), biomabhängige Tiles/Decorations, Startgebiet-Regeln. Detail-Spec: [`milestones_detailed/world-gen.md`](milestones_detailed/world-gen.md).
+
+**Anforderungen:**
+- Deterministisch: gleicher `world_seed` + Weltkoordinate `(wx, wy)` → identisches Ergebnis über Sessions und Chunk-Grenzen
+- Generierung vollständig in `game_core` — Renderer/Bridge **keine Änderungen**
+- Kompatibel mit M18 Streaming und M20 Persistenz (`persistent_overrides` hat Vorrang)
+
+**Noise:** fBM auf **eigener 2D-Simplex-Implementierung** in [`game_core/noise.py`](game_core/noise.py) (keine PyPI-Dependency)
+
+**Module:**
+- [`game_core/world_gen.py`](game_core/world_gen.py) — `WorldGenConfig`, `sample_climate`, `sample_biome_region`, `resolve_tile`, `generate_chunk`, `populate_chunk_decorations`
+- [`game_core/biomes.py`](game_core/biomes.py) — `BiomeId`, `ClimateClass`, JSON-Mapping
+- [`assets/content/world_gen.json`](assets/content/world_gen.json), [`assets/content/biomes.json`](assets/content/biomes.json)
+- Neue Tiles: `deep_water`, `shallow_water`, `sand`, `snow`
+
+**Streaming:** Save v3 — `world_seed` in `manifest.json`; Load setzt `configure_world_gen()`
+
+**Demos:**
+- `chunk_world_demo` — `G` = neuer Seed, nur prozedurale Chunks flushen, Overrides bleiben
+- `world_gen_debug_demo` — Zwischenschritte visualisieren (Height, Water, Klima, Voronoi, Terrain)
+
+**Bewusst nicht in M21:** Rivers/Hydrologie, Ore/Ressourcen (→ M23), GPU-Noise, async Jobs
+
+> **Hinweis M22:** Kern-Biomlogik (Voronoi, Klima, Tile-/Decoration-Mapping) ist in M21 enthalten. M22 reserviert für Feinschliff (Blend-Tiles, erweiterte Biom-Übergänge).
+
+---
+
+## M22 — Biome-System (Feinschliff)
+
+**Ziel:** Erweiterungen am Biom-System — Blend-Tiles an Grenzen, zusätzliche Biomfamilien, feinere Übergänge. **Kern bereits in M21.**
+
+**Technischer Ansatz (offen für M22):**
+- Semantische Blend-Tiles an Biom-Grenzen (nutzt `blend_t` aus M21)
+- Optionale dritte Noise-Schicht für Sub-Biome
+- Erweiterung von [`assets/content/biomes.json`](assets/content/biomes.json)
+
+**Bereits in M21 umgesetzt:**
+- `BiomeId`, `ClimateClass`, Voronoi-Regionen, Warp, Blend-Daten
+- `biomes.json`: Tile-Mapping, erlaubte Decorations, Dichte pro Biom
+- `populate_chunk_decorations()` biomabhängig
+
+**Bewusst nicht in M22:**
+- Biom-Übergänge (Blend-Tiles an Biom-Grenzen)
+- Wetter oder Tageszeit pro Biom
+
+---
+
+## M23 — Ore-Patches & Resource-Deposits
+
+**Ziel:** Prozedural generierte Rohstoff-Vorkommen (Erz, Holz-Cluster, Steinfelder) — data-driven, spatial konsistent, Chunk-Seed-verknüpft.
+
+**Technischer Ansatz:**
+- Ore-Patches als Overlay-Tiles (Layer 1) oder als Decoration (Layer 4+) — kein eigenständiger Renderer
+- `assets/content/resources.json`: Ressourcentypen, Noise-Skala, Dichte, Min/Max-Patchgröße
+- Abbau-Stand (welche Tiles entfernt wurden) persistiert via `persistent_overrides` (M20)
+- Kein `OreRenderer` — Overlay-Tiles und Decoration-Sprites über bestehende Pipeline
+
+**Bewusst nicht in M23:**
+- Abbau-Mechanik (Gameplay-Logik)
+- Inventar-Integration (→ M25)
+
+---
+
+## M24 — Mini-Map / Fog of War
+
+**Ziel:** Kleine Übersichtskarte im HUD zeigt besuchte Chunks; unbesuchte Bereiche ausgeblendet (Fog of War).
+
+**Technischer Ansatz:**
+- `game_core/exploration.py` — `ExplorationMap`: besuchte Chunk-Koordinaten als Set
+- Bridge liefert `ExplorationData` als Teilfeld von `RenderFrame`
+- `render_scene/ui_types.py` — `ExplorationData` (gameplay-neutral)
+- Mini-Map als Screen-Space Overlay-Quad (separater Uniform-Buffer, kein eigener Swapchain)
+
+**Bewusst nicht in M24:**
+- Vollbild-Karte, Zoom
+- Marker / Waypoints
+
+---
+
+## M25 — Inventar & Item-System
+
+**Ziel:** Spieler kann Items aufnehmen und tragen — einfaches Slot-basiertes Inventar, kein UI (→ M27).
+
+**Technischer Ansatz:**
+- `game_core/inventory.py` — `Inventory`, `ItemStack`, `ItemId`
+- `assets/content/items.json` — Item-Definitionen (Name, Sprite-Key, Max-Stack)
+- Inventar gehört zum `Character` — keine Render-Abhängigkeit
+- Vollständig in `game_core`; Bridge transportiert ggf. HUD-Daten wenn M27 aktiv
+
+---
+
+## M26 — Entity-System (Grundstruktur)
+
+**Ziel:** Allgemeine Entity-Struktur für NPCs, Feinde, interaktive Objekte — nicht hardcoded, erweiterbar.
+
+**Technischer Ansatz:**
+- `game_core/entities.py` — `Entity` (Position, SpriteKey, AnimState, optional: AI-State)
+- `World.entities: list[Entity]` — kein spezialisierter Renderer
+- Bridge: `entities_to_sprites()` analog zu `character_to_sprite()` — generisch
+- Kein ECS-Overhead in M26: einfache Liste + Komponentenfelder reichen
+
+**Bewusst nicht in M26:**
+- Vollständiges ECS-Framework
+- KI / Pathfinding (Folgemeilenstein)
+
+---
+
+## M27 — UI-Framework (HUD, Labels)
+
+**Ziel:** Einfaches, rendererseitig generisches HUD — Tile-Koordinaten, FPS, Inventar-Anzeige (M25-Daten).
+
+**Technischer Ansatz:**
+- `render_graphics/ui_renderer.py` — Quads für UI-Elemente, Textur-basierte Labels
+- UI-Elemente in Screen-Space (separater Uniform-Buffer, orthographisch, kein World-Transform)
+- `render_scene/ui_types.py` — `UIFrame`, `LabelData`, `UIQuad` — Gameplay-neutral
+- Bridge liefert `UIFrame` als Teilfeld von `RenderFrame`
+
+**Bewusst nicht in M27:**
+- Vollständiges Widget-System
+- Maus-interaktive UI-Elemente (Buttons, Dialoge)
+
+---
+
+## M28 — Audio-System (Grundlagen)
+
+**Ziel:** SFX-Playback für Schritte, Aktionen und Ambient-Sounds — komplett losgelöst vom Render-Pfad.
+
+**Technischer Ansatz:**
+- `wt_platform/audio.py` — `AudioSystem`, `play_sfx(sound_id)`, `play_ambient(track_id)`
+- Keine Vulkan-Abhängigkeit; unabhängiger Thread oder Event-Queue
+- `assets/audio/` — SFX und Ambient-Tracks
+- `game_core` sendet `AudioEvent`s, `wt_platform/audio.py` konsumiert sie
+
+**Bewusst nicht in M28:**
+- 3D-Positional Audio
+- Musik-Streaming oder dynamische Komposition
+
+---
+
+# Architekturkonventionen (gültig ab M6, kumulativ)
+
+## Koordinaten & Tile-Einheiten
+- 1 Tile = **32×32 px** Weltkoordinaten
+- Sprite-Anker: **unten links** (`world_x/y` in `SpriteInstanceData`)
+- Sprite-Keys: **`wt:pfad/zum/sprite`** (Minecraft-Style, stabil über Rebakes)
+- **TileId = SpriteId** — Tiles sind 1×1 Atlas-Einträge (`wt:tiles/grass`, …)
+- **Chunk `(cx, cy)`** — 8×8 Tiles = 256×256 px, Anker `(cx * 256, cy * 256)`
+
+## Atlas & Sprites
+- Atlas-Raster: 32px-Zellen mit 1px Gutter
+- Nicht-32px-Vielfache werden in `bake_atlas.py` auf 32px-Raster gepaddet (horizontal zentriert, unten ausgerichtet)
+- `sprite_rect_uv` nutzt exakte `pixel_w`/`pixel_h` — kein Gutter-Inset auf Sheet-Breite
+- `TEXTURED_INSTANCE_STRIDE = 36` (inkl. Clip-Pack M13b)
+
+## Render-Layer
+
+| LayerId | Inhalt |
+|---------|--------|
+| 0 | Terrain (Boden) |
+| 1 | Overlay (Pfade, Fundamente, Ore-Overlay) |
+| 2 | Charakter |
+| 3 | (reserviert) |
+| 4 | Büsche, Stumps, kleine Decorations |
+| 5 | Baum-Stamm |
+| 6 | Baum-Krone |
+| 7+ | UI / HUD Screen-Space (M27) |
+
+## Upload & Synchronisation
+- `FrameStagingUploader` — pro Frame-Slot Staging-Buffer, Copy + Barrier im Frame-CB vor Render-Pass
+- Instance-Buffer double-buffered (`MAX_FRAMES_IN_FLIGHT`)
+- Kein `vkQueueWaitIdle` im Hot-Path
+
+## Sichtbarkeit & Culling
+- Chunk außerhalb Viewport → nicht extrahieren/rendern
+- Sichtbarer Chunk → nur Tiles im Viewport in `TileLayerBatch`
+- `dirty_chunks`: Tile-Extraktion nur bei geänderten Chunks (M17)
+
+## Streaming & Persistenz
+- `persistent_overrides` ∪ `world.dirty_chunks` → schreiben; prozedurale Baseline niemals speichern
+- Decorations: nur `procedural=False` im Manifest persistiert
+- Solid-Grid nicht gespeichert — nach Load `rebuild_all_solid`
+
+## Y-Sortierung (M13)
+```
+(-sort_y, layer, world_x)   aufsteigend → Norden zuerst, Süden zuletzt
+```
+
+---
+
+# Kerninterfaces (render_scene/)
+
+| Typ | Zweck |
+|-----|-------|
+| `RenderFrame` | Kompletter Frame-Input pro Draw-Zyklus |
+| `CameraData` | Orthographische View-Parameter |
+| `TileChunkRenderData` | Sichtbarer Chunk mit Layer-Batches |
+| `TileLayerBatch` | SoA-nahe Tile-Instanzen pro Layer |
+| `SpriteInstanceData` | Instanzierbares Sprite (Position, ID, Material, Layer) |
+| `TextureHandle` / `MaterialHandle` | Typisierte GPU-Ressourcen-IDs |
+| `SpriteRect` / `MaterialDescriptor` | UV-Lookup + Material→Atlas |
+| `SpriteKey` / `SpriteCatalog` | Minecraft-Style Keys → GPU-SpriteId |
+| `TextureAtlasDescriptor` | Atlas-Metadaten inkl. Manifest-Einträge |
+| `UIFrame` | Screen-Space UI-Elemente (M27) |
+| `ExplorationData` | Besuchte Chunk-Koordinaten für Mini-Map (M24) |
+
+Bridge-Protokoll in `bridge/`:
+- `RenderExtractor.extract() -> RenderFrame` — liest Spielzustand, schreibt ihn nicht.
+
+---
+
+# Abhängigkeitsregeln
+
+Maschinenlesbar in `bridge/dependency_rules.py`.
+
+| Modul | Darf importieren von |
+|-------|----------------------|
+| `wt_platform` | — |
+| `render_core` | `wt_platform` |
+| `render_graphics` | `render_core`, `render_scene` |
+| `render_scene` | — |
+| `bridge` | `render_scene`, `game_core` |
+| `game_core` | — |
+
+**Niemals:** `render_*` → `game_core`, `game_core` → `render_*`.
+
+---
+
+# GPU-only Policy
+
+Rendering erfolgt **ausschließlich über Vulkan auf der GPU**. Kein CPU-Fallback, kein Software-Rasterizer.  
+Erzwingt durch `render_core/policy.py` (`GPU_ONLY = True`, `assert_gpu_only()`).
+
+---
+
+# Frühe Architekturfehler (aktiv vermeiden)
+
+1. **Render/Gameplay vermischen** — kein Gameplay-Code in `render_*`, kein Vulkan in `game_core`.
+2. **Spielspezifische Renderer** — kein `PlayerRenderer`, nur generische `SpriteInstanceData`.
+3. **Monolith** — keine `engine.py`, die Fenster + Welt + GPU vereint.
+4. **Feature-Bloat vor Kern** — gilt für Phase 1; M27/M28 sind gezielt in Phase 3 geplant (siehe Abschnitt „Harte Verbote", Punkt 4).
+5. **Game-Objekte an Renderer** — immer über `bridge` → `RenderFrame`.
+6. **Verschwendender Vulkan-Umgang** — Command Pools cachen, Pipeline-Binds minimieren, kein per-frame Ressourcen-Chaos.
+7. **Swapchain-Extent als CFFI-Referenz** — Extent-Werte kopieren (`extent_size`); vor `vkCreateSwapchainKHR` GLFW-FB und `currentExtent` abgleichen; `oldSwapchain` erst nach erfolgreichem Create zerstören.
+8. **Factorio-only APIs** — Chunk-/Tile-Strukturen generisch halten (orthographisch, layerbasiert, instanced).
+9. **Terrain-Generierung im Renderer** — `world_gen.py` bleibt vollständig in `game_core`; Noise-Parameter nicht in Shader-Konstanten hardcoden.
+10. **Spielspezifische Noise-Konfiguration im Code** — `WorldGenConfig` ist data-driven aus `assets/content/world_gen.json`; kein Hardcode im Generierungscode.
+
+---
+
+# Definition of Done
+
+## Phase 1 — Kern-Renderer ✅
+- [x] Modulgrenzen und Ordnerbaum angelegt
+- [x] Kerninterfaces in `render_scene/` definiert
+- [x] Abhängigkeitsregeln dokumentiert
+- [x] Bridge-Protokoll (`RenderExtractor`) skizziert
+- [x] Minimaler Vulkan-Renderpfad (GPU Clear)
+- [x] Orthographische Kamera + GPU Uniform (M4)
+- [x] Instancing für Quads/Tiles (M5)
+- [x] Texture Atlas + SpriteRect-Lookup (M6)
+- [x] Tile-Layer aus `TileLayerBatch` / `TileChunkRenderData` (M7)
+- [x] Chunk-Welt via `game_core` → `bridge` → `RenderFrame` (M8)
+- [x] Frame-Staging-Upload ohne per-Frame Command-Pool (M9)
+- [x] Mehrere Tile-Layer pro Chunk — Layer 0/1, Draw-Reihenfolge (M9b)
+- [x] Mutable Welt — Tiles ändern, Dirty-Chunks (M10)
+- [x] Charakter + Spritesheet-Animation Idle/Walk/Run (M11)
+- [x] Decoration-Sprites + Content-Registry (M12)
+- [x] Data-driven Tile-Pinsel (M12b)
+- [x] Y-Sort + Stamm/Krone-Split (M13)
+- [x] Kollision / Walkability (M14)
+- [x] Pixel-Kollision Masken + Solid-Grid (M15)
+- [x] Welt Save/Load JSON (M16)
+- [x] Dirty-Chunk-Render-Cache (M17)
+- [x] Chunk-Streaming infinite prozedural (M18)
+- [x] Fenster-Resize & Vollbild — Swapchain/Surface-Sync (M19)
+- [x] Platform-Schale + Streaming-Persistenz (M20)
+
+## Phase 2 — Procedural World 🔄
+- [x] Hybrid World-Gen: Noise, Klima, Voronoi-Biome, data-driven (M21)
+- [ ] Biome-System data-driven, zweiter Noise-Layer (M22)
+- [ ] Ore-Patches & Resource-Deposits, über Overlay/Decoration-Pipeline (M23)
+
+## Phase 3 — Gameplay-Kern ⬜
+- [ ] Mini-Map / Fog of War, `ExplorationData` in `RenderFrame` (M24)
+- [ ] Inventar & Item-System, vollständig in `game_core` (M25)
+- [ ] Entity-System Grundstruktur, generisch via Bridge (M26)
+- [ ] UI-Framework HUD, Screen-Space in `render_graphics` (M27)
+- [ ] Audio-System Grundlagen, in `wt_platform/audio.py` (M28)
+
+---
+
+# Demos
+
+- `python -m apps.gpu_clear_demo` — GPU Clear
+- `python -m apps.ortho_camera_demo` — Ortho-Kamera (WASD, +/- Zoom)
+- `python -m apps.instance_demo` — Instanced Quads (texturiert via Atlas)
+- `python -m apps.atlas_demo` — Texture Atlas (Mix 1×1, 1×3, 2×4 Tiles)
+- `python -m apps.tile_layer_demo` — Tile-Layer (3072 Tiles + Dekoration)
+- `python -m apps.chunk_world_demo` — Chunk-Welt infinite (M8–M21, Streaming, Pinsel `1`/`2`/`3`, Free-Cam `F`, Vollbild `F11`, Save/Load `Ctrl+S`/`Ctrl+L`, Regen `G`)
+- `python -m apps.world_gen_debug_demo` — World-Gen Debug-Ansichten (M21)
+
+**Atlas bake:** `python tools/bake_atlas.py --generate-placeholders`  
+**Collision bake:** `python tools/bake_collision.py`
+
+Sprites liegen rekursiv unter `assets/sprites/` (z. B. `decoration/trees/oak.png` → Key `wt:decoration/trees/oak`).  
+Stabile IDs in `assets/demo_atlas/sprite_registry.json`.

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "enabled": false,
+  "hitch": {
+    "stream_ms": 8.0,
+    "frame_ms": 16.0,
+    "loaded_count": 4,
+    "unloaded_count": 4,
+    "pending_unload_count": 32
+  },
+  "scenarios": {
+    "idle": {
+      "frames": 300,
+      "warmup_frames": 60,
+      "extract_enabled": true,
+      "pan_chunks_per_frame": 0.0
+    },
+    "steady": {
+      "frames": 300,
+      "warmup_frames": 60,
+      "extract_enabled": true
+    },
+    "pan": {
+      "frames": 300,
+      "warmup_frames": 60,
+      "pan_axis": "x",
+      "pan_chunks_per_frame": 1.0,
+      "extract_enabled": true
+    },
+    "zoom_out": {
+      "frames": 200,
+      "warmup_frames": 60,
+      "zoom": 0.05,
+      "extract_enabled": true
+    },
+    "catchup": {
+      "frames": 400,
+      "warmup_frames": 120,
+      "pan_chunks_per_frame": 1.0,
+      "extract_enabled": true
+    },
+    "render_only": {
+      "frames": 300,
+      "warmup_frames": 60,
+      "extract_enabled": false,
+      "stream_enabled": false
+    }
+  },
+  "export": {
+    "ring_buffer_frames": 120
+  }
+}

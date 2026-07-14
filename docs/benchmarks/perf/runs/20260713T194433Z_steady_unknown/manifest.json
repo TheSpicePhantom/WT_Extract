@@ -1,0 +1,17 @@
+{
+  "config_fingerprint": {
+    "profiling": "-3969074690138833690",
+    "streaming": "5018087761709251249",
+    "visibility_lod": "6770386004332636457",
+    "world_gen": "8245417814985786336"
+  },
+  "extract_enabled": true,
+  "git_commit": "unknown",
+  "recorded_at": "2026-07-13T19:44:51.335109+00:00",
+  "recorded_frames": 300,
+  "run_id": "20260713T194433Z_steady_unknown",
+  "run_mode": "cli",
+  "scenario_id": "steady",
+  "schema_version": 1,
+  "warmup_frames": 60
+}

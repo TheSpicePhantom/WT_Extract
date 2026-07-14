@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "water_tiles": {
+    "deep": "wt:tiles/deep_water",
+    "shallow": "wt:tiles/shallow_water"
+  },
+  "climate_classes": {
+    "neutral": {
+      "biomes": ["plains", "mixed_forest", "birch_forest"],
+      "tiles": {
+        "plains": { "layer0": "wt:tiles/grass", "layer1": null },
+        "mixed_forest": { "layer0": "wt:tiles/grass", "layer1": "wt:tiles/dirt" },
+        "birch_forest": { "layer0": "wt:tiles/grass", "layer1": "wt:tiles/path" }
+      },
+      "decorations": {
+        "plains": ["bush/ice/ice_berry_bush_1"],
+        "mixed_forest": ["trees/maple/summer/maple_2", "trees/apple/summer/apple_3"],
+        "birch_forest": ["trees/maple/summer/maple_2", "bush/ice/ice_berry_bush_1"]
+      },
+      "decoration_density": 0.06
+    },
+    "hot_humid": {
+      "biomes": ["lush_plains", "wet_forest"],
+      "tiles": {
+        "lush_plains": { "layer0": "wt:tiles/grass", "layer1": null },
+        "wet_forest": { "layer0": "wt:tiles/grass", "layer1": "wt:tiles/dirt" }
+      },
+      "decorations": {
+        "lush_plains": ["bush/ice/ice_berry_bush_1", "bush/ice/ice_berry_bush_2"],
+        "wet_forest": ["trees/jungle/jungle_tree_1", "trees/apple/summer/apple_3"]
+      },
+      "decoration_density": 0.12
+    },
+    "hot_dry": {
+      "biomes": ["desert", "savanna", "steppe"],
+      "tiles": {
+        "desert": { "layer0": "wt:tiles/sand", "layer1": null },
+        "savanna": { "layer0": "wt:tiles/sand", "layer1": "wt:tiles/grass" },
+        "steppe": { "layer0": "wt:tiles/dirt", "layer1": "wt:tiles/sand" }
+      },
+      "decorations": {
+        "desert": [],
+        "savanna": ["bush/ice/ice_berry_bush_1"],
+        "steppe": ["bush/ice/ice_berry_bush_1"]
+      },
+      "decoration_density": 0.03
+    },
+    "cold_humid": {
+      "biomes": ["taiga", "conifer_forest"],
+      "tiles": {
+        "taiga": { "layer0": "wt:tiles/dirt", "layer1": "wt:tiles/snow" },
+        "conifer_forest": { "layer0": "wt:tiles/grass", "layer1": "wt:tiles/snow" }
+      },
+      "decorations": {
+        "taiga": ["trees/spruce/spruce_tree_1"],
+        "conifer_forest": ["trees/spruce/spruce_tree_1", "trees/spruce/spruce_tree_2"]
+      },
+      "decoration_density": 0.08
+    },
+    "cold_dry": {
+      "biomes": ["tundra"],
+      "tiles": {
+        "tundra": { "layer0": "wt:tiles/snow", "layer1": null }
+      },
+      "decorations": {
+        "tundra": ["trees/maple/winter/maple_stump"]
+      },
+      "decoration_density": 0.02
+    }
+  },
+  "coast_overlay": "wt:tiles/sand",
+  "highland_overlay": "wt:tiles/stone",
+  "blend": {
+    "threshold": 0.45,
+    "transitions": {
+      "desert|savanna": "wt:tiles/sand",
+      "plains|savanna": "wt:tiles/dirt",
+      "mixed_forest|plains": "wt:tiles/grass"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "baseline": {
+    "timestamp": "2026-07-05T19:35:14.318625+00:00",
+    "commit": "unknown",
+    "metrics": {
+      "noise_only_s": 1.6991361999998844,
+      "generate_chunk_s": 6.073756499999945,
+      "decorations_s": 11.843213999999989,
+      "solid_rebuild_s": 5.893078999999943,
+      "apply_full_s": 11.610825700000078,
+      "demo_world_16x16_s": 27.738431199999923,
+      "streaming_first_load_s": 33.26825400000007
+    }
+  },
+  "parallel": {
+    "timestamp": "2026-07-05T19:36:28.312678+00:00",
+    "commit": "unknown",
+    "metrics": {
+      "noise_only_s": 1.6616361999999754,
+      "generate_chunk_s": 5.927573299999949,
+      "decorations_s": 11.82870019999973,
+      "solid_rebuild_s": 5.8221621000002415,
+      "apply_full_s": 11.598958899999616,
+      "demo_world_16x16_s": 3.4146396999999524,
+      "streaming_first_load_s": 33.58378309999989
+    }
+  }
+}

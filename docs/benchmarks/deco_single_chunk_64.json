@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-07-13T15:13:39.257385+00:00",
+  "pipeline_version": "M24c",
+  "include_decorations": true,
+  "coord": [
+    1,
+    1
+  ],
+  "chunk_size_tiles": 64,
+  "chunk_tile_count": 4096,
+  "steps": [
+    {
+      "name": "build_terrain_stage",
+      "thread": "main",
+      "ms": 349.111,
+      "notes": "4096 Tiles + field_cache"
+    },
+    {
+      "name": "apply_terrain_stage",
+      "thread": "main",
+      "ms": 0.427,
+      "notes": "Chunk in world.chunks, kein solid_grid"
+    },
+    {
+      "name": "build_deco_stage",
+      "thread": "main",
+      "ms": 315.914,
+      "notes": "compute_procedural_decorations + build_chunk_solid_grid"
+    },
+    {
+      "name": "apply_deco_stage",
+      "thread": "main",
+      "ms": 0.028,
+      "notes": "batch-deco + solid_grid vom DecoResult"
+    },
+    {
+      "name": "sync_load_total",
+      "thread": "main",
+      "ms": 665.479,
+      "notes": "M24c Sync: terrain build/apply + deco build/apply"
+    },
+    {
+      "name": "worker_build_terrain_stage",
+      "thread": "worker",
+      "ms": 537.831,
+      "notes": "ProcessPool workers=19, IPC=TerrainResult"
+    },
+    {
+      "name": "apply_terrain_stage_after_worker",
+      "thread": "main",
+      "ms": 0.415,
+      "notes": "Main-Apply nach Worker-Terrain"
+    },
+    {
+      "name": "worker_build_deco_stage",
+      "thread": "worker",
+      "ms": 379.5,
+      "notes": "field_cache aus Worker-LRU, IPC=DecoResult"
+    },
+    {
+      "name": "apply_deco_stage_after_worker",
+      "thread": "main",
+      "ms": 0.031,
+      "notes": "Main-Apply nach Worker-Deco, kein Main-rebuild"
+    },
+    {
+      "name": "worker_apply_main_total",
+      "thread": "main",
+      "ms": 0.446,
+      "notes": "M24c Main-Apply: terrain + deco, ohne rebuild_chunk_solid"
+    }
+  ]
+}

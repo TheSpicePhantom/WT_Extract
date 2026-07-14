@@ -1,0 +1,68 @@
+{
+
+  "version": 1,
+
+  "mode": "hybrid",
+
+  "hybrid": {
+
+    "viewport_padding_chunks": 1,
+
+    "player_safety_ring": 1,
+
+    "keep_padding_chunks": 1,
+
+    "max_half_chunks_cap": 10,
+
+    "max_loaded_chunks": 160,
+
+    "min_zoom": 0.18,
+
+    "prefetch_chunks": 3,
+
+    "prefetch_min_speed_px": 8.0,
+
+    "max_applies_per_frame": 4,
+
+    "max_sync_applies_per_frame": 0,
+
+    "max_unloads_per_frame": 2,
+
+    "max_unload_ms_per_frame": 4.0,
+
+    "max_in_flight_chunks": 8,
+
+    "sync_fallback_in_flight_ms": 2500.0,
+
+    "sync_fallback_only_when_pool_disabled": true,
+
+    "terrain_max_in_flight": 12,
+
+    "deco_max_in_flight": 4,
+
+    "terrain_parallelism_cap": 8,
+
+    "deco_parallelism_cap": 4,
+
+    "deco_only_after_terrain_applied": true,
+
+    "deco_pause_when_visible_terrain_pending": false,
+
+    "prefetch_deco_only_when_idle": false,
+
+    "deco_backfill_budget_per_frame": 4,
+
+    "pipeline_mode": "combined"
+
+  },
+
+  "radius_fallback": {
+
+    "load_radius": 8,
+
+    "unload_radius": 10
+
+  }
+
+}
+

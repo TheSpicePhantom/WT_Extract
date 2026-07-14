@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "world_seed": 42,
+  "height": {
+    "scale": 0.008,
+    "octaves": 6,
+    "lacunarity": 2.0,
+    "persistence": 0.5,
+    "offset_x": 0.0,
+    "offset_y": 0.0
+  },
+  "sea_level": 0.42,
+  "shallow_water_band": 0.06,
+  "temperature": {
+    "scale": 0.002,
+    "octaves": 3,
+    "lacunarity": 2.0,
+    "persistence": 0.55,
+    "offset_x": 100.0,
+    "offset_y": 200.0
+  },
+  "moisture": {
+    "scale": 0.0025,
+    "octaves": 3,
+    "lacunarity": 2.0,
+    "persistence": 0.55,
+    "offset_x": 300.0,
+    "offset_y": 400.0
+  },
+  "continentalness": {
+    "scale": 0.0015,
+    "octaves": 2,
+    "lacunarity": 2.0,
+    "persistence": 0.5,
+    "offset_x": 500.0,
+    "offset_y": 600.0
+  },
+  "biome": {
+    "cell_size": 96.0,
+    "shape_distortion": 18.0,
+    "distortion_frequency": 0.012,
+    "blend_width": 12.0
+  },
+  "sub_biome": {
+    "scale": 0.015,
+    "octaves": 2,
+    "lacunarity": 2.0,
+    "persistence": 0.5,
+    "offset_x": 700.0,
+    "offset_y": 800.0
+  },
+  "climate": {
+    "neutral_width": 0.12,
+    "hot_threshold": 0.58,
+    "cold_threshold": 0.42,
+    "humid_threshold": 0.58,
+    "dry_threshold": 0.42
+  },
+  "start_area": {
+    "x": 256,
+    "y": 256,
+    "radius": 128.0,
+    "min_land_height": 0.44,
+    "decoration_density_scale": 0.35,
+    "min_score": 0.55,
+    "sample_grid_radius": 24,
+    "max_seed_attempts": 32
+  },
+  "decorations": {
+    "base_density": 0.08,
+    "start_area_density_scale": 0.35
+  },
+  "parallel": {
+    "workers": "auto",
+    "prefetch": true,
+    "worker_apply": true
+  }
+}

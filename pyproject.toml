@@ -1,0 +1,38 @@
+[project]
+name = "wt-extract"
+version = "0.1.0"
+description = "Modulare Python + Vulkan Rendering Engine (Blueprint)"
+readme = "ruleset.md"
+requires-python = ">=3.11"
+dependencies = [
+    "glfw",
+    "vulkan",
+]
+
+[project.scripts]
+wt-gpu-clear = "apps.gpu_clear_demo:main"
+wt-ortho-camera = "apps.ortho_camera_demo:main"
+wt-instance-demo = "apps.instance_demo:main"
+wt-atlas-demo = "apps.atlas_demo:main"
+wt-tile-layer = "apps.tile_layer_demo:main"
+wt-chunk-world = "apps.chunk_world_demo:main"
+wt-world-gen-debug = "apps.world_gen_debug_demo:main"
+
+[project.optional-dependencies]
+shaders = ["shaderc-rs-py>=0.2"]
+atlas = ["pillow>=10.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wt_platform*", "render_core*", "render_graphics*", "render_scene*", "bridge*", "game_core*", "apps*", "tools*"]
+
+[tool.setuptools.package-data]
+"render_graphics.shaders" = ["*.spv", "*.vert", "*.frag"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

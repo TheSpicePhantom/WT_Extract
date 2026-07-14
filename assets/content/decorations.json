@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "defaults": {
+    "bush": { "render_layer": 4, "blocks_movement": true },
+    "stump": { "render_layer": 4, "blocks_movement": true },
+    "tree": {
+      "render_layer": 5,
+      "blocks_movement": true,
+      "sort_y_offset": 0,
+      "canopy_layer": 6,
+      "trunk_clip_v1": 0.38,
+      "canopy_clip_v0": 0.32,
+      "canopy_sort_y_offset": -50
+    }
+  },
+  "overrides": {},
+  "exclude": []
+}

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "tiles": {
+    "wt:tiles/grass": { "layer": 0, "walkable": true, "label": "grass" },
+    "wt:tiles/dirt": { "layer": 0, "walkable": true, "label": "dirt" },
+    "wt:tiles/stone": { "layer": 0, "walkable": true, "label": "stone" },
+    "wt:tiles/water": { "layer": 0, "walkable": false, "label": "water" },
+    "wt:tiles/deep_water": { "layer": 0, "walkable": false, "label": "deep_water" },
+    "wt:tiles/shallow_water": { "layer": 0, "walkable": false, "label": "shallow_water" },
+    "wt:tiles/sand": { "layer": 0, "walkable": true, "label": "sand" },
+    "wt:tiles/snow": { "layer": 0, "walkable": true, "label": "snow" },
+    "wt:tiles/path": { "layer": 1, "walkable": true, "label": "path" },
+    "wt:tiles/foundation": { "layer": 1, "walkable": true, "label": "foundation" }
+  },
+  "brushes": {
+    "terrain": {
+      "layer": 0,
+      "mouse_left": "wt:tiles/stone",
+      "mouse_right": "wt:tiles/grass",
+      "keys": {
+        "R": "wt:tiles/dirt",
+        "T": "wt:tiles/water"
+      }
+    },
+    "overlay": {
+      "layer": 1,
+      "mouse_left": "wt:tiles/path",
+      "mouse_right": "wt:tiles/foundation",
+      "keys": {
+        "X": ""
+      }
+    }
+  }
+}

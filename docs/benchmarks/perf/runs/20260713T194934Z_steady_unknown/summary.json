@@ -1,0 +1,23 @@
+{
+  "chunk_count_mean": 15.306666666666667,
+  "frame_ms_max": 43.474699999933364,
+  "frame_ms_mean": 23.58642966663562,
+  "frame_ms_p95": 31.93190000092727,
+  "hitch_count": 300,
+  "hitch_frame_count": 300,
+  "hitch_load_count": 1,
+  "hitch_stream_count": 300,
+  "hitch_unload_count": 0,
+  "max_loaded_per_frame": 4,
+  "max_unloaded_per_frame": 0,
+  "recorded_frames": 300,
+  "run_id": "20260713T194934Z_steady_unknown",
+  "run_mode": "cli",
+  "scenario_id": "steady",
+  "schema_version": 1,
+  "stream_ms_max": 41.44620000079158,
+  "stream_ms_mean": 19.8288193332822,
+  "stream_ms_p95": 27.79759999975795,
+  "stream_unload_ms_max": 0.008999999408842996,
+  "stream_unload_ms_p95": 0.006400001439033076
+}

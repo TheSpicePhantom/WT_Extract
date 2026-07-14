@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-07-13T15:13:40.100708+00:00",
+  "pipeline_version": "M24c",
+  "include_decorations": false,
+  "coord": [
+    1,
+    1
+  ],
+  "chunk_size_tiles": 64,
+  "chunk_tile_count": 4096,
+  "steps": [
+    {
+      "name": "build_terrain_stage",
+      "thread": "main",
+      "ms": 361.436,
+      "notes": "4096 Tiles + field_cache"
+    },
+    {
+      "name": "apply_terrain_stage",
+      "thread": "main",
+      "ms": 0.425,
+      "notes": "Chunk in world.chunks, kein solid_grid"
+    },
+    {
+      "name": "sync_load_total",
+      "thread": "main",
+      "ms": 361.86,
+      "notes": "M24c Sync terrain-only: kein Deco/Solid"
+    },
+    {
+      "name": "worker_build_terrain_stage",
+      "thread": "worker",
+      "ms": 463.94,
+      "notes": "ProcessPool workers=19, IPC=TerrainResult"
+    },
+    {
+      "name": "apply_terrain_stage_after_worker",
+      "thread": "main",
+      "ms": 0.397,
+      "notes": "Main-Apply nach Worker-Terrain"
+    },
+    {
+      "name": "worker_apply_main_total",
+      "thread": "main",
+      "ms": 0.397,
+      "notes": "M24c terrain-only: nur apply_terrain_stage auf Main"
+    }
+  ]
+}

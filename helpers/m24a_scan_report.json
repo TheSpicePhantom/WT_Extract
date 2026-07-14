@@ -1,0 +1,485 @@
+{
+  "rebuild_chunk_solid_calls": [
+    {
+      "file": "game_core/chunk_streaming.py",
+      "line": 341,
+      "context": "world.rebuild_chunk_solid(coord, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/chunk_streaming.py",
+      "line": 357,
+      "context": "world.rebuild_chunk_solid(coord, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/collision_grid.py",
+      "line": 85,
+      "context": "def rebuild_chunk_solid(",
+      "category": ""
+    },
+    {
+      "file": "game_core/collision_grid.py",
+      "line": 141,
+      "context": "def build_chunk_solid_grid(",
+      "category": ""
+    },
+    {
+      "file": "game_core/world.py",
+      "line": 240,
+      "context": "def rebuild_chunk_solid(self, coord: tuple[int, int], content, collision) -> None:",
+      "category": ""
+    },
+    {
+      "file": "game_core/world.py",
+      "line": 246,
+      "context": "chunk.solid_grid = rebuild_chunk_solid(chunk, self, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/world.py",
+      "line": 251,
+      "context": "self.rebuild_chunk_solid(coord, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/world.py",
+      "line": 257,
+      "context": "self.rebuild_chunk_solid(coord, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/world_gen_context.py",
+      "line": 112,
+      "context": "solid_grid = build_chunk_solid_grid(",
+      "category": ""
+    },
+    {
+      "file": "tests/support/chunk_reference.py",
+      "line": 69,
+      "context": "world.rebuild_chunk_solid(coord, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "tests/test_collision.py",
+      "line": 76,
+      "context": "chunk.solid_grid = rebuild_chunk_solid(chunk, world, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "tests/test_worker_apply.py",
+      "line": 38,
+      "context": "ref_world.rebuild_chunk_solid(coord, content, collision)",
+      "category": ""
+    },
+    {
+      "file": "tests/test_worker_solid.py",
+      "line": 48,
+      "context": "built = build_chunk_solid_grid(",
+      "category": ""
+    },
+    {
+      "file": "tools/benchmark_single_chunk.py",
+      "line": 117,
+      "context": "lambda: world_solid.rebuild_chunk_solid((cx, cy), content, collision),",
+      "category": ""
+    },
+    {
+      "file": "tools/benchmark_single_chunk.py",
+      "line": 194,
+      "context": "lambda: world_flush.rebuild_chunk_solid((cx, cy), content, collision),",
+      "category": ""
+    },
+    {
+      "file": "tools/benchmark_world_gen.py",
+      "line": 92,
+      "context": "world.rebuild_chunk_solid((cx, cy), content, collision)",
+      "category": ""
+    },
+    {
+      "file": "tools/benchmark_world_gen.py",
+      "line": 99,
+      "context": "world.rebuild_chunk_solid((cx, cy), content, collision)",
+      "category": ""
+    }
+  ],
+  "ensure_collision_fresh_calls": [
+    {
+      "file": "game_core/navigation.py",
+      "line": 74,
+      "context": "world.ensure_collision_fresh(content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/navigation.py",
+      "line": 163,
+      "context": "world.ensure_collision_fresh(content, collision)",
+      "category": ""
+    },
+    {
+      "file": "game_core/world.py",
+      "line": 254,
+      "context": "def ensure_collision_fresh(self, content, collision) -> None:",
+      "category": ""
+    }
+  ],
+  "decorations_loop_sites": [
+    {
+      "file": "game_core/chunk_streaming.py",
+      "line": 138,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "game_core/chunk_streaming.py",
+      "line": 235,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "game_core/collision_grid.py",
+      "line": 113,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "game_core/streaming_world_io.py",
+      "line": 119,
+      "context": "for placed in world.decorations",
+      "category": ""
+    },
+    {
+      "file": "game_core/world_gen.py",
+      "line": 1127,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "game_core/world_gen.py",
+      "line": 1146,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "game_core/world_io.py",
+      "line": 95,
+      "context": "decorations = [_decoration_to_dict(placed) for placed in world.decorations]",
+      "category": ""
+    },
+    {
+      "file": "bridge/decoration_extractor.py",
+      "line": 69,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "tests/support/chunk_reference.py",
+      "line": 42,
+      "context": "for placed in world.decorations:",
+      "category": ""
+    },
+    {
+      "file": "tests/test_chunk_streaming.py",
+      "line": 170,
+      "context": "for placed in world.decorations",
+      "category": ""
+    },
+    {
+      "file": "tests/test_chunk_streaming.py",
+      "line": 200,
+      "context": "for placed in world.decorations",
+      "category": ""
+    }
+  ],
+  "decorations_by_category": {
+    "load_hotpath": [],
+    "collision_navigation": [
+      {
+        "file": "game_core/collision_grid.py",
+        "line": 113,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": "O(D) pro rebuild_chunk_solid"
+      }
+    ],
+    "unload_pending_revive": [
+      {
+        "file": "game_core/chunk_streaming.py",
+        "line": 138,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": "O(D)"
+      },
+      {
+        "file": "game_core/chunk_streaming.py",
+        "line": 235,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": "O(D)"
+      }
+    ],
+    "render_extract": [
+      {
+        "file": "bridge/decoration_extractor.py",
+        "line": 69,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": "O(D) pro Frame"
+      }
+    ],
+    "save_persistenz": [
+      {
+        "file": "game_core/streaming_world_io.py",
+        "line": 119,
+        "context": "for placed in world.decorations",
+        "category": "",
+        "notes": "O(D) bei Save"
+      },
+      {
+        "file": "game_core/world_io.py",
+        "line": 95,
+        "context": "decorations = [_decoration_to_dict(placed) for placed in world.decorations]",
+        "category": "",
+        "notes": "O(D) bei Save"
+      }
+    ],
+    "world_mutation": [],
+    "debug_tools_legacy": [
+      {
+        "file": "game_core/world_gen.py",
+        "line": 1127,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": ""
+      },
+      {
+        "file": "game_core/world_gen.py",
+        "line": 1146,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": ""
+      }
+    ],
+    "tests_only": [
+      {
+        "file": "tests/support/chunk_reference.py",
+        "line": 42,
+        "context": "for placed in world.decorations:",
+        "category": "",
+        "notes": ""
+      },
+      {
+        "file": "tests/test_chunk_streaming.py",
+        "line": 170,
+        "context": "for placed in world.decorations",
+        "category": "",
+        "notes": ""
+      },
+      {
+        "file": "tests/test_chunk_streaming.py",
+        "line": 200,
+        "context": "for placed in world.decorations",
+        "category": "",
+        "notes": ""
+      }
+    ]
+  },
+  "streaming_snippets": {
+    "worker_apply": [
+      "268:    def _apply_chunk_from_result(",
+      "269:        self,",
+      "270:        world: World,",
+      "271:        result: ChunkGenResult,",
+      "272:        content: ContentRegistry,",
+      "273:        collision: CollisionCatalog,",
+      "274:        *,",
+      "275:        step_metrics: StreamStepMetrics | None = None,",
+      "276:        defer_collision: bool = False,",
+      "277:    ) -> None:",
+      "278:        t0 = time.perf_counter() if step_metrics is not None else None",
+      "279:        if self._should_use_worker_apply(world, result):",
+      "280:            apply_chunk_result(world, result, content, collision)",
+      "281:            self._decorated_chunks.add(result.coord)",
+      "282:            if step_metrics is not None:",
+      "283:                step_metrics.apply_worker_ms += (time.perf_counter() - t0) * 1000.0",
+      "284:            return",
+      "285:        chunk = chunk_from_result(result, content)",
+      "286:        world.chunks[result.coord] = chunk",
+      "287:        if step_metrics is not None:",
+      "288:            step_metrics.apply_sync_generate_ms += (time.perf_counter() - t0) * 1000.0",
+      "289:        self._ensure_procedural_decorations(",
+      "290:            world,",
+      "291:            result.coord,",
+      "292:            content,",
+      "293:            collision,"
+    ],
+    "update_pool_apply": [
+      "445:        pool = self.ensure_chunk_gen_pool()",
+      "446:        if pool is not None:",
+      "447:            if step_metrics is not None:",
+      "448:                t_pool = time.perf_counter()",
+      "449:            pool.discard_outside(pool_retention)",
+      "450:            for result in pool.poll_ready():",
+      "451:                if result.coord not in wanted or result.coord in world.chunks:",
+      "452:                    continue",
+      "453:                if self.pending_unload.contains(result.coord):",
+      "454:                    continue",
+      "455:                allowed, budget = self._consume_apply_budget(budget, unlimited)",
+      "456:                if not allowed:",
+      "457:                    break",
+      "458:                self._apply_chunk_from_result(",
+      "459:                    world,",
+      "460:                    result,",
+      "461:                    content,",
+      "462:                    collision,",
+      "463:                    step_metrics=step_metrics,",
+      "464:                    defer_collision=True,",
+      "465:                )",
+      "466:                deferred_collision_coords.append(result.coord)",
+      "467:                loaded += 1",
+      "468:            submit_coords = [",
+      "469:                coord",
+      "470:                for coord in sorted(wanted | prefetch, key=lambda c: chebyshev_distance(c, focus_chunk))"
+    ],
+    "sync_load": [
+      "481:        for coord in sorted(wanted, key=lambda c: chebyshev_distance(c, focus_chunk)):",
+      "482:            if coord in world.chunks:",
+      "483:                continue",
+      "484:            if self.pending_unload.contains(coord):",
+      "485:                continue",
+      "486:            if pool is not None and pool.is_in_flight(coord):",
+      "487:                continue",
+      "488:            allowed, budget = self._consume_apply_budget(budget, unlimited)",
+      "489:            if not allowed:",
+      "490:                break",
+      "491:            allowed_sync, sync_budget = self._consume_apply_budget(sync_budget, unlimited)",
+      "492:            if not allowed_sync:",
+      "493:                break",
+      "494:            self._load_chunk(",
+      "495:                world,",
+      "496:                coord,",
+      "497:                content,",
+      "498:                collision,",
+      "499:                step_metrics=step_metrics,",
+      "500:                defer_collision=True,",
+      "501:            )",
+      "502:            deferred_collision_coords.append(coord)",
+      "503:            loaded += 1",
+      "504:",
+      "505:        if deferred_collision_coords:",
+      "506:            self._flush_deferred_collisions("
+    ],
+    "flush_deferred": [
+      "505:        if deferred_collision_coords:",
+      "506:            self._flush_deferred_collisions(",
+      "507:                world,",
+      "508:                deferred_collision_coords,",
+      "509:                content,",
+      "510:                collision,",
+      "511:                step_metrics=step_metrics,",
+      "512:            )",
+      "513:",
+      "514:        if pool is not None:",
+      "515:            pool.discard_outside(pool_retention)",
+      "516:",
+      "517:        if step_metrics is not None:",
+      "518:            step_metrics.apply_ms = (time.perf_counter() - t_apply) * 1000.0",
+      "519:            t_unload = time.perf_counter()",
+      "520:",
+      "521:        marked_coords: list[tuple[int, int]] = []",
+      "522:        for coord in list(world.chunks.keys()):",
+      "523:            if coord in keep:",
+      "524:                continue",
+      "525:            self._mark_pending_unload(world, coord, extractor)",
+      "526:            marked_coords.append(coord)",
+      "527:",
+      "528:        drained, _discarded = self._drain_pending(",
+      "529:            world,",
+      "530:            max_count=self.config.max_unloads_per_frame,"
+    ]
+  },
+  "single_chunk_benchmark": {
+    "timestamp": "2026-07-12T15:40:08.702626+00:00",
+    "coord": [
+      1,
+      1
+    ],
+    "chunk_size_tiles": 64,
+    "chunk_tile_count": 4096,
+    "steps": [
+      {
+        "name": "generate_chunk_terrain",
+        "thread": "main",
+        "ms": 8453.816,
+        "notes": "4096 Tiles"
+      },
+      {
+        "name": "generate_chunk",
+        "thread": "main",
+        "ms": 8896.126,
+        "notes": "Terrain + Chunk-Objekt"
+      },
+      {
+        "name": "compute_procedural_decorations",
+        "thread": "main",
+        "ms": 8284.777,
+        "notes": ""
+      },
+      {
+        "name": "populate_chunk_decorations",
+        "thread": "main",
+        "ms": 8018.888,
+        "notes": "compute + place_decoration pro Deko"
+      },
+      {
+        "name": "rebuild_chunk_solid",
+        "thread": "main",
+        "ms": 20.314,
+        "notes": "64x64 Tiles, globale Deko-Liste"
+      },
+      {
+        "name": "sync_load_total",
+        "thread": "main",
+        "ms": 16935.329,
+        "notes": "generate_chunk + populate + rebuild (wie _load_chunk + flush)"
+      },
+      {
+        "name": "worker_generate_chunk_result",
+        "thread": "worker",
+        "ms": 15987.373,
+        "notes": "ProcessPool workers=19"
+      },
+      {
+        "name": "main_generate_terrain_result",
+        "thread": "main",
+        "ms": 8046.799,
+        "notes": "Terrain-IDs ohne Deko/Solid - Worker-Fallback-Basis"
+      },
+      {
+        "name": "chunk_from_result",
+        "thread": "main",
+        "ms": 0.423,
+        "notes": "IPC tile_id -> tile_key"
+      },
+      {
+        "name": "apply_chunk_result",
+        "thread": "main",
+        "ms": 0.512,
+        "notes": "chunk + place_decorations_batch + solid_grid vom Worker"
+      },
+      {
+        "name": "rebuild_chunk_solid_after_worker",
+        "thread": "main",
+        "ms": 13.653,
+        "notes": "Streaming-Flush trotz Worker-solid_grid"
+      },
+      {
+        "name": "worker_apply_main_total",
+        "thread": "main",
+        "ms": 14.164,
+        "notes": "apply_chunk_result + rebuild (aktueller Streaming-Pfad)"
+      }
+    ]
+  },
+  "world_gen_parallel_config_note": "parallel.workers=auto -> resolve_worker_count -> cpu_count-1"
+}

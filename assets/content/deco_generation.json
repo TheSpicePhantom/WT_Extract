@@ -1,0 +1,17 @@
+{
+  "passes": [
+    {
+      "name": "default",
+      "enabled": true,
+      "priority": 0,
+      "biomes": [],
+      "allowed_ground_tiles": [],
+      "density": 1.0,
+      "noise_threshold": 0.0,
+      "height_min": 0.0,
+      "height_max": 1.0,
+      "variants": [],
+      "collision_profile": null
+    }
+  ]
+}

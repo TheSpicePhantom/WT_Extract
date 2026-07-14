@@ -1,0 +1,8 @@
+glfw
+vulkan
+
+[atlas]
+pillow>=10.0
+
+[shaders]
+shaderc-rs-py>=0.2

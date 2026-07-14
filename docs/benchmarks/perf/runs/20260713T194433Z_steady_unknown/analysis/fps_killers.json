@@ -1,0 +1,36 @@
+{
+  "has_full_frame": true,
+  "decision": {
+    "decision": "cpu_dominant",
+    "mean_cpu_work_share": 0.9991205751431288,
+    "mean_present_share": 0.0
+  },
+  "dominance": [
+    {
+      "quantile": "p95",
+      "frame_index": 28,
+      "cpu_full_frame_ms": 61.23920000027283,
+      "dominant_phase": "stream",
+      "dominant_share": 0.8228030411551694,
+      "shares": {
+        "stream": 0.8228030411551694,
+        "extract": 0.17646376828129404,
+        "render_cpu": 0.0,
+        "present_wait": 0.0
+      }
+    },
+    {
+      "quantile": "p99",
+      "frame_index": 61,
+      "cpu_full_frame_ms": 82.52899999934016,
+      "dominant_phase": "stream",
+      "dominant_share": 0.7791503593062118,
+      "shares": {
+        "stream": 0.7791503593062118,
+        "extract": 0.22029953107835124,
+        "render_cpu": 0.0,
+        "present_wait": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[console_scripts]
+wt-atlas-demo = apps.atlas_demo:main
+wt-chunk-world = apps.chunk_world_demo:main
+wt-gpu-clear = apps.gpu_clear_demo:main
+wt-instance-demo = apps.instance_demo:main
+wt-ortho-camera = apps.ortho_camera_demo:main
+wt-tile-layer = apps.tile_layer_demo:main
+wt-world-gen-debug = apps.world_gen_debug_demo:main

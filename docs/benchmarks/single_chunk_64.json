@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-07-12T17:04:59.090715+00:00",
+  "coord": [
+    1,
+    1
+  ],
+  "chunk_size_tiles": 64,
+  "chunk_tile_count": 4096,
+  "steps": [
+    {
+      "name": "generate_chunk_terrain",
+      "thread": "main",
+      "ms": 11071.987,
+      "notes": "4096 Tiles"
+    },
+    {
+      "name": "generate_chunk",
+      "thread": "main",
+      "ms": 11784.306,
+      "notes": "Terrain + Chunk-Objekt"
+    },
+    {
+      "name": "compute_procedural_decorations",
+      "thread": "main",
+      "ms": 11302.62,
+      "notes": ""
+    },
+    {
+      "name": "populate_chunk_decorations",
+      "thread": "main",
+      "ms": 11489.685,
+      "notes": "compute + place_decoration pro Deko"
+    },
+    {
+      "name": "rebuild_chunk_solid",
+      "thread": "main",
+      "ms": 33.637,
+      "notes": "64x64 Tiles, globale Deko-Liste"
+    },
+    {
+      "name": "sync_load_total",
+      "thread": "main",
+      "ms": 23307.629,
+      "notes": "generate_chunk + populate + rebuild (wie _load_chunk + flush)"
+    },
+    {
+      "name": "worker_generate_chunk_result",
+      "thread": "worker",
+      "ms": 24951.891,
+      "notes": "ProcessPool workers=19"
+    },
+    {
+      "name": "main_generate_terrain_result",
+      "thread": "main",
+      "ms": 11746.398,
+      "notes": "Terrain-IDs ohne Deko/Solid - Worker-Fallback-Basis"
+    },
+    {
+      "name": "chunk_from_result",
+      "thread": "main",
+      "ms": 0.524,
+      "notes": "IPC tile_id -> tile_key"
+    },
+    {
+      "name": "apply_worker_complete_result",
+      "thread": "main",
+      "ms": 0.413,
+      "notes": "chunk + batch-deco + solid_grid vom Worker"
+    },
+    {
+      "name": "apply_chunk_result",
+      "thread": "main",
+      "ms": 0.489,
+      "notes": "Backward-compat wrapper"
+    },
+    {
+      "name": "rebuild_chunk_solid_after_worker_slow_path_only",
+      "thread": "main",
+      "ms": 0.0,
+      "notes": "M24a Streamer: entfaellt bei Worker-Fast-Path (nur Slow-Path deferred flush)"
+    },
+    {
+      "name": "worker_apply_main_total",
+      "thread": "main",
+      "ms": 0.902,
+      "notes": "M24a Fast-Path: apply_worker_complete_result ohne Main-rebuild"
+    }
+  ]
+}
