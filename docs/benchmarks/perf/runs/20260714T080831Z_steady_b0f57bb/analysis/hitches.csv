@@ -1,0 +1,91 @@
+frame_index,frame_ms,stream_ms,stream_apply_ms,stream_unload_ms,stream_loaded,stream_unloaded,chunk_count,zoom,pending_unload_count,deco_extract_ms,tile_extract_ms,tags,cause_id,cause_label,pattern_id,pattern_label
+0,29.66440000000148,27.027199999793083,19.389899999623594,0.004599999556376133,2,0,1,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+1,18.477799999345734,18.34969999981695,9.255599999960396,0.004300000000512227,0,0,1,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+2,16.891400000531576,16.774299999269715,8.437699999376491,0.004699999408330768,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+3,9.94910000008531,9.872200000245357,4.671499999858497,0.003099999958067201,0,0,1,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+4,14.139699999759614,14.032699999916076,8.213600000090082,0.004599999556376133,0,0,1,0.35,,,,stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+5,16.51179999953456,16.3935999999012,8.23690000015631,0.004300000000512227,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+6,16.17699999951583,16.05290000043169,7.786099999975704,0.004600000465870835,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+7,18.790699999954086,18.676400000003923,9.288899999774003,0.004300000000512227,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+8,16.86040000004141,16.74730000013369,8.362300000044343,0.004300000000512227,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+9,16.526299999895855,16.4147999994384,8.324699999320728,0.004399999852466863,0,0,1,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+10,16.635500000120373,16.551199999412347,8.358600000065053,0.0032999996619764715,0,0,1,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+11,12.939899999764748,12.82790000004752,8.36429999981192,0.004099999387108255,0,0,1,0.35,,,,stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+12,9.464400000069872,9.388099999341648,4.722700000456825,0.0032999996619764715,0,0,1,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+13,13.73059999968973,13.604100000520702,8.480800000143063,0.00399999953515362,0,0,1,0.35,,,,stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+14,14.943000000130269,14.813899999353453,6.923800000549818,0.004499999704421498,0,0,1,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+15,18.385500000476895,18.26080000046204,9.081599999262835,0.004300000000512227,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+16,18.308999999135267,18.188300000474555,8.976699999948323,0.004300000000512227,0,0,1,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+17,14.096599999902537,14.02109999980894,6.0127999995529535,0.0032999996619764715,0,0,1,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+18,13.673200000084762,13.571700000284181,7.525300000452262,0.0038999996831989847,0,0,1,0.35,,,,stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+19,15.080099999977392,14.975600000070699,7.450200000675977,0.0036999999792897142,0,0,1,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+20,41.95590000017546,38.59120000015537,29.39040000001114,0.00470000031782547,2,0,2,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,burst_with_tail,Burst mit Nachlauf
+21,14.904999999998836,14.360299999680137,5.143599999428261,0.0034000004234258085,0,0,2,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+22,13.091499999973166,12.167500000032305,7.613800000399351,0.005500000042957254,0,0,2,0.35,,,,stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+23,18.096300000252086,17.538100000820123,8.589600000050268,0.0034000004234258085,0,0,2,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+24,33.15519999978278,29.364799999711977,23.40249999997468,0.005199999577598646,2,0,4,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+25,41.07250000015483,40.12849999980972,30.65020000030927,0.004900000021734741,0,0,4,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+26,19.149499999912223,17.42660000036267,7.606299999679322,0.004600000465870835,2,0,5,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+27,18.65509999970527,16.855500000019674,8.771499999966181,0.004900000021734741,2,0,6,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+28,17.051599999831524,15.326599999752943,7.678599999962898,0.004499999704421498,0,0,6,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+29,25.12890000070911,22.46130000003177,15.007099999820639,0.0038999996831989847,3,0,8,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+30,9.825199999795586,8.818999999675725,4.371200000605313,0.003000000106112566,0,0,8,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+31,18.29289999932371,16.39549999981682,8.237199999712175,0.005099999725644011,0,0,8,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+32,18.213899999864225,16.29719999982626,8.221000000048662,0.004600000465870835,0,0,8,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+33,21.01940000011382,18.654000000424276,10.399200000392739,0.0059000003602704965,2,0,9,0.35,,,,frame_slow|stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+34,19.086500000412343,16.91789999949833,8.321100000102888,0.004099999387108255,4,0,11,0.35,,,,frame_slow|stream_slow|load_burst,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+35,18.636099999639555,16.399799999817333,10.01910000013595,0.003600000127335079,1,0,12,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+36,10.722699999860197,8.57339999947726,4.257500000676373,0.0033999995139311068,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+37,10.539799999605748,8.371699999770499,4.248100000040722,0.0031999998100218363,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+38,11.20340000034048,8.802700000160257,4.609999999956926,0.0033999995139311068,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+39,11.077200000727316,8.729500000299595,4.510800000389281,0.0036999999792897142,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+40,11.278900000434078,8.933099999921978,4.483300000174495,0.0033000005714711733,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+41,11.092700000517652,8.749599999646307,4.575799999656738,0.003600000127335079,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+42,11.172399999850313,8.739500000046974,4.489199999625271,0.0035000002753804438,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+43,10.86120000036317,8.664400000270689,4.302800000004936,0.003600000127335079,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+44,10.79100000060862,8.57240000004822,4.301699999814446,0.0036999999792897142,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+45,10.53200000023935,8.369000000129745,4.2100000000573345,0.0036999999792897142,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+46,10.766899999907764,8.436100000835722,4.2322999997850275,0.003099999958067201,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+47,11.034599999220518,8.869100000083563,4.521799999565701,0.0035000002753804438,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+48,11.636600000201724,9.344400000372843,4.989000000023225,0.0037999998312443495,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+49,11.390799999389856,8.956000000580389,4.654299999856448,0.0035000002753804438,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+50,11.214999999538122,8.845900000778784,4.555499999696622,0.0036999999792897142,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+51,10.96019999931741,8.692400000654743,4.329200000029232,0.0037999998312443495,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+52,11.13199999963399,8.708599999408762,4.444000000148662,0.003499999365885742,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+53,10.762699999759207,8.604300000115472,4.3992000000798726,0.0035000002753804438,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+54,10.924700000032317,8.71519999964221,4.301500000110536,0.0036999999792897142,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+55,11.051499999666703,8.854300000166404,4.636499999833177,0.00399999953515362,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+56,11.596999999710533,9.317199999713921,4.64410000040516,0.003600000127335079,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+57,10.655000000042492,8.49130000005971,4.283999999643129,0.0039000005926936865,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+58,10.653700000148092,8.468699999866658,4.236700000546989,0.003600000127335079,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+59,10.503200000130164,8.348000000296452,4.2088000000148895,0.0037999998312443495,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+60,10.722700000769692,8.512100000189093,4.316199999266246,0.0036999999792897142,0,0,12,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+61,13.212100000600913,9.971800000130315,5.084000000351807,0.0038999996831989847,2,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+62,11.613600000600854,8.692399999745248,4.401300000608899,0.0036999999792897142,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+63,11.824900000647176,8.766299999479088,4.467299999305396,0.0038999996831989847,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+64,11.415400000259979,8.55779999983497,4.1790000004766625,0.0036999999792897142,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+65,11.285799999313895,8.429599999544735,4.252700000506593,0.0032999996619764715,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+66,11.040999999750056,8.200899999792455,4.107400000066264,0.0031999998100218363,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+67,11.238199999752396,8.309400000143796,4.2049000003316905,0.0033999995139311068,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+68,11.184500000126718,8.34469999972498,4.167299999608076,0.0032999996619764715,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+69,11.232100000597711,8.374699999876611,4.263799999534967,0.0036999999792897142,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+70,11.308500000268396,8.472000000438129,4.372899999907531,0.0035999992178403772,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+71,11.824299999716459,8.861600000273029,4.467899999326619,0.0036999999792897142,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+72,11.491999999634572,8.613599999989674,4.283100000066042,0.0037999998312443495,0,0,13,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+73,16.713399999389367,13.868899999579298,9.592200000042794,0.004000000444648322,1,0,14,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+74,11.514400000123715,8.659600000100909,4.4190000007802155,0.0036999999792897142,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+75,11.53119999980845,8.645400000204972,4.506499999479274,0.003600000127335079,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+76,11.11529999980121,8.292200000141747,4.149900000811613,0.003600000127335079,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+77,11.601399999563,8.688599999914004,4.545900000266556,0.0037999998312443495,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+78,11.840099999972153,8.933299999625888,4.5119999995222315,0.003600000127335079,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+79,11.470499999632011,8.473400000184483,4.348000000391039,0.0036999999792897142,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+80,11.626499999692896,8.696199999576493,4.283199999917997,0.0036999999792897142,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+81,11.410199999772885,8.541000000150234,4.205700000056822,0.0035000002753804438,0,0,14,0.35,,,,stream_slow,unclear,Nicht eindeutig,periodic_cluster,Wiederkehrendes Cluster
+82,17.03429999997752,14.021599999978207,9.586399999534478,0.0036999999792897142,1,0,15,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+83,17.41219999985333,14.195099999597005,9.598300000106974,0.00470000031782547,1,0,16,0.35,,,,frame_slow|stream_slow,apply_dominant,Load-/Apply-dominant,periodic_cluster,Wiederkehrendes Cluster
+114,12.307099999816273,9.187499999825377,4.677400000218768,0.0045000006139162,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+145,11.681800000587828,8.839099999931932,4.439100000126928,0.004100000296602957,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+176,11.612799999966228,8.639699999548611,4.353500000433996,0.004399999852466863,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+207,12.064199999258562,9.115400000155205,4.685599999902479,0.004099999387108255,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+238,11.742900000172085,8.684100000209583,4.238000000441389,0.004000000444648322,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster
+269,11.822499999652791,8.982899999864458,4.48580000011134,0.004200000148557592,0,0,16,0.35,,,,stream_slow,unclear,Nicht eindeutig,unknown,Unklares Muster

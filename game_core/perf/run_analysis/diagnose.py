@@ -308,6 +308,85 @@ def _open_questions(
     return questions
 
 
+_POOL_BREAKDOWN_MS = (
+    "apply_pool_ms",
+    "apply_pool_poll_ms",
+    "apply_pool_submit_ms",
+    "apply_pool_apply_ms",
+    "apply_pool_suppress_ms",
+    "apply_pool_discard_ms",
+)
+_POOL_BREAKDOWN_INT = (
+    "apply_pool_route_passes",
+    "apply_pool_in_flight_peak",
+    "apply_pool_idle_skip",
+)
+
+
+def _frame_pool_metric(frame, field: str) -> float | int | None:
+    if field == "apply_pool_ms":
+        return frame.apply_pool_ms
+    value = frame.extra.get(field)
+    if value is None:
+        return None
+    if field in _POOL_BREAKDOWN_INT:
+        return int(value)
+    return float(value)
+
+
+def build_stream_pool_breakdown(frames) -> dict[str, Any]:
+    """M25b: mean/p95 für apply_pool Sub-Metriken."""
+    if not frames:
+        return {}
+
+    breakdown: dict[str, Any] = {}
+    for field in _POOL_BREAKDOWN_MS:
+        values = [
+            float(v)
+            for frame in frames
+            if (v := _frame_pool_metric(frame, field)) is not None and float(v) >= 0.0
+        ]
+        if values:
+            breakdown[field] = {
+                "mean": mean(values),
+                "p95": percentile(values, 0.95),
+            }
+
+    for field in _POOL_BREAKDOWN_INT:
+        values = [
+            float(v)
+            for frame in frames
+            if (v := _frame_pool_metric(frame, field)) is not None
+        ]
+        if values:
+            breakdown[field] = {
+                "mean": mean(values),
+                "p95": percentile(values, 0.95),
+            }
+
+    ratios: list[float] = []
+    for frame in frames:
+        pool = frame.apply_pool_ms
+        stream_apply = frame.stream_apply_ms
+        if pool is not None and stream_apply and stream_apply > 0.0:
+            ratios.append(pool / stream_apply)
+    if ratios:
+        breakdown["apply_pool_to_stream_apply_ratio"] = {
+            "mean": mean(ratios),
+            "p95": percentile(ratios, 0.95),
+        }
+
+    idle_values = [
+        float(v)
+        for frame in frames
+        if (v := _frame_pool_metric(frame, "apply_pool_idle_skip")) is not None
+    ]
+    if idle_values:
+        breakdown["apply_pool_idle_skip_rate"] = mean(idle_values)
+
+    return breakdown
+
+
 def analyze_run(
     loaded: LoadedRun,
     *,
@@ -409,6 +488,10 @@ def analyze_run(
     )
     m23b_dod = evaluate_m23b_dod(loaded.hitches, thresholds=m23b_thresholds)
 
+    stream_pool_breakdown: dict[str, Any] | None = None
+    if "apply_pool_ms" in loaded.optional_fields:
+        stream_pool_breakdown = build_stream_pool_breakdown(loaded.frames)
+
     return RunDiagnosis(
         manifest=loaded.manifest,
         summary=loaded.summary,
@@ -427,4 +510,5 @@ def analyze_run(
         caps=budget_caps,
         m23b_dod_passed=m23b_dod.passed,
         m23b_unacceptable_count=len(m23b_dod.unacceptable_hitches),
+        stream_pool_breakdown=stream_pool_breakdown,
     )

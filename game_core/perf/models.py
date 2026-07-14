@@ -46,6 +46,14 @@ class StreamStepMetrics:
     sync_skipped_pending_result: int = 0
     terrain_submit_attempted: int = 0
     terrain_submit_accepted: int = 0
+    apply_pool_poll_ms: float = 0.0
+    apply_pool_submit_ms: float = 0.0
+    apply_pool_apply_ms: float = 0.0
+    apply_pool_suppress_ms: float = 0.0
+    apply_pool_discard_ms: float = 0.0
+    apply_pool_route_passes: int = 0
+    apply_pool_in_flight_peak: int = 0
+    apply_pool_idle_skip: int = 0
 
     def reset(self) -> None:
         self.sets_ms = 0.0
@@ -84,6 +92,14 @@ class StreamStepMetrics:
         self.sync_skipped_pending_result = 0
         self.terrain_submit_attempted = 0
         self.terrain_submit_accepted = 0
+        self.apply_pool_poll_ms = 0.0
+        self.apply_pool_submit_ms = 0.0
+        self.apply_pool_apply_ms = 0.0
+        self.apply_pool_suppress_ms = 0.0
+        self.apply_pool_discard_ms = 0.0
+        self.apply_pool_route_passes = 0
+        self.apply_pool_in_flight_peak = 0
+        self.apply_pool_idle_skip = 0
 
 
 @dataclass(slots=True)
@@ -178,6 +194,14 @@ class FrameMetrics:
     apply_override_ms: float | None = None
     apply_pool_ms: float | None = None
     apply_collision_ms: float | None = None
+    apply_pool_poll_ms: float | None = None
+    apply_pool_submit_ms: float | None = None
+    apply_pool_apply_ms: float | None = None
+    apply_pool_suppress_ms: float | None = None
+    apply_pool_discard_ms: float | None = None
+    apply_pool_route_passes: int | None = None
+    apply_pool_in_flight_peak: int | None = None
+    apply_pool_idle_skip: int | None = None
     tile_visible_chunks: int | None = None
     tile_cache_hits: int | None = None
     tile_cache_misses: int | None = None

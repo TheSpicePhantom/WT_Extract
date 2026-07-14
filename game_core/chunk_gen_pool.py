@@ -293,8 +293,9 @@ class ChunkGenPool:
 
     def poll_terrain_ready(self) -> list[TerrainResult]:
         self.sync_active()
-        self._collect_terrain_futures()
-        self._collect_pipeline_futures()
+        if self._should_collect_futures():
+            self._collect_terrain_futures()
+            self._collect_pipeline_futures()
         ready: list[TerrainResult] = []
         for key, result in list(self._terrain_ready.items()):
             if self._terrain_states.get(key) == _JobState.DISCARDED:
@@ -306,8 +307,9 @@ class ChunkGenPool:
 
     def poll_deco_ready(self) -> list[DecoResult]:
         self.sync_active()
-        self._collect_deco_futures()
-        self._collect_pipeline_futures()
+        if self._should_collect_futures():
+            self._collect_deco_futures()
+            self._collect_pipeline_futures()
         ready: list[DecoResult] = []
         for key, result in list(self._deco_ready.items()):
             if self._deco_states.get(key) == _JobState.DISCARDED:
@@ -333,6 +335,8 @@ class ChunkGenPool:
         self._deco_submitted_at.pop(build_key, None)
 
     def _collect_terrain_futures(self) -> None:
+        if not self._terrain_futures:
+            return
         for key, future in list(self._terrain_futures.items()):
             if not future.done():
                 continue
@@ -351,6 +355,8 @@ class ChunkGenPool:
             self._terrain_ready[key] = result
 
     def _collect_deco_futures(self) -> None:
+        if not self._deco_futures:
+            return
         for key, future in list(self._deco_futures.items()):
             if not future.done():
                 continue
@@ -369,6 +375,8 @@ class ChunkGenPool:
             self._deco_ready[key] = result
 
     def _collect_pipeline_futures(self) -> None:
+        if not self._pipeline_futures:
+            return
         for key, future in list(self._pipeline_futures.items()):
             if not future.done():
                 continue
@@ -394,6 +402,23 @@ class ChunkGenPool:
             self._deco_states[key] = _JobState.READY
             self._terrain_ready[key] = terrain_result
             self._deco_ready[key] = deco_result
+
+    def _should_collect_futures(self) -> bool:
+        return bool(
+            self._pipeline_futures
+            or self._terrain_futures
+            or self._deco_futures
+            or self._running_terrain
+            or self._running_deco
+        )
+
+    def has_ready_results(self) -> bool:
+        """True wenn nach Collect noch ungeroutete READY-Ergebnisse liegen."""
+        if self._should_collect_futures():
+            self._collect_terrain_futures()
+            self._collect_deco_futures()
+            self._collect_pipeline_futures()
+        return bool(self._terrain_ready or self._deco_ready)
 
     def shutdown(self) -> None:
         self._clear_all_jobs()

@@ -71,6 +71,8 @@ def test_terrain_submit_list_is_filtered() -> None:
     pool.terrain_in_flight_count.return_value = 0
     pool.terrain_running_count.return_value = 0
     pool.deco_in_flight_count.return_value = 0
+    pool.is_in_flight.return_value = False
+    pool.has_ready_results.return_value = False
     pool.submit_terrain.return_value = []
     metrics = StreamStepMetrics()
     with patch.object(streamer, "ensure_chunk_gen_pool", return_value=pool):
@@ -105,6 +107,7 @@ def test_sync_blocked_when_coord_submitted_this_step() -> None:
     pool.deco_in_flight_count.return_value = 0
     pool.has_pending_result.return_value = False
     pool.is_in_flight.return_value = False
+    pool.has_ready_results.return_value = False
     pool.submit_chunk_pipeline.return_value = [key]
     metrics = StreamStepMetrics()
     with patch.object(streamer, "ensure_chunk_gen_pool", return_value=pool):

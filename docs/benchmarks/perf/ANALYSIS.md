@@ -142,6 +142,21 @@ Schwellenvertrag: [`M23B_BASELINE.md`](M23B_BASELINE.md)
 | `apply_pool_ms` | Pool submit/poll |
 | `apply_collision_ms` | Collision-Rebuild im Apply-Block |
 
+### Optionale Pool-Submetriken (M25b)
+
+| Feld | Bedeutung |
+| --- | --- |
+| `apply_pool_poll_ms` | Collect + `poll_*_ready` im Pool-Block |
+| `apply_pool_submit_ms` | Submit-Scan + `submit_chunk_pipeline` |
+| `apply_pool_apply_ms` | `apply_terrain_stage` + `apply_deco_stage` |
+| `apply_pool_suppress_ms` | `_update_deco_suppression` |
+| `apply_pool_discard_ms` | `discard_outside` |
+| `apply_pool_route_passes` | Route-Durchläufe pro Frame (1–2) |
+| `apply_pool_in_flight_peak` | Max in-flight während Frame |
+| `apply_pool_idle_skip` | 1 wenn Idle-Fast-Path genutzt |
+
+Analyse: `stream_pool_breakdown` in `analysis_diagnosis.json` (mean/p95).
+
 Summe ≈ `stream_apply_ms` (Revive-Anteil nicht subsumiert).
 
 ### Optionale Extract-Submetriken (M23c)

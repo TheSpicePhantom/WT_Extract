@@ -103,11 +103,23 @@ class ChunkBuildTracker:
     """Streamer-intern: Build-State pro Coord."""
 
     _states: dict[tuple[int, int], ChunkBuildState] = field(default_factory=dict)
+    _deco_suppress_dirty: set[tuple[int, int]] = field(default_factory=set)
 
     def get(self, coord: tuple[int, int]) -> ChunkBuildState:
         if coord not in self._states:
             self._states[coord] = ChunkBuildState()
         return self._states[coord]
+
+    def mark_deco_suppress_dirty(self, coord: tuple[int, int]) -> None:
+        self._deco_suppress_dirty.add(coord)
+
+    def deco_suppression_candidates(self, wanted: set[tuple[int, int]]) -> list[tuple[int, int]]:
+        candidates = set(self._deco_suppress_dirty)
+        self._deco_suppress_dirty.clear()
+        for coord in wanted:
+            if self.get(coord).deco_state != DecoState.APPLIED:
+                candidates.add(coord)
+        return list(candidates)
 
     def pop(self, coord: tuple[int, int]) -> None:
         self._states.pop(coord, None)

@@ -44,3 +44,7 @@ python tools/analyze_perf_run.py docs/benchmarks/perf/runs/20260713T194433Z_stea
 ```
 
 Artefakte: `analysis/fps_killers.json`, `analysis/fps_killers.md`
+
+## M25b-Zielkorridor (Follow-up)
+
+Siehe [M25B_BASELINE.md](M25B_BASELINE.md): `cpu_full_frame_ms_p95` ≤ 30 ms, `stream_pool` P95-Share ≤ 40 %.

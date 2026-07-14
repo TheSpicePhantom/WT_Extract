@@ -318,7 +318,7 @@ def write_notable_frames_csv(diagnosis: RunDiagnosis, path: Path, *, top_n: int 
 
 
 def diagnosis_to_json(diagnosis: RunDiagnosis) -> dict[str, Any]:
-    return {
+    payload: dict[str, Any] = {
         "manifest": diagnosis.manifest,
         "summary": diagnosis.summary,
         "optional_fields": sorted(diagnosis.optional_fields),
@@ -344,6 +344,9 @@ def diagnosis_to_json(diagnosis: RunDiagnosis) -> dict[str, Any]:
         ],
         "caps": asdict(diagnosis.caps),
     }
+    if diagnosis.stream_pool_breakdown:
+        payload["stream_pool_breakdown"] = diagnosis.stream_pool_breakdown
+    return payload
 
 
 def write_json_report(diagnosis: RunDiagnosis, path: Path) -> None:

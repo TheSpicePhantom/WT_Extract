@@ -114,7 +114,7 @@
   "ab_comparisons": [
     {
       "scenario_id": "steady",
-      "causal_feature": "extract_enabled",
+      "causal_feature": "unknown_toggle",
       "baseline": {
         "run_id": "20260713T194433Z_steady_unknown",
         "decision": "cpu_dominant",
@@ -159,26 +159,26 @@
         }
       },
       "variant": {
-        "run_id": "20260714T073857Z_steady_31a8d2f",
+        "run_id": "20260714T080831Z_steady_b0f57bb",
         "toggles": {
-          "extract_enabled": false,
+          "extract_enabled": true,
           "stream_enabled": true,
-          "deco_extract_enabled": false,
-          "tile_extract_enabled": false
+          "deco_extract_enabled": true,
+          "tile_extract_enabled": true
         },
-        "decision": "cpu_dominant",
+        "decision": "mixed",
         "dominant_phase": "stream_pool",
         "p95": {
           "quantile": "p95",
-          "frame_index": 27,
-          "cpu_full_frame_ms": 19.939999999678548,
+          "frame_index": 32,
+          "cpu_full_frame_ms": 18.229900000733323,
           "dominant_phase": "stream_pool",
-          "dominant_share": 0.7596038114415684,
+          "dominant_share": 0.4488614857526761,
           "shares": {
-            "stream_pool": 0.7596038114415684,
-            "stream_apply": 0.0008024072196520471,
-            "extract_tiles": 0.0,
-            "extract_deco": 0.0,
+            "stream_pool": 0.4488614857526761,
+            "stream_apply": 0.0021009440861030964,
+            "extract_tiles": 0.005743311840212255,
+            "extract_deco": 0.0985194652458881,
             "render_cpu": 0.0,
             "present_wait": 0.0,
             "gpu": 0.0
@@ -186,15 +186,15 @@
         },
         "p99": {
           "quantile": "p99",
-          "frame_index": 19,
-          "cpu_full_frame_ms": 26.056299999709154,
+          "frame_index": 0,
+          "cpu_full_frame_ms": 29.710299999351264,
           "dominant_phase": "stream_pool",
-          "dominant_share": 0.7253025180224019,
+          "dominant_share": 0.650659872178951,
           "shares": {
-            "stream_pool": 0.7253025180224019,
-            "stream_apply": 0.0009594608704313597,
-            "extract_tiles": 0.0,
-            "extract_deco": 0.0,
+            "stream_pool": 0.650659872178951,
+            "stream_apply": 0.0019723799372168057,
+            "extract_tiles": 0.08519267728690762,
+            "extract_deco": 0.0029148140555079554,
             "render_cpu": 0.0,
             "present_wait": 0.0,
             "gpu": 0.0
@@ -202,9 +202,9 @@
         }
       },
       "delta": {
-        "cpu_full_frame_ms_p95": -38.4328999994068,
-        "dominant_share_p95": 0.16191207436488586,
-        "decision_changed": false
+        "cpu_full_frame_ms_p95": -40.142999998352025,
+        "dominant_share_p95": -0.14883025132400646,
+        "decision_changed": true
       }
     }
   ],
@@ -219,5 +219,5 @@
     "tile_extract_enabled": true
   },
   "ab_baseline_run_id": "20260713T194433Z_steady_unknown",
-  "ab_variant_run_id": "20260714T073857Z_steady_31a8d2f"
+  "ab_variant_run_id": "20260714T080831Z_steady_b0f57bb"
 }

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import time
 from dataclasses import dataclass, field
 from typing import Protocol
@@ -68,6 +69,8 @@ class ChunkStreamer:
     _decorated_chunks: set[tuple[int, int]] = field(default_factory=set)
     _build_tracker: ChunkBuildTracker = field(default_factory=ChunkBuildTracker)
     _main_field_cache: FieldCacheLRU | None = None
+    _pool_idle_frames_since_full_tick: int = 0
+    _last_pool_retention: frozenset[tuple[int, int]] | None = None
 
     @property
     def load_radius(self) -> int:
@@ -358,7 +361,10 @@ class ChunkStreamer:
         return count
 
     def _update_deco_suppression(self, world: World, wanted: set[tuple[int, int]], step_metrics) -> None:
-        for coord in list(self._build_tracker._states.keys()):
+        candidates = self._build_tracker.deco_suppression_candidates(wanted)
+        if not candidates:
+            return
+        for coord in candidates:
             build_state = self._build_tracker.get(coord)
             if build_state.deco_state == DecoState.APPLIED:
                 continue
@@ -369,6 +375,33 @@ class ChunkStreamer:
                     build_state.deco_suppression_reason = reason
                     if step_metrics is not None:
                         step_metrics.deco_suppressed += 1
+
+    def _pool_idle_skip_eligible(
+        self,
+        pool: ChunkGenPool,
+        wanted: set[tuple[int, int]],
+        view: StreamViewParams | None,
+        world: World,
+    ) -> bool:
+        if view is not None:
+            epsilon = self.config.pool_idle_move_epsilon_px
+            if math.hypot(view.move_dx, view.move_dy) >= epsilon:
+                return False
+        for coord in wanted:
+            if coord not in world.chunks and not self.pending_unload.contains(coord):
+                return False
+            if pool.has_pending_result(coord):
+                return False
+        if pool.terrain_in_flight_count() > 0 or pool.deco_in_flight_count() > 0:
+            return False
+        return not pool.has_ready_results()
+
+    def _record_pool_in_flight_peak(self, pool: ChunkGenPool, step_metrics: StreamStepMetrics | None) -> None:
+        if step_metrics is None:
+            return
+        peak = max(pool.terrain_in_flight_count(), pool.deco_in_flight_count())
+        if peak > step_metrics.apply_pool_in_flight_peak:
+            step_metrics.apply_pool_in_flight_peak = peak
 
     def _route_pool_results(
         self,
@@ -386,7 +419,12 @@ class ChunkStreamer:
         coordinator = pool.coordinator
         lru = self._ensure_main_field_cache()
 
+        if step_metrics is not None:
+            t_poll = time.perf_counter()
         for terrain in pool.poll_terrain_ready():
+            if step_metrics is not None:
+                step_metrics.apply_pool_poll_ms += (time.perf_counter() - t_poll) * 1000.0
+                t_poll = time.perf_counter()
             coord = terrain.coord
             build_state = self._build_tracker.get(coord)
             wanted_coord = coord in wanted
@@ -398,19 +436,29 @@ class ChunkStreamer:
                     break
                 t0 = time.perf_counter() if step_metrics is not None else None
                 apply_terrain_stage(world, terrain, content, build_state)
+                self._build_tracker.mark_deco_suppress_dirty(coord)
                 pool.consume_terrain(terrain.build_key)
                 lru.discard(terrain.build_key)
                 loaded += 1
                 if step_metrics is not None:
                     step_metrics.terrain_applied += 1
-                    step_metrics.apply_terrain_ms += (time.perf_counter() - t0) * 1000.0
+                    apply_ms = (time.perf_counter() - t0) * 1000.0
+                    step_metrics.apply_terrain_ms += apply_ms
+                    step_metrics.apply_pool_apply_ms += apply_ms
             else:
                 pool.discard_terrain([terrain.build_key])
                 lru.discard(terrain.build_key)
                 if step_metrics is not None:
                     step_metrics.terrain_discarded_stale += 1
+            if step_metrics is not None:
+                t_poll = time.perf_counter()
 
+        if step_metrics is not None:
+            t_poll = time.perf_counter()
         for deco in pool.poll_deco_ready():
+            if step_metrics is not None:
+                step_metrics.apply_pool_poll_ms += (time.perf_counter() - t_poll) * 1000.0
+                t_poll = time.perf_counter()
             coord = deco.coord
             build_state = self._build_tracker.get(coord)
             wanted_coord = coord in wanted
@@ -434,7 +482,9 @@ class ChunkStreamer:
                 loaded += 1
                 if step_metrics is not None:
                     step_metrics.deco_applied += 1
-                    step_metrics.apply_deco_ms += (time.perf_counter() - t0) * 1000.0
+                    apply_ms = (time.perf_counter() - t0) * 1000.0
+                    step_metrics.apply_deco_ms += apply_ms
+                    step_metrics.apply_pool_apply_ms += apply_ms
             else:
                 if (
                     build_state.last_applied_deco_build_key is not None
@@ -447,6 +497,205 @@ class ChunkStreamer:
                         step_metrics.deco_discarded_stale += 1
                 pool.discard_deco([deco.build_key])
                 lru.discard(deco.build_key)
+            if step_metrics is not None:
+                t_poll = time.perf_counter()
+
+        return loaded, budget
+
+    def _submit_m24b_pool_jobs(
+        self,
+        pool: ChunkGenPool,
+        world: World,
+        wanted: set[tuple[int, int]],
+        prefetch: set[tuple[int, int]],
+        focus_chunk: tuple[int, int],
+        step_submitted_coords: set[tuple[int, int]],
+        step_metrics: StreamStepMetrics | None,
+    ) -> int:
+        """Submit Terrain/Deco — Returns Anzahl akzeptierter Terrain-Submits."""
+        terrain_submit_coords = [
+            coord
+            for coord in sorted(
+                wanted | prefetch, key=lambda c: chebyshev_distance(c, focus_chunk)
+            )
+            if coord not in world.chunks
+            and not self.pending_unload.contains(coord)
+            and coord not in self.persistent_overrides
+            and coord not in self.persistent_deltas
+            and not pool.is_in_flight(coord)
+        ]
+        if not terrain_submit_coords:
+            return 0
+
+        terrain_room = max(0, self.config.terrain_max_in_flight - pool.terrain_in_flight_count())
+        terrain_cap_room = max(
+            0, self.config.terrain_parallelism_cap - pool.terrain_running_count()
+        )
+        terrain_submit_coords = terrain_submit_coords[: min(terrain_room, terrain_cap_room)]
+        filtered_terrain_coords: list[tuple[int, int]] = []
+        for coord in terrain_submit_coords:
+            if step_metrics is not None:
+                step_metrics.terrain_submit_attempted += 1
+            bs = self._build_tracker.get(coord)
+            if not submit_terrain_allowed(
+                world,
+                self,
+                coord,
+                bs,
+                wanted=coord in wanted,
+                in_flight_room=pool.terrain_in_flight_count()
+                < self.config.terrain_max_in_flight,
+            ):
+                continue
+            filtered_terrain_coords.append(coord)
+        terrain_submit_coords = filtered_terrain_coords
+        if not terrain_submit_coords:
+            return 0
+
+        if self.config.pipeline_mode == "combined":
+            keys = pool.submit_chunk_pipeline(
+                terrain_submit_coords,
+                max_in_flight=self.config.terrain_max_in_flight,
+                parallelism_cap=self.config.terrain_parallelism_cap,
+            )
+        else:
+            keys = pool.submit_terrain(
+                terrain_submit_coords,
+                max_in_flight=self.config.terrain_max_in_flight,
+                parallelism_cap=self.config.terrain_parallelism_cap,
+            )
+        for key in keys:
+            step_submitted_coords.add(key.coord)
+            bs = self._build_tracker.get(key.coord)
+            bs.pending_terrain_build_key = key
+            bs.terrain_state = TerrainState.IN_FLIGHT
+            if self.config.pipeline_mode == "combined":
+                bs.deco_state = DecoState.IN_FLIGHT
+        if step_metrics is not None:
+            step_metrics.terrain_submitted += len(keys)
+            step_metrics.terrain_submit_accepted += len(keys)
+
+        if self.config.pipeline_mode != "combined":
+            visible_wanted_pending = self._visible_terrain_pending(wanted)
+            deco_submit_keys = []
+            for coord in sorted(wanted | prefetch, key=lambda c: chebyshev_distance(c, focus_chunk)):
+                bs = self._build_tracker.get(coord)
+                if not submit_deco_allowed(
+                    world,
+                    self,
+                    coord,
+                    bs,
+                    wanted=coord in wanted,
+                    in_flight_room=pool.deco_in_flight_count()
+                    < self.config.deco_max_in_flight,
+                    visible_terrain_pending=visible_wanted_pending
+                    if self.config.deco_pause_when_visible_terrain_pending
+                    else 0,
+                ):
+                    if (
+                        self.config.deco_pause_when_visible_terrain_pending
+                        and visible_wanted_pending > 0
+                        and step_metrics is not None
+                    ):
+                        step_metrics.deco_submit_skipped_visible_terrain_pressure += 1
+                    continue
+                if bs.terrain_build_key is not None:
+                    deco_submit_keys.append(bs.terrain_build_key)
+                if len(deco_submit_keys) >= self.config.deco_backfill_budget_per_frame:
+                    break
+            if deco_submit_keys:
+                submitted = pool.submit_deco(
+                    deco_submit_keys,
+                    max_in_flight=self.config.deco_max_in_flight,
+                    parallelism_cap=self.config.deco_parallelism_cap,
+                )
+                for key in submitted:
+                    step_submitted_coords.add(key.coord)
+                    bs = self._build_tracker.get(key.coord)
+                    bs.deco_state = DecoState.IN_FLIGHT
+                if step_metrics is not None:
+                    step_metrics.deco_submitted += len(submitted)
+
+        return len(keys)
+
+    def _process_m24b_pool(
+        self,
+        pool: ChunkGenPool,
+        world: World,
+        content: ContentRegistry,
+        wanted: set[tuple[int, int]],
+        prefetch: set[tuple[int, int]],
+        pool_retention: set[tuple[int, int]],
+        focus_chunk: tuple[int, int],
+        budget: int,
+        unlimited: bool,
+        step_submitted_coords: set[tuple[int, int]],
+        step_metrics: StreamStepMetrics | None,
+    ) -> tuple[int, int]:
+        loaded = 0
+        retention_frozen = frozenset(pool_retention)
+        retention_changed = retention_frozen != self._last_pool_retention
+        if retention_changed:
+            if step_metrics is not None:
+                t_discard = time.perf_counter()
+            pool.discard_outside(pool_retention)
+            self._last_pool_retention = retention_frozen
+            if step_metrics is not None:
+                step_metrics.apply_pool_discard_ms += (time.perf_counter() - t_discard) * 1000.0
+
+        if step_metrics is not None:
+            t_suppress = time.perf_counter()
+        self._update_deco_suppression(world, wanted, step_metrics)
+        if step_metrics is not None:
+            step_metrics.apply_pool_suppress_ms += (time.perf_counter() - t_suppress) * 1000.0
+
+        visible_pending = self._visible_terrain_pending(wanted)
+        if step_metrics is not None and visible_pending > 0:
+            step_metrics.visible_terrain_wait_frames += 1
+
+        if step_metrics is not None:
+            step_metrics.apply_pool_route_passes += 1
+        m24b_loaded, budget = self._route_pool_results(
+            pool,
+            world,
+            content,
+            wanted,
+            budget=budget,
+            unlimited=unlimited,
+            step_metrics=step_metrics,
+        )
+        loaded += m24b_loaded
+        self._record_pool_in_flight_peak(pool, step_metrics)
+
+        if step_metrics is not None:
+            t_submit = time.perf_counter()
+        terrain_submitted = self._submit_m24b_pool_jobs(
+            pool,
+            world,
+            wanted,
+            prefetch,
+            focus_chunk,
+            step_submitted_coords,
+            step_metrics,
+        )
+        if step_metrics is not None:
+            step_metrics.apply_pool_submit_ms += (time.perf_counter() - t_submit) * 1000.0
+        self._record_pool_in_flight_peak(pool, step_metrics)
+
+        if terrain_submitted > 0 or pool.has_ready_results():
+            if step_metrics is not None:
+                step_metrics.apply_pool_route_passes += 1
+            m24b_loaded2, budget = self._route_pool_results(
+                pool,
+                world,
+                content,
+                wanted,
+                budget=budget,
+                unlimited=unlimited,
+                step_metrics=step_metrics,
+            )
+            loaded += m24b_loaded2
+            self._record_pool_in_flight_peak(pool, step_metrics)
 
         return loaded, budget
 
@@ -653,135 +902,48 @@ class ChunkStreamer:
         if pool is not None:
             if step_metrics is not None:
                 t_pool = time.perf_counter()
-            pool.discard_outside(pool_retention)
-            self._update_deco_suppression(world, wanted, step_metrics)
-            visible_pending = self._visible_terrain_pending(wanted)
-            if step_metrics is not None and visible_pending > 0:
-                step_metrics.visible_terrain_wait_frames += 1
 
             if isinstance(pool, ChunkGenPool):
-                m24b_loaded, budget = self._route_pool_results(
-                    pool,
-                    world,
-                    content,
-                    wanted,
-                    budget=budget,
-                    unlimited=unlimited,
-                    step_metrics=step_metrics,
-                )
-                loaded += m24b_loaded
-
-                terrain_submit_coords = [
-                    coord
-                    for coord in sorted(
-                        wanted | prefetch, key=lambda c: chebyshev_distance(c, focus_chunk)
-                    )
-                    if coord not in world.chunks
-                    and not self.pending_unload.contains(coord)
-                    and coord not in self.persistent_overrides
-                    and coord not in self.persistent_deltas
-                ]
-                terrain_room = max(
-                    0, self.config.terrain_max_in_flight - pool.terrain_in_flight_count()
-                )
-                terrain_cap_room = max(
-                    0, self.config.terrain_parallelism_cap - pool.terrain_running_count()
-                )
-                terrain_submit_coords = terrain_submit_coords[: min(terrain_room, terrain_cap_room)]
-                filtered_terrain_coords: list[tuple[int, int]] = []
-                for coord in terrain_submit_coords:
-                    if step_metrics is not None:
-                        step_metrics.terrain_submit_attempted += 1
-                    bs = self._build_tracker.get(coord)
-                    if not submit_terrain_allowed(
-                        world,
-                        self,
-                        coord,
-                        bs,
-                        wanted=coord in wanted,
-                        in_flight_room=pool.terrain_in_flight_count()
-                        < self.config.terrain_max_in_flight,
-                    ):
-                        continue
-                    filtered_terrain_coords.append(coord)
-                terrain_submit_coords = filtered_terrain_coords
-                if terrain_submit_coords:
-                    if self.config.pipeline_mode == "combined":
-                        keys = pool.submit_chunk_pipeline(
-                            terrain_submit_coords,
-                            max_in_flight=self.config.terrain_max_in_flight,
-                            parallelism_cap=self.config.terrain_parallelism_cap,
-                        )
+                idle_skip = False
+                if self.config.pool_idle_skip_enabled:
+                    eligible = self._pool_idle_skip_eligible(pool, wanted, view, world)
+                    if eligible:
+                        if self._pool_idle_frames_since_full_tick < self.config.pool_idle_refresh_frames:
+                            self._pool_idle_frames_since_full_tick += 1
+                            idle_skip = True
+                        else:
+                            self._pool_idle_frames_since_full_tick = 0
                     else:
-                        keys = pool.submit_terrain(
-                            terrain_submit_coords,
-                            max_in_flight=self.config.terrain_max_in_flight,
-                            parallelism_cap=self.config.terrain_parallelism_cap,
-                        )
-                    for key in keys:
-                        step_submitted_coords.add(key.coord)
-                        bs = self._build_tracker.get(key.coord)
-                        bs.pending_terrain_build_key = key
-                        bs.terrain_state = TerrainState.IN_FLIGHT
-                        if self.config.pipeline_mode == "combined":
-                            bs.deco_state = DecoState.IN_FLIGHT
-                    if step_metrics is not None:
-                        step_metrics.terrain_submitted += len(keys)
-                        step_metrics.terrain_submit_accepted += len(keys)
+                        self._pool_idle_frames_since_full_tick = 0
 
-                if self.config.pipeline_mode != "combined":
-                    visible_wanted_pending = self._visible_terrain_pending(wanted)
-                    deco_submit_keys = []
-                    for coord in sorted(wanted | prefetch, key=lambda c: chebyshev_distance(c, focus_chunk)):
-                        bs = self._build_tracker.get(coord)
-                        if not submit_deco_allowed(
-                            world,
-                            self,
-                            coord,
-                            bs,
-                            wanted=coord in wanted,
-                            in_flight_room=pool.deco_in_flight_count()
-                            < self.config.deco_max_in_flight,
-                            visible_terrain_pending=visible_wanted_pending
-                            if self.config.deco_pause_when_visible_terrain_pending
-                            else 0,
-                        ):
-                            if (
-                                self.config.deco_pause_when_visible_terrain_pending
-                                and visible_wanted_pending > 0
-                                and step_metrics is not None
-                            ):
-                                step_metrics.deco_submit_skipped_visible_terrain_pressure += 1
-                            continue
-                        if bs.terrain_build_key is not None:
-                            deco_submit_keys.append(bs.terrain_build_key)
-                        if len(deco_submit_keys) >= self.config.deco_backfill_budget_per_frame:
-                            break
-                    if deco_submit_keys:
-                        submitted = pool.submit_deco(
-                            deco_submit_keys,
-                            max_in_flight=self.config.deco_max_in_flight,
-                            parallelism_cap=self.config.deco_parallelism_cap,
-                        )
-                        for key in submitted:
-                            step_submitted_coords.add(key.coord)
-                            bs = self._build_tracker.get(key.coord)
-                            bs.deco_state = DecoState.IN_FLIGHT
+                if idle_skip:
+                    retention_frozen = frozenset(pool_retention)
+                    if retention_frozen != self._last_pool_retention:
                         if step_metrics is not None:
-                            step_metrics.deco_submitted += len(submitted)
-
-                pool.poll_terrain_ready()
-                pool.poll_deco_ready()
-                m24b_loaded2, budget = self._route_pool_results(
-                    pool,
-                    world,
-                    content,
-                    wanted,
-                    budget=budget,
-                    unlimited=unlimited,
-                    step_metrics=step_metrics,
-                )
-                loaded += m24b_loaded2
+                            t_discard = time.perf_counter()
+                        pool.discard_outside(pool_retention)
+                        self._last_pool_retention = retention_frozen
+                        if step_metrics is not None:
+                            step_metrics.apply_pool_discard_ms += (
+                                time.perf_counter() - t_discard
+                            ) * 1000.0
+                    if step_metrics is not None:
+                        step_metrics.apply_pool_idle_skip = 1
+                else:
+                    m24b_loaded, budget = self._process_m24b_pool(
+                        pool,
+                        world,
+                        content,
+                        wanted,
+                        prefetch,
+                        pool_retention,
+                        focus_chunk,
+                        budget,
+                        unlimited,
+                        step_submitted_coords,
+                        step_metrics,
+                    )
+                    loaded += m24b_loaded
             else:
                 for result in pool.poll_ready():
                     if result.coord not in wanted or result.coord in world.chunks:

@@ -37,6 +37,9 @@ class StreamingConfig:
     deco_backfill_budget_per_frame: int = 2
     pipeline_mode: str = "combined"
     sync_fallback_only_when_pool_disabled: bool = True
+    pool_idle_skip_enabled: bool = True
+    pool_idle_refresh_frames: int = 30
+    pool_idle_move_epsilon_px: float = 0.5
     load_radius: int = 8
     unload_radius: int = 10
 
@@ -78,6 +81,9 @@ def load_streaming_config(path: Path | None = None) -> StreamingConfig:
         sync_fallback_only_when_pool_disabled=bool(
             hybrid.get("sync_fallback_only_when_pool_disabled", True)
         ),
+        pool_idle_skip_enabled=bool(hybrid.get("pool_idle_skip_enabled", True)),
+        pool_idle_refresh_frames=int(hybrid.get("pool_idle_refresh_frames", 30)),
+        pool_idle_move_epsilon_px=float(hybrid.get("pool_idle_move_epsilon_px", 0.5)),
         load_radius=int(radius.get("load_radius", 8)),
         unload_radius=int(radius.get("unload_radius", 10)),
     )

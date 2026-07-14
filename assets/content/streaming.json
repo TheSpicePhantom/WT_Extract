@@ -52,7 +52,13 @@
 
     "deco_backfill_budget_per_frame": 4,
 
-    "pipeline_mode": "combined"
+    "pipeline_mode": "combined",
+
+    "pool_idle_skip_enabled": true,
+
+    "pool_idle_refresh_frames": 30,
+
+    "pool_idle_move_epsilon_px": 0.5
 
   },
 

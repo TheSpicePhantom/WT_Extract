@@ -171,3 +171,4 @@ class RunDiagnosis:
     caps: BudgetCaps
     m23b_dod_passed: bool
     m23b_unacceptable_count: int
+    stream_pool_breakdown: dict[str, Any] | None = None

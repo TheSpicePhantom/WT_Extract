@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "attribution_version": 2,
+  "has_full_frame": true,
+  "decision": {
+    "decision": "mixed",
+    "reason_cpu_vs_present": "kein eindeutiger Sieger: present_wait=0.0%, extract_deco=31.3%",
+    "cpu_full_frame_ms_mean": 9.559561666668136,
+    "present_wait_cpu_ms_mean": 0.0,
+    "render_cpu_ms_mean": 0.0,
+    "present_wait_share_mean": 0.0,
+    "max_cpu_phase": "extract_deco",
+    "max_cpu_phase_share_mean": 0.312902941886011,
+    "mean_phase_shares": {
+      "stream_apply": 0.0013156824857965565,
+      "stream_pool": 0.13489484942805122,
+      "extract_tiles": 0.01104109782461423,
+      "extract_deco": 0.312902941886011,
+      "render_cpu": 0.0,
+      "present_wait": 0.0,
+      "gpu": 0.0
+    },
+    "gpu_dominant": false
+  },
+  "quantiles": {
+    "p95": {
+      "quantile": "p95",
+      "frame_index": 32,
+      "cpu_full_frame_ms": 18.229900000733323,
+      "dominant_phase": "stream_pool",
+      "dominant_share": 0.4488614857526761,
+      "shares": {
+        "stream_pool": 0.4488614857526761,
+        "stream_apply": 0.0021009440861030964,
+        "extract_tiles": 0.005743311840212255,
+        "extract_deco": 0.0985194652458881,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    },
+    "p99": {
+      "quantile": "p99",
+      "frame_index": 0,
+      "cpu_full_frame_ms": 29.710299999351264,
+      "dominant_phase": "stream_pool",
+      "dominant_share": 0.650659872178951,
+      "shares": {
+        "stream_pool": 0.650659872178951,
+        "stream_apply": 0.0019723799372168057,
+        "extract_tiles": 0.08519267728690762,
+        "extract_deco": 0.0029148140555079554,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    }
+  },
+  "dominance": [
+    {
+      "quantile": "p95",
+      "frame_index": 32,
+      "cpu_full_frame_ms": 18.229900000733323,
+      "dominant_phase": "stream_pool",
+      "dominant_share": 0.4488614857526761,
+      "shares": {
+        "stream_pool": 0.4488614857526761,
+        "stream_apply": 0.0021009440861030964,
+        "extract_tiles": 0.005743311840212255,
+        "extract_deco": 0.0985194652458881,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    },
+    {
+      "quantile": "p99",
+      "frame_index": 0,
+      "cpu_full_frame_ms": 29.710299999351264,
+      "dominant_phase": "stream_pool",
+      "dominant_share": 0.650659872178951,
+      "shares": {
+        "stream_pool": 0.650659872178951,
+        "stream_apply": 0.0019723799372168057,
+        "extract_tiles": 0.08519267728690762,
+        "extract_deco": 0.0029148140555079554,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "same_frame_for_both_quantiles": false,
+  "hitch_clusters": [
+    {
+      "cluster_id": "unclear",
+      "label": "Nicht eindeutig",
+      "hitch_count": 73,
+      "representative_frame_index": 33,
+      "cpu_full_frame_ms": 21.038599999883445,
+      "dominant_phase": "stream_pool",
+      "dominant_share": 0.49265160227793736,
+      "shares": {
+        "stream_pool": 0.49265160227793736,
+        "stream_apply": 0.0016398429917265545,
+        "extract_tiles": 0.005347313979405394,
+        "extract_deco": 0.10624281081650466,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    },
+    {
+      "cluster_id": "apply_dominant",
+      "label": "Load-/Apply-dominant",
+      "hitch_count": 17,
+      "representative_frame_index": 20,
+      "cpu_full_frame_ms": 41.97620000013558,
+      "dominant_phase": "stream_pool",
+      "dominant_share": 0.6987340445278333,
+      "shares": {
+        "stream_pool": 0.6987340445278333,
+        "stream_apply": 0.0014341460162419835,
+        "extract_tiles": 0.05986011120323741,
+        "extract_deco": 0.019880313121543654,
+        "render_cpu": 0.0,
+        "present_wait": 0.0,
+        "gpu": 0.0
+      }
+    }
+  ],
+  "ab_comparisons": [],
+  "scenario_id": "steady",
+  "run_id": "20260714T080831Z_steady_b0f57bb",
+  "scenario_label": "steady",
+  "run_mode": "cli",
+  "toggles": {
+    "extract_enabled": true,
+    "stream_enabled": true,
+    "deco_extract_enabled": true,
+    "tile_extract_enabled": true
+  }
+}
